@@ -8,12 +8,54 @@
 import SwiftUI
 import Alamofire
 
+enum Tab {
+    case home
+    case search
+    case feed
+    case profile
+}
+
 struct ContentView: View {
-    @ObservedObject var obs = observer(barcode: "038766301208")
+//    @ObservedObject var obs = observer(barcode: "038766301208")
+    @State private var selectedTab: Tab = .home
+    
+    init() {
+        UINavigationBar.appearance().barTintColor = UIColor(Color("Background Color"))
+        let coloredAppearance = UINavigationBarAppearance()
+            coloredAppearance.configureWithOpaqueBackground()
+            coloredAppearance.backgroundColor = UIColor(Color("Background Color"))
+            coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+            coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+            UINavigationBar.appearance().standardAppearance = coloredAppearance
+            UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
+    }
+    
     var body: some View {
-        //RatingsListView()
-        WishesListView()
-        Text("Hello world!")
+        VStack {
+            
+            switch selectedTab {
+                case .home:
+                    NavigationView {
+                        HomeView()
+                    }
+                case .search:
+                    NavigationView {
+                        SearchView()
+                    }
+                case .feed:
+                    NavigationView {
+                        FeedView()
+                    }
+                case .profile:
+                    NavigationView {
+                        ProfileView()
+                    }
+            }
+            
+            CustomTabView(selectedTab: $selectedTab)
+                .frame(height: 50)
+        }
+        
     }
 }
 
