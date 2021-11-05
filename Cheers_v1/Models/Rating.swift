@@ -14,6 +14,7 @@ struct Rating: Identifiable, Codable {
   var userid: Int
   var product: String
   var tags: [String]
+  var datetime: Date
   
   enum CodingKeys: String, CodingKey {
     case id
@@ -21,6 +22,7 @@ struct Rating: Identifiable, Codable {
     case userid
     case product = "productname"
     case tags
+    case datetime
   }
 }
 
@@ -31,6 +33,7 @@ struct RatingRow: Identifiable, Codable {
   var alc: Int
   var rowPhoto: String
   var style: String
+  var dateString: String
   
   enum CodingKeys: String, CodingKey {
     case rowRating
@@ -38,5 +41,6 @@ struct RatingRow: Identifiable, Codable {
     case alc
     case rowPhoto
     case style
+    case dateString
   }
 }

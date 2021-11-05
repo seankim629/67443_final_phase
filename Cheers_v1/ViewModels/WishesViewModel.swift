@@ -32,23 +32,26 @@ class WishesViewModel: ObservableObject {
 //                print("Printing Wishlist Products by User ID: \(w1.userid)")
                 for w in w1.wishlist {
                   //print("Rated Product: \(w)")
-                  self.db.collection("beers").getDocuments {
-                    querySnapshot, error in
-                        guard let documents = querySnapshot?.documents else {
-                              print("No documents! \(error!)")
-                              return
-                          }
-                        for documentSnapshot in documents {
-                          let data = documentSnapshot.data()
-                          let name = data["Name"] as? String ?? ""
-                          if name == w {
-                            let alc = data["Alcohol"] as? Int ?? 0
-                            let avgR = data["Ave Rating"] as? Double ?? 0.0
-                            let style = data["Style"] as? String ?? ""
+                    let beerRef = self.db.collection("beers").document(w)
+                    beerRef.getDocument { document, error in
+                      if let error = error as NSError? {
+                        "Reference not found"
+                      }
+                      else {
+                        if let document = document {
+                          do {
+                            let data = document.data()
+                            let name = data?["Name"] as? String ?? ""
+                            let alc = data?["Alcohol"] as? Int ?? 0
+                            let avgR = data?["Ave Rating"] as? Double ?? 0.0
+                            let style = data?["Style"] as? String ?? ""
                             self.wishes.append(WishRow(rowRating: avgR, product: w, alc: alc, rowPhoto: "", style: style))
-                            break
+                          }
+                          catch {
+                            print(error)
                           }
                         }
+                      }
                     }
                 }
               }

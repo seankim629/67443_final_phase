@@ -10,21 +10,16 @@ import SwiftUI
 
 struct RatingCard: View {
     
-    var image: String
+    var image: CustomImageView
     var beer: String
     var type: String
-    var alcohol: String
+    var alcohol: Int
     var rating: Double
     var date: String
     
     var body: some View {
         HStack(alignment: .center) {
-            Image(image)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 32)
-                .padding(.all, 20)
-            
+            image
             VStack(alignment: .leading) {
                 Text(beer)
                     .font(.system(size: 26, weight: .bold, design: .default))
@@ -35,7 +30,7 @@ struct RatingCard: View {
                         .font(.system(size: 16, weight: .bold, design: .default))
                         .foregroundColor(.gray)
                     Text(" | ").foregroundColor(.gray)
-                    Text(alcohol)
+                    Text(String.init(alcohol)+"%")
                         .font(.system(size: 16, weight: .bold, design: .default))
                         .foregroundColor(.gray)
                 }
@@ -51,7 +46,7 @@ struct RatingCard: View {
                         .foregroundColor(.gray)
                         .padding(.top, 3)
                         .padding(.bottom, 1)
-                        .padding(.leading, 100)
+                        .padding(.leading, 30)
                 }
             }.padding(.trailing, 20)
             Spacer()
@@ -69,6 +64,6 @@ struct RatingCard: View {
 
 struct RatingCard_Previews: PreviewProvider {
     static var previews: some View {
-        RatingCard(image: "Beer", beer: "Carlsberg", type: "Lager", alcohol: "5%", rating: 4.2, date: "10/01/2021")
+        RatingCard(image: CustomImageView(urlString: "https://firebasestorage.googleapis.com/v0/b/cheers-4b4f6.appspot.com/o/profile_images%2Fcarlsberg.png?alt=media&token=261d7cd0-3292-4577-ab54-0d53cd7a0dc6"), beer: "Carlsberg", type: "Lager", alcohol: 5, rating: 4.2, date:"10/01/21")
     }
 }

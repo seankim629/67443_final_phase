@@ -3,32 +3,32 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>853248630060-kkluvt3vj7siu9i1borcii41pnl8p7ir.apps.googleusercontent.com</string>
+	<string>878416321650-hq092etk487rnc9vngdagpfidbc42bo3.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.853248630060-kkluvt3vj7siu9i1borcii41pnl8p7ir</string>
+	<string>com.googleusercontent.apps.878416321650-hq092etk487rnc9vngdagpfidbc42bo3</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAl48sAmn7s92eFjH4fEs0mPTziu032fgo</string>
+	<string>AIzaSyDhlhqRuxjVkMKO6iVAo4VTYCMyhX5CqN0</string>
 	<key>GCM_SENDER_ID</key>
-	<string>853248630060</string>
+	<string>878416321650</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>Sooyoung.sprint3Playground</string>
+	<string>-7443.Cheers-v1</string>
 	<key>PROJECT_ID</key>
-	<string>cheers-4b4f6</string>
+	<string>cheersbackup-4cfb1</string>
 	<key>STORAGE_BUCKET</key>
-	<string>cheers-4b4f6.appspot.com</string>
+	<string>cheersbackup-4cfb1.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:853248630060:ios:3537b864bececc9fee6089</string>
+	<string>1:878416321650:ios:768584ca379dfc691e76eb</string>
 </dict>
 </plist>

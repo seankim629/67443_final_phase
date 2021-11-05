@@ -12,24 +12,24 @@ struct RatingsListView: View {
   @ObservedObject private var viewModel = RatingsViewModel()
 
   var body: some View {
-    NavigationView {
-      List(viewModel.ratings) { rating in
-        VStack(alignment: .leading) {
-          Text(rating.product)
-            .font(.headline)
-          Text("My Rating is \(rating.rowRating)")
-            .font(.subheadline)
-          Text("Alcohol Rate is \(rating.alc)%")
-            .font(.subheadline)
-          Text("Beer type is \(rating.style)")
-            .font(.subheadline)
-        }
+      VStack {
+          HStack{
+              Text("My Ratings")
+                  .frame(alignment: .leading)
+                  .font(.system(size: 28, weight: .bold, design: .default))
+                  .foregroundColor(.black)
+                  .padding(15)
+              Spacer()
+          }
+          List(viewModel.ratings) { rating in
+            VStack(alignment: .leading) {
+                RatingCard(image: CustomImageView(urlString: "https://i5.walmartimages.com/asr/74caf649-c98a-42d0-b3e6-e17a8708d5f2_1.29daddebeeed3560d7fdc661e8cd7702.jpeg?odnHeight=450&odnWidth=450&odnBg=FFFFFF"), beer: rating.product, type: rating.style, alcohol: rating.alc, rating:rating.rowRating, date:rating.dateString)
+            }
+          } .onAppear() {
+              self.viewModel.testGetRatingList()
+            }
       }
-      .navigationBarTitle("Ratings")
-      .onAppear() {
-        self.viewModel.testGetRatingList()
-      }
-    }
+
   }
   
 }

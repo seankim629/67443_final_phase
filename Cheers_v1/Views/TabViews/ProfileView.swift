@@ -34,7 +34,7 @@ struct ProfileView: View {
                         .shadow(color: Color(red: 0, green: 0, blue: 0, opacity: 0.20), radius: 4)
                         .frame(width: 319, height: 44)
                     }.padding(.bottom)
-                    NavigationLink(destination: WishesListView()) {
+                    NavigationLink(destination: RatingsListView()) {
                         HStack(spacing: 170) {
                             Text("My Ratings")
                             .font(.callout)

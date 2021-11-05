@@ -22,7 +22,6 @@
 		6720EF3C2733278B0026DC12 /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6720EF3B2733278B0026DC12 /* UsersViewModel.swift */; };
 		6720EF3F273329940026DC12 /* RatingsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6720EF3E273329940026DC12 /* RatingsListView.swift */; };
 		6720EF41273329D30026DC12 /* RatingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6720EF40273329D30026DC12 /* RatingsViewModel.swift */; };
-		6720EF43273379BA0026DC12 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6720EF42273379BA0026DC12 /* GoogleService-Info.plist */; };
 		6720EF47273386EC0026DC12 /* BeersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6720EF46273386EC0026DC12 /* BeersViewModel.swift */; };
 		6720EF49273387DB0026DC12 /* WishesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6720EF48273387DB0026DC12 /* WishesViewModel.swift */; };
 		6720EF4B2734516A0026DC12 /* WishesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6720EF4A2734516A0026DC12 /* WishesListView.swift */; };
@@ -38,6 +37,7 @@
 		E8D8730E2734D612005EF75D /* StarSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D8730D2734D612005EF75D /* StarSlider.swift */; };
 		E8D873132734DC0F005EF75D /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D873122734DC0F005EF75D /* ProductDetailView.swift */; };
 		E8D873152734E738005EF75D /* Playground.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D873142734E738005EF75D /* Playground.swift */; };
+		E8D87317273508A0005EF75D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E8D87316273508A0005EF75D /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,7 +76,6 @@
 		6720EF3B2733278B0026DC12 /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
 		6720EF3E273329940026DC12 /* RatingsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingsListView.swift; sourceTree = "<group>"; };
 		6720EF40273329D30026DC12 /* RatingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingsViewModel.swift; sourceTree = "<group>"; };
-		6720EF42273379BA0026DC12 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6720EF46273386EC0026DC12 /* BeersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeersViewModel.swift; sourceTree = "<group>"; };
 		6720EF48273387DB0026DC12 /* WishesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishesViewModel.swift; sourceTree = "<group>"; };
 		6720EF4A2734516A0026DC12 /* WishesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishesListView.swift; sourceTree = "<group>"; };
@@ -93,6 +92,7 @@
 		E8D8730D2734D612005EF75D /* StarSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarSlider.swift; sourceTree = "<group>"; };
 		E8D873122734DC0F005EF75D /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		E8D873142734E738005EF75D /* Playground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playground.swift; sourceTree = "<group>"; };
+		E8D87316273508A0005EF75D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,8 +151,8 @@
 		4E067632272B23DA005FBEA4 /* Cheers_v1 */ = {
 			isa = PBXGroup;
 			children = (
+				E8D87316273508A0005EF75D /* GoogleService-Info.plist */,
 				6720EF4E27348EB20026DC12 /* Cheers-v1-Info.plist */,
-				6720EF42273379BA0026DC12 /* GoogleService-Info.plist */,
 				6720EF3D2733295E0026DC12 /* Views */,
 				6720EF3A273326DF0026DC12 /* ViewModels */,
 				6720EF2D2731D5C60026DC12 /* Models */,
@@ -386,8 +386,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4E06763B272B23DE005FBEA4 /* Preview Assets.xcassets in Resources */,
-				6720EF43273379BA0026DC12 /* GoogleService-Info.plist in Resources */,
 				4E067638272B23DE005FBEA4 /* Assets.xcassets in Resources */,
+				E8D87317273508A0005EF75D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

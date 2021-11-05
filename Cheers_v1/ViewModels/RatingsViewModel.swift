@@ -27,39 +27,34 @@ class RatingsViewModel: ObservableObject {
                 let rating = data?["rating"] as? Double ?? 0.0
                 let userid = data?["userid"] as? Int ?? 0
                 let product = data?["productname"] as? String ?? ""
-
+                let datetime = data?["datetime"] as! Timestamp
+                let convdate = datetime.dateValue()
+                let formatter = DateFormatter()
+                formatter.dateFormat = "MM/dd/YY"
+                let formattedTimeZoneStr = formatter.string(from: convdate)
                 let tags = data?["tags"] as? [String] ?? []
                 
-                let r2 = Rating(id: docId, rating: rating, userid: userid, product: product, tags: tags)
-                self.db.collection("beers").getDocuments {
-                  querySnapshot, error in
-                      guard let documents = querySnapshot?.documents else {
-                            print("No documents! \(error!)")
-                            return
-                        }
-                      for documentSnapshot in documents {
-                        let data = documentSnapshot.data()
-                        let name = data["Name"] as? String ?? ""
-                        if name == product {
-                          let alc = data["Alcohol"] as? Int ?? 0
-                          let style = data["Style"] as? String ?? ""
-                          self.ratings.append(RatingRow(rowRating: rating, product: product, alc: alc, rowPhoto: "", style: style))
-                          break
-                        }
-                      }
+                let r2 = Rating(id: docId, rating: rating, userid: userid, product: product, tags: tags, datetime: convdate)
+                let beerRef = self.db.collection("beers").document(product)
+                beerRef.getDocument { document, error in
+                  if let error = error as NSError? {
+                    "Reference not found"
                   }
-//                print("-----------------------------------")
-//                print("Printing Rated Product")
-//                print("Rated Product: \(r2.product)")
-//                print("Rating of this product: \(r2.rating)")
-//                var count = 0
-//                for t in r2.tags {
-//                  count += 1
-//                  print("Tag \(String(count)) of current Product: \(t)")
-//                }
-//                print("Successfully showed loaded data on this rating.")
-//                print("-----------------------------------")
-
+                  else {
+                    if let document = document {
+                      do {
+                        let data = document.data()
+                          let name = data?["Name"] as? String ?? ""
+                        let alc = data?["Alcohol"] as? Int ?? 0
+                        let style = data?["Style"] as? String ?? ""
+                        self.ratings.append(RatingRow(rowRating: rating, product: product, alc: alc, rowPhoto: "", style: style, dateString: formattedTimeZoneStr))
+                      }
+                      catch {
+                        print(error)
+                      }
+                    }
+                  }
+                }
             }
             catch {
               print(error)
