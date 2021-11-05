@@ -57,7 +57,7 @@ struct CustomTabView: View {
             
             
             Button {
-                
+                selectedTab = .scan
             } label: {
                 ZStack {
                     Circle()

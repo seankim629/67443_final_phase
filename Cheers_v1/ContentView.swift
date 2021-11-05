@@ -13,10 +13,11 @@ enum Tab {
     case search
     case feed
     case profile
+    case scan
 }
 
 struct ContentView: View {
-//    @ObservedObject var obs = observer(barcode: "038766301208")
+    @ObservedObject var obs = observer(barcode: "038766301208")
     @State private var selectedTab: Tab = .home
     
     init() {
@@ -50,10 +51,15 @@ struct ContentView: View {
                     NavigationView {
                         ProfileView()
                     }
+                case .scan:
+                    NavigationView {
+                        ScanView().navigationBarHidden(true)
+                    }
             }
-            
+            if (selectedTab != .scan) {
             CustomTabView(selectedTab: $selectedTab)
                 .frame(height: 50)
+            }
         }
         
     }
