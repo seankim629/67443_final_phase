@@ -115,6 +115,9 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         self.picker.isPresented.wrappedValue.dismiss()
         
     }
-    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.picker.imagePickerDisplay = false
+        self.picker.back = true
+      }
 
 }

@@ -25,14 +25,15 @@ struct DetailsView: View {
         
         if selectedImage != nil && barcodeValue != nil{
             VStack{
+                HStack{
+                    Text("Barcode Value: ")
+                    Text(barcodeValue!)
+                }
             Image(uiImage: selectedImage!)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .clipShape(Rectangle())
-            Text(barcodeValue!)
-            CustomTabView(selectedTab: $selectedTab)
-            .frame(alignment: .bottom)
-            .edgesIgnoringSafeArea(.all)
+
             }
         }
         

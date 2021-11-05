@@ -17,13 +17,13 @@ struct ScanView: View {
     @State var back: Bool = false
     
     var body: some View {
-//        if isImagePickerDisplay {
-//            ImagePickerView(image: self.$selectedImage, imagePickerDisplay: self.$isImagePickerDisplay, back: self.$back,sourceType: self.sourceType)
-//
-//        } else if back {
-//            ContentView()
-//        }
-//        else {
+        if isImagePickerDisplay {
+            ImagePickerView(image: self.$selectedImage, imagePickerDisplay: self.$isImagePickerDisplay, back: self.$back,sourceType: self.sourceType)
+
+        } else if back {
+            ContentView()
+        }
+        else {
 //        NavigationView {
 
             VStack {
@@ -74,7 +74,7 @@ struct ScanView: View {
                 ImagePickerView(image: self.$selectedImage, imagePickerDisplay: self.$isImagePickerDisplay, back: self.$back, barcodeValue: self.$barcodeValue, sourceType: self.sourceType)
             }
         
-        
+        }
                 
         }
 //        }
