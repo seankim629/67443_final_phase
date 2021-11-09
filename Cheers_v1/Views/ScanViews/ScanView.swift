@@ -18,7 +18,7 @@ struct ScanView: View {
     
     var body: some View {
         if isImagePickerDisplay {
-            ImagePickerView(image: self.$selectedImage, imagePickerDisplay: self.$isImagePickerDisplay, back: self.$back,sourceType: self.sourceType)
+            ImagePickerView(image: self.$selectedImage, imagePickerDisplay: self.$isImagePickerDisplay, barcodeValue: self.$barcodeValue, back: self.$back,sourceType: self.sourceType)
 
         } else if back {
             ContentView()

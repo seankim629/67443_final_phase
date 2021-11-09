@@ -195,6 +195,16 @@
 			path = Cheers_v1UITests;
 			sourceTree = "<group>";
 		};
+		4E97C692273B069300B6868D /* ScanViews */ = {
+			isa = PBXGroup;
+			children = (
+				E8D8731A27351AB4005EF75D /* ImagePickerView.swift */,
+				E8D8731827351AAE005EF75D /* DetailsView.swift */,
+				E8D8731C27351ABA005EF75D /* ScanView.swift */,
+			);
+			path = ScanViews;
+			sourceTree = "<group>";
+		};
 		6720EF2D2731D5C60026DC12 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -221,9 +231,7 @@
 		6720EF3D2733295E0026DC12 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E8D8731C27351ABA005EF75D /* ScanView.swift */,
-				E8D8731A27351AB4005EF75D /* ImagePickerView.swift */,
-				E8D8731827351AAE005EF75D /* DetailsView.swift */,
+				4E97C692273B069300B6868D /* ScanViews */,
 				E8D873112734DBE5005EF75D /* URLImageViewer */,
 				E8D873102734DBCA005EF75D /* ListViews */,
 				E8D8730F2734DB88005EF75D /* StarSlider */,
