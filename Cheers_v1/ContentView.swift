@@ -18,7 +18,6 @@ enum Tab {
 }
 
 struct ContentView: View {
-//    @ObservedObject var obs = observer(barcode: "038766301208")
 
     @Binding var selectedTab: Tab
     @Binding var selectedImage: UIImage?
@@ -64,7 +63,7 @@ struct ContentView: View {
 //                    Text(self.barcodeValue!)
 //
 //                }
-                DetailScreen(barcodeValue: self.$barcodeValue)
+              DetailScreen(barcodeValue: self.$barcodeValue)
 //                    NavigationView {
 //                        DetailsView(selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue, selectedTab: self.$selectedTab).navigationBarHidden(true)
 //                    }

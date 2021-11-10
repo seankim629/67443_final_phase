@@ -79,40 +79,7 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
                 self.picker.barcodeValue = feature.rawValue
             }
        
-            let format = BarcodeFormat.all
-            let barcodeOptions = BarcodeScannerOptions(formats: format)
-            // [END config_barcode]
 
-            // Create a barcode scanner.
-            // [START init_barcode]
-            let barcodeScanner = BarcodeScanner.barcodeScanner(options: barcodeOptions)
-            // [END init_barcode]
-
-            // Initialize a `VisionImage` object with the given `UIImage`.
-            let visionImage = VisionImage(image: image)
-            visionImage.orientation = image.imageOrientation
-          
-
-
-            // [START detect_barcodes]
-            barcodeScanner.process(visionImage) { features, error in
-              guard error == nil, let features = features, !features.isEmpty else {
-                // [START_EXCLUDE]
-      //                print("No results returned.")
-                  return
-              }
-
-
-
-                for feature in features {
-
-                    self.picker.barcodeValue = feature.rawValue
-                    print(self.picker.barcodeValue!)
-                    
-                }
-           
-              
-            }
         }
         self.picker.imagePickerDisplay = false
         self.picker.isPresented.wrappedValue.dismiss()
