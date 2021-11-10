@@ -13,8 +13,9 @@ import MLKitVision
 struct DetailsView: View {
     @Binding var selectedImage: UIImage?
     @Binding var barcodeValue: String?
-    @State private var selectedTab: Tab = .feed
+    @Binding var selectedTab: Tab
     
+
     
     var body: some View {
 //        detectBarcode()
@@ -23,16 +24,16 @@ struct DetailsView: View {
             
         }
         
-        if selectedImage != nil && barcodeValue != nil{
+        if barcodeValue != nil{
             VStack{
                 HStack{
                     Text("Barcode Value: ")
-                    Text(barcodeValue!)
+                    Text(self.barcodeValue!)
                 }
-            Image(uiImage: selectedImage!)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .clipShape(Rectangle())
+//            Image(uiImage: selectedImage!)
+//                .resizable()
+//                .aspectRatio(contentMode: .fit)
+//                .clipShape(Rectangle())
 
             }
         }

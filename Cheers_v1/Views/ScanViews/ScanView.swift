@@ -11,17 +11,18 @@ import MLKitVision
 struct ScanView: View {
     
     @State var sourceType: UIImagePickerController.SourceType = .camera
-    @State var selectedImage: UIImage?
+    @Binding var selectedImage: UIImage?
     @State var isImagePickerDisplay: Bool = true
-    @State var barcodeValue: String?
+    @Binding var barcodeValue: String?
     @State var back: Bool = false
+    @Binding var selectedTab: Tab
     
     var body: some View {
         if isImagePickerDisplay {
-            ImagePickerView(image: self.$selectedImage, imagePickerDisplay: self.$isImagePickerDisplay, barcodeValue: self.$barcodeValue, back: self.$back,sourceType: self.sourceType)
+            ImagePickerView(image: self.$selectedImage, imagePickerDisplay: self.$isImagePickerDisplay,back: self.$back, barcodeValue: self.$barcodeValue, selectedTab: self.$selectedTab, sourceType: self.sourceType)
 
         } else if back {
-            ContentView()
+            ContentView(selectedTab: self.$selectedTab, selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue)
         }
         else {
 //        NavigationView {
@@ -50,16 +51,24 @@ struct ScanView: View {
                 HStack {
                     
                 NavigationLink(
-                    destination: ContentView().navigationBarHidden(true), label: {
+                    destination: ContentView(selectedTab: self.$selectedTab, selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue).navigationBarHidden(true)) {
                         Text("Cancel").padding(30)
+                    }.simultaneousGesture(TapGesture().onEnded{
+                        self.selectedTab = .home
                     })
 //                Button("Cancel") {
 //
 //                }.padding(30)
                     
-                    NavigationLink(destination: DetailsView(selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue), label: {
+                    NavigationLink(destination: ContentView(selectedTab: self.$selectedTab, selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue)) {
                     Text("Detect").padding(30)
-                })
+                    }.simultaneousGesture(TapGesture().onEnded{
+                        self.selectedTab = .result
+                        print(self.barcodeValue!)
+                    })
+//                    Button("Detect") {
+//                        self.selectedTab = .result
+//                    }.padding(30)
                     
                 Button("Retake") {
                     self.isImagePickerDisplay = true
@@ -70,9 +79,9 @@ struct ScanView: View {
                 }
             }
             .navigationTitle("Scan").navigationBarTitleDisplayMode(.inline)
-            .sheet(isPresented: self.$isImagePickerDisplay) {
-                ImagePickerView(image: self.$selectedImage, imagePickerDisplay: self.$isImagePickerDisplay, back: self.$back, barcodeValue: self.$barcodeValue, sourceType: self.sourceType)
-            }
+//            .sheet(isPresented: self.$isImagePickerDisplay) {
+//                ImagePickerView(image: self.$selectedImage, imagePickerDisplay: self.$isImagePickerDisplay, back: self.$back, barcodeValue: self.$barcodeValue, sourceType: self.sourceType)
+//            }
         
         }
                 

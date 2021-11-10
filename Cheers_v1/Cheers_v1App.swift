@@ -10,12 +10,23 @@ import FirebaseCore
 
 @main
 struct Cheers_v1App: App {
+    @State var selectedTab: Tab = .home
+    @State var selectedImage: UIImage?
+    @State var barcodeValue: String?
     init() {
         FirebaseApp.configure()
+        UINavigationBar.appearance().barTintColor = UIColor(Color("Background Color"))
+        let coloredAppearance = UINavigationBarAppearance()
+            coloredAppearance.configureWithOpaqueBackground()
+            coloredAppearance.backgroundColor = UIColor(Color("Background Color"))
+            coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+            coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+            UINavigationBar.appearance().standardAppearance = coloredAppearance
+            UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
     }
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(selectedTab: self.$selectedTab, selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue)
         }
     }
 }

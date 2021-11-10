@@ -17,6 +17,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
     @Binding var imagePickerDisplay : Bool
     @Binding var back : Bool
     @Binding var barcodeValue : String?
+    @Binding var selectedTab: Tab
     var sourceType: UIImagePickerController.SourceType
         
     func makeUIViewController(context: Context) -> UIImagePickerController {
@@ -106,6 +107,8 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
                 for feature in features {
 
                     self.picker.barcodeValue = feature.rawValue
+                    print(self.picker.barcodeValue!)
+                    
                 }
            
               
@@ -117,7 +120,7 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.picker.imagePickerDisplay = false
-        self.picker.back = true
+        self.picker.selectedTab = .home
       }
 
 }

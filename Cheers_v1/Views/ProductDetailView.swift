@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct DetailScreen: View {
+    @Binding var barcodeValue: String?
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
         ZStack {
@@ -17,6 +18,7 @@ struct DetailScreen: View {
                     Image("Beer")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
+                Text(barcodeValue!)
 
                 DescriptionView()
 
@@ -31,11 +33,11 @@ struct DetailScreen: View {
 
 
 
-struct DetailScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailScreen()
-    }
-}
+//struct DetailScreen_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DetailScreen()
+//    }
+//}
 
 
 

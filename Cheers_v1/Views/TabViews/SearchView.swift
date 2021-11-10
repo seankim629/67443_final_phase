@@ -10,7 +10,7 @@ import SwiftUI
 struct SearchView: View {
     var body: some View {
         VStack {
-            DetailScreen()
+            Text("search")
         }.navigationTitle("Search").navigationBarTitleDisplayMode(.inline)
     }
 }
