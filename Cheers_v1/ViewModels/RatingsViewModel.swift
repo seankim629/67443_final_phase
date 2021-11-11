@@ -10,7 +10,7 @@ import FirebaseFirestore
 
 class RatingsViewModel: ObservableObject {
   @Published var ratings = [RatingRow]()
-  
+  private var found = false
   private var db = Firestore.firestore()
   
   func getRatingList(rlist: [DocumentReference]) {
@@ -87,8 +87,13 @@ class RatingsViewModel: ObservableObject {
     }
   }
 
-  func checkRating(newData: [String:Any]) {
-    let userRef = db.collection("users").document("uesrid_1")
+  func checkRating(usrID: String, newData: [String:Any]) {
+    let userID = "uesrid_1"
+    var isCheck = false
+    var count = 1
+    let myGroup = DispatchGroup()
+    let userRef = db.collection("users").document(userID)
+    myGroup.enter()
     userRef.getDocument { document, error in
       if let error = error as NSError? {
         "Reference not found"
@@ -98,12 +103,12 @@ class RatingsViewModel: ObservableObject {
           do {
             let data = document.data()
             let ratings = data?["ratings"] as? [DocumentReference] ?? []
-            if ratings.count == 0 {
-              self.addRating(newData: newData)
-            } else {
               // if no ratings done for the current product, add ratings
               // if yes, then update ratings
-              for rat in ratings {
+            for rat in ratings {
+              count += 1
+              if isCheck == false {
+                myGroup.enter()
                 rat.getDocument { document, error in
                   if let error = error as NSError? {
                     "Reference not found"
@@ -115,39 +120,64 @@ class RatingsViewModel: ObservableObject {
                           let docId = document.documentID
                           let userid = data?["userid"] as? Int ?? 0
                           let product = data?["productname"] as? String ?? ""
+                          let target = newData["productname"] as? String ?? ""
+                          print(target)
+                          print("+++++++++++")
+                          print(product)
+                          if product == target {
+                            isCheck = true
+                            //myGroup.enter()
+                            self.updateRating(docID: docId, updateData: newData)
+                            //myGroup.leave()
+                          }
                       }
                     }
                   }
+                  myGroup.leave()
                 }
               }
             }
           }
         }
       }
+    myGroup.leave()
     }
+    myGroup.notify(queue: DispatchQueue.global(qos: .background)) {
+        if isCheck == false {
+          print(isCheck)
+          let newID = userID + "_r\(count)"
+          self.addRating(docID: newID, newData: newData)
+          userRef.updateData([
+              "ratings": FieldValue.arrayUnion([self.db.document("ratings/\(newID)")])
+          ])
+        }
+    }
+
   }
-  func addRating(newData: [String:Any]) {
-    db.collection("ratings").document("testing2").setData(newData) { err in
+  
+  func addRating(docID: String, newData: [String:Any]) {
+    db.collection("ratings").document(docID).setData(newData) { err in
         if let err = err {
             print("Error writing document: \(err)")
         } else {
             print("Test Document successfully written!")
         }
     }
-    let docRef = db.collection("ratings").document("testing2")
-    docRef.getDocument { (document, error) in
-      print("Checking if document is actually added!")
-      if ((document?.exists) != nil) {
-        print("Docudment added!")
-        print("Document data: \(document?.data())")
-          } else {
-             print("Document does not exist")
-          }
-    }
+
+//    let docRef = db.collection("ratings").document(docID)
+//    docRef.getDocument { (document, error) in
+//      print("Checking if document is actually added!")
+//      if ((document?.exists) != nil) {
+//        print("Docudment added!")
+//        print("Document data: \(document?.data())")
+//          } else {
+//             print("Document does not exist")
+//          }
+//    }
   }
 
   func updateRating(docID: String, updateData: [String:Any]) {
-    let rRef = db.collection("ratings").document("testing2")
+    let rRef = db.collection("ratings").document(docID)
 
     rRef.updateData(updateData) { err in
         if let err = err {
@@ -156,28 +186,28 @@ class RatingsViewModel: ObservableObject {
             print("Test Document successfully updated")
         }
     }
-    rRef.getDocument { document, error in
-      if let error = error as NSError? {
-        "Reference not found"
-      }
-      else {
-        if let document = document {
-          do {
-              let data = document.data()
-              let rating = data?["rating"]
-              print("+++++++++++++++++++++++++++++++++++")
-              print("Printing Updated Rating with changed input")
-              print("New rating is: \(rating)")
-              print("Successfully showed loaded data on this rating.")
-              print("+++++++++++++++++++++++++++++++++++")
-
-          }
-          catch {
-            print(error)
-          }
-        }
-      }
-    }
+//    rRef.getDocument { document, error in
+//      if let error = error as NSError? {
+//        "Reference not found"
+//      }
+//      else {
+//        if let document = document {
+//          do {
+//              let data = document.data()
+//              let rating = data?["rating"]
+//              print("+++++++++++++++++++++++++++++++++++")
+//              print("Printing Updated Rating with changed input")
+//              print("New rating is: \(rating)")
+//              print("Successfully showed loaded data on this rating.")
+//              print("+++++++++++++++++++++++++++++++++++")
+//
+//          }
+//          catch {
+//            print(error)
+//          }
+//        }
+//      }
+//    }
   }
 
   func deleteRating(docID: String) {

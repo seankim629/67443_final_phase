@@ -7,6 +7,23 @@
 
 import SwiftUI
 
+//struct Toggler: View {
+//    @State private var vibrateOnRing = false
+//    @ObservedObject var wishes = WishesViewModel()
+//
+//    var body: some View {
+//        Toggle(isOn: $vibrateOnRing) {
+//            Text("Vibrate on Ring")
+//        }
+//        .onChange(of: vibrateOnRing) { value in
+//            //perform your action here...
+//            print(value)
+//          if value == true {
+//
+//          }
+//        }
+//    }
+//}
 
 struct DetailScreen: View {
     @Binding var barcodeValue: String?
@@ -21,7 +38,7 @@ struct DetailScreen: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                 Text(barcodeValue!)
-              
+//                Toggler()
                 DescriptionView(prod: result.beerDetails)
 
             }
@@ -37,19 +54,11 @@ struct DetailScreen: View {
 
 
 
-//struct DetailScreen_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DetailScreen()
-//    }
-//}
-
-
-
-
 struct DescriptionView: View {
     @State private var rating: Double = 4.5
     var prod: Product
-  
+    @ObservedObject var rat = RatingsViewModel()
+
     var body: some View {
         VStack (alignment: .leading) {
             //                Title
@@ -63,7 +72,7 @@ struct DescriptionView: View {
             }
             
             HStack() {
-                StarSlider($rating)
+              StarSlider($rating, product: prod.name, ratModel: rat)
                 Text("Your Rating: " + String.init(format: "%0.1f", rating))
             }
 
@@ -97,7 +106,7 @@ struct DescriptionView: View {
                     Text("ABV")
                         .font(.system(size: 16))
                         .fontWeight(.semibold)
-                    Text(String.init(format: "%0.1f", prod.alc))
+                    Text(String.init(format: "%0.1f", prod.alc) + "%")
                         .opacity(0.6)
                 }
 
