@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct StarSlider: View {
-    init(_ rating: Binding<Double>, maxRating: Int = 5) {
+  init(_ rating: Binding<Double>, product: String = "", ratModel: RatingsViewModel, maxRating: Int = 5) {
         _rating = rating
+        self.product = product
         self.maxRating = maxRating
+        self.rat = ratModel
     }
 
     let maxRating: Int
     @Binding var rating: Double
+    var product: String
+    var rat: RatingsViewModel
     @State private var starSize: CGSize = .zero
     @State private var controlSize: CGSize = .zero
     @GestureState private var dragging: Bool = false
@@ -53,6 +57,15 @@ struct StarSlider: View {
                     DragGesture(minimumDistance: 0, coordinateSpace: .local)
                         .onChanged { value in
                             rating = rating(at: value.location)
+                            let date = Date()
+                            let newRating: [String: Any] = [
+                              "datetime": date,
+                              "rating": rating,
+                              "userid": 1,
+                              "productname": product,
+                              "tags": []
+                            ]
+                            rat.checkRating(usrID: "uesrid_1", newData: newRating)
                         }
                 )
         }

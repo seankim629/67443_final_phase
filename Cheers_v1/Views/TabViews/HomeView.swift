@@ -12,7 +12,7 @@ struct HomeView: View {
     var body: some View {
         VStack {
 //            Text("Content")
-            StarSlider($rating)
+          //StarSlider($rating)
         }.navigationTitle("Home").navigationBarTitleDisplayMode(.inline)
     }
 }

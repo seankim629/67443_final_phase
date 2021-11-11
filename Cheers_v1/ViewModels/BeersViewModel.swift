@@ -148,7 +148,8 @@ class BeersViewModel: ObservableObject {
      }
    for p in result.products {
      print(p.name)
-     self.getBeerDetail(name: "Corona Extra")
+     self.getBeerDetail(name: "Guinness Original")
+     break
    }
  }
  task.resume()
