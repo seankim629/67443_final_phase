@@ -42,7 +42,7 @@ class WishesViewModel: ObservableObject {
                           do {
                             let data = document.data()
                             let name = data?["Name"] as? String ?? ""
-                            let alc = data?["Alcohol"] as? Int ?? 0
+                            let alc = data?["ABV"] as? Double ?? 0.0
                             let avgR = data?["Ave Rating"] as? Double ?? 0.0
                             let style = data?["Style"] as? String ?? ""
                             self.wishes.append(WishRow(rowRating: avgR, product: w, alc: alc, rowPhoto: "", style: style))

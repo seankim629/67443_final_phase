@@ -10,7 +10,7 @@ import FirebaseFirestoreSwift
 
 struct Beer: Identifiable, Codable {
   @DocumentID var id: String? = UUID().uuidString
-  var abv: Int
+  var abv: Double
   var sour: Int
   var astring: Int
   var key: Int

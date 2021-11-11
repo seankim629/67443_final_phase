@@ -8,15 +8,14 @@
 import Foundation
 
 struct Result: Decodable {
-    let products : [Product]
+    let products : [ResultProds]
     
     enum CodingKeys : String, CodingKey {
       case products
     }
 }
 
-
-struct Product: Decodable {
+struct ResultProds: Decodable {
   let name: String
   let image: String
   
@@ -24,4 +23,18 @@ struct Product: Decodable {
     case name = "product_name"
     case image = "product_image_url"
   }
+}
+
+struct Product {
+  var name: String = ""
+  var image: String = ""
+  var avgRating: Double = 0.0
+  var alc: Double = 0.0
+  var brewery: String = ""
+  var style: String = ""
+  var sweet: Int = 0
+  var sour: Int = 0
+  var bitter: Int = 0
+  var fruits: Int = 0
+  
 }

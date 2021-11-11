@@ -10,7 +10,7 @@ import FirebaseFirestore
 
 class BeersViewModel: ObservableObject {
   @Published var beers = [Beer]()
-  
+  @Published var beerDetails = Product()
   private var db = Firestore.firestore()
   
   func getBeersData() {
@@ -23,7 +23,7 @@ class BeersViewModel: ObservableObject {
           for documentSnapshot in documents {
             let data = documentSnapshot.data()
             let name = data["Name"] as? String ?? ""
-            let abv = data["ABV"] as? Int ?? 0
+            let abv = data["ABV"] as? Double ?? 0.0
             let sour = data["Sour"] as? Int ?? 0
             let astring = data["Astringency"] as? Int ?? 0
             let key = data["key"] as? Int ?? 0
@@ -69,7 +69,7 @@ class BeersViewModel: ObservableObject {
               let data = documentSnapshot.data()
               if data[firstTag] as! Int > 50 {
                 let name = data["Name"] as? String ?? ""
-                let abv = data["ABV"] as? Int ?? 0
+                let abv = data["ABV"] as? Double ?? 0.0
                 let sour = data["Sour"] as? Int ?? 0
                 let astring = data["Astringency"] as? Int ?? 0
                 let key = data["key"] as? Int ?? 0
@@ -103,6 +103,55 @@ class BeersViewModel: ObservableObject {
       getBeersData()
     }
   }
+  
+  func getBeerDetail(name: String) {
+    
+    let beerRef = self.db.collection("beers").document(name)
+    beerRef.getDocument { document, error in
+      if let error = error as NSError? {
+        "Reference not found"
+      }
+      else {
+        if let document = document {
+          do {
+            let data = document.data()
+            let alc = data?["ABV"] as? Double ?? 0.0
+            let style = data?["Style"] as? String ?? ""
+            let brew = data?["Brewery"] as? String ?? ""
+            let avgRating = data?["Ave Rating"] as? Double ?? 0.0
+            let sour = data?["Sour"] as? Int ?? 0
+            let bitter = data?["Bitter"] as? Int ?? 0
+            let sweet = data?["Sweet"] as? Int ?? 0
+            let fruity = data?["Fruits"] as? Int ?? 0
+            print(alc)
+            self.beerDetails = Product(name: name, image: "", avgRating: avgRating, alc: alc, brewery: brew, style: style, sweet: sweet, sour: sour, bitter: bitter, fruits: fruity)
+            print(self.beerDetails.avgRating)
+          }
+          catch {
+            print(error)
+          }
+        }
+      }
+    }
+  }
 
+  func load(barcode: String) {
+   let url = "https://buycott.com/api/v4/products/lookup?barcode=\(barcode)&access_token=6rUh0wqAqJLzOFyOLP8n6hO54-oYCni-opdWU-cb"
+   let task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, response, error) in
+     guard let data = data else {
+       print("Error: No data to decode")
+       return
+     }
+     guard let result = try? JSONDecoder().decode(Result.self, from: data) else {
+             print("Error: Couldn't decode data into a result")
+             return
+     }
+   for p in result.products {
+     print(p.name)
+     self.getBeerDetail(name: "Corona Extra")
+   }
+ }
+ task.resume()
+ }
 }
 

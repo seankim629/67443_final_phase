@@ -69,6 +69,7 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
           guard error == nil, let features = features, !features.isEmpty else {
             // [START_EXCLUDE]
   //                print("No results returned.")
+              self.picker.barcodeValue = "No barcode detected."
               return
           }
 

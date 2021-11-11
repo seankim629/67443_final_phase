@@ -45,9 +45,9 @@ class RatingsViewModel: ObservableObject {
                       do {
                         let data = document.data()
                           let name = data?["Name"] as? String ?? ""
-                        let alc = data?["Alcohol"] as? Int ?? 0
+                        let alc = data?["ABV"] as? Double ?? 0.0
                         let style = data?["Style"] as? String ?? ""
-                        self.ratings.append(RatingRow(rowRating: rating, product: product, alc: alc, rowPhoto: "", style: style, dateString: formattedTimeZoneStr))
+                        self.ratings.append(RatingRow(rowRating: rating, product: product, alc: Double(alc), rowPhoto: "", style: style, dateString: formattedTimeZoneStr))
                       }
                       catch {
                         print(error)
@@ -87,6 +87,45 @@ class RatingsViewModel: ObservableObject {
     }
   }
 
+  func checkRating(newData: [String:Any]) {
+    let userRef = db.collection("users").document("uesrid_1")
+    userRef.getDocument { document, error in
+      if let error = error as NSError? {
+        "Reference not found"
+      }
+      else {
+        if let document = document {
+          do {
+            let data = document.data()
+            let ratings = data?["ratings"] as? [DocumentReference] ?? []
+            if ratings.count == 0 {
+              self.addRating(newData: newData)
+            } else {
+              // if no ratings done for the current product, add ratings
+              // if yes, then update ratings
+              for rat in ratings {
+                rat.getDocument { document, error in
+                  if let error = error as NSError? {
+                    "Reference not found"
+                  }
+                  else {
+                    if let document = document {
+                      do {
+                          let data = document.data()
+                          let docId = document.documentID
+                          let userid = data?["userid"] as? Int ?? 0
+                          let product = data?["productname"] as? String ?? ""
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
   func addRating(newData: [String:Any]) {
     db.collection("ratings").document("testing2").setData(newData) { err in
         if let err = err {
