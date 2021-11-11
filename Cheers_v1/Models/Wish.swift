@@ -24,7 +24,7 @@ struct WishRow: Identifiable, Codable {
   var id = UUID()
   var rowRating: Double
   var product: String
-  var alc: Int
+  var alc: Double
   var rowPhoto: String
   var style: String
   

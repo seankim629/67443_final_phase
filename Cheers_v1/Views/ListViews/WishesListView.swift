@@ -32,9 +32,10 @@ struct WishesListView: View {
           }
           List(viewModel.wishes) { wish in
             VStack(alignment: .leading) {
-              WishlistCard(image: CustomImageView(urlString: "https://i5.walmartimages.com/asr/74caf649-c98a-42d0-b3e6-e17a8708d5f2_1.29daddebeeed3560d7fdc661e8cd7702.jpeg?odnHeight=450&odnWidth=450&odnBg=FFFFFF"), beer: wish.product, type: wish.style, alcohol: wish.alc, rating:wish.rowRating)
+              WishlistCard(image: CustomImageView(urlString: "https://i5.walmartimages.com/asr/74caf649-c98a-42d0-b3e6-e17a8708d5f2_1.29daddebeeed3560d7fdc661e8cd7702.jpeg?odnHeight=450&odnWidth=450&odnBg=FFFFFF"), beer: wish.product, type: wish.style, alcohol: Int(wish.alc), rating:wish.rowRating)
             }
           } .onAppear() {
+              self.viewModel.wishes = [WishRow]()
               self.viewModel.testGetWishList()
             }
       }
