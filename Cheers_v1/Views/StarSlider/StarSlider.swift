@@ -73,17 +73,24 @@ struct StarSlider: View {
 
     private var fullStar: some View {
         Image(systemName: "star.fill")
-            .star(size: starSize)
+            .resizable()
+            .frame(width: 30, height: 30)
+            .foregroundColor(Color("Highlight Color"))
     }
 
     private var halfStar: some View {
         Image(systemName: "star.leadinghalf.fill")
-            .star(size: starSize)
+            .resizable()
+            .frame(width: 30, height: 30)
+            .foregroundColor(Color("Highlight Color"))
     }
 
     private var emptyStar: some View {
         Image(systemName: "star")
-            .star(size: starSize)
+//            .star(size: starSize)
+            .resizable()
+            .frame(width: 30, height: 30)
+            .foregroundColor(Color("Highlight Color"))
     }
 
     private func rating(at position: CGPoint) -> Double {

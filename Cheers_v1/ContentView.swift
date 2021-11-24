@@ -59,20 +59,15 @@ struct ContentView: View {
                         ScanView(selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue, selectedTab: self.$selectedTab).navigationBarHidden(true)
                     }
                 case .result:
-//                HStack {
-//                    Text(self.barcodeValue!)
-//
-//                }
-              DetailScreen(barcodeValue: self.$barcodeValue)
-//                    NavigationView {
-//                        DetailsView(selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue, selectedTab: self.$selectedTab).navigationBarHidden(true)
-//                    }
+                    NavigationView{
+                        DetailScreen(barcodeValue: self.$barcodeValue)
+                    }
             }
             if (selectedTab != .scan) {
             CustomTabView(selectedTab: $selectedTab)
                 .frame(height: 50)
             }
-        }
+        }.environment(\.colorScheme, .light)
         
     }
 }
