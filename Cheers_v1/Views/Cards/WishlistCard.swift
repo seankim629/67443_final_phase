@@ -18,35 +18,39 @@ struct WishlistCard: View {
     var body: some View {
         HStack(alignment: .center) {
             image
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing:0) {
                 Text(beer)
-                    .font(.system(size: 26, weight: .bold, design: .default))
+                    .font(.system(size: 20, weight: .semibold, design: .default))
                     .foregroundColor(.black)
+                    .padding(.top, 10)
                 
                 HStack() {
                     Text(type)
-                        .font(.system(size: 16, weight: .bold, design: .default))
+                        .font(.system(size: 12, weight: .bold, design: .default))
                         .foregroundColor(.gray)
                     Text(" | ").foregroundColor(.gray)
                     Text(String.init(alcohol)+"%")
-                        .font(.system(size: 16, weight: .bold, design: .default))
+                        .font(.system(size: 12, weight: .bold, design: .default))
                         .foregroundColor(.gray)
                 }
     
-                HStack(alignment: .firstTextBaseline) {
+                HStack(alignment: .lastTextBaseline) {
                     Image(systemName: "star.fill").foregroundColor(Color("Highlight Color"))
+                        .font(.system(size: 12))
                     Text(String.init(format: "%0.1f", rating))
-                        .font(.system(size: 16, weight: .bold, design: .default))
+                        .font(.system(size: 12, weight: .bold, design: .default))
                         .foregroundColor(.black)
-                        .padding(.top, 3)
-                        .padding(.bottom, 1)
-                }
+                }.padding(.top, 3)
             }.padding(.trailing, 20)
+                .padding(.bottom, 10)
             Spacer()
         }
         .frame(maxWidth: .infinity, alignment: .center)
-        .background(.white)
-        .modifier(CardModifier())
+        .background(
+            Color.white
+                .cornerRadius(20)
+                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 0)
+            )
         .padding(.all, 10)
         
     }

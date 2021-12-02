@@ -19,21 +19,25 @@ struct ScanView: View {
     
     var body: some View {
         if isImagePickerDisplay {
-            ImagePickerView(image: self.$selectedImage, imagePickerDisplay: self.$isImagePickerDisplay,back: self.$back, barcodeValue: self.$barcodeValue, selectedTab: self.$selectedTab, sourceType: self.sourceType)
+            ImagePickerView(image: self.$selectedImage, imagePickerDisplay: self.$isImagePickerDisplay,back: self.$back, barcodeValue: self.$barcodeValue, selectedTab: self.$selectedTab, sourceType: self.sourceType).ignoresSafeArea().navigationBarHidden(true)
 
         } else if back {
             ContentView(selectedTab: self.$selectedTab, selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue)
         }
         else {
-//        NavigationView {
+//            ZStack() {
+//
+//                Color.purple
+//                                .ignoresSafeArea()
 
-            VStack {
+            VStack () {
                 
                 if selectedImage != nil {
                     Image(uiImage: selectedImage!)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .clipShape(Rectangle())
+                    
                 }
             
                 
@@ -48,44 +52,58 @@ struct ScanView: View {
 //                    self.isImagePickerDisplay.toggle()
 //                }.padding()
 //
+                Spacer()
                 HStack {
-                    
+                    Spacer()
                 NavigationLink(
                     destination: ContentView(selectedTab: self.$selectedTab, selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue).navigationBarHidden(true)) {
-                        Text("Cancel").padding(30)
+                        Text("Cancel").padding(30).foregroundColor(.white)
                     }.simultaneousGesture(TapGesture().onEnded{
                         self.selectedTab = .home
                     })
+                    Spacer()
 //                Button("Cancel") {
 //
 //                }.padding(30)
                     
                     NavigationLink(destination: ContentView(selectedTab: self.$selectedTab, selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue)) {
-                    Text("Detect").padding(30)
+                    Text("Detect").padding(30).foregroundColor(.white)
                     }.simultaneousGesture(TapGesture().onEnded{
                         self.selectedTab = .result
                         print(self.barcodeValue!)
                     })
+                    Spacer()
+
 //                    Button("Detect") {
 //                        self.selectedTab = .result
 //                    }.padding(30)
                     
-                Button("Retake") {
-                    self.isImagePickerDisplay = true
-                }.padding(30)
-                
+                    
                 
                 
                 }
+                Spacer()
+                
             }
-            .navigationTitle("Scan").navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitleDisplayMode(.inline).toolbar {
+            ToolbarItem(placement: .principal) {
+                HStack(alignment: .center) {
+                    Image("header").resizable()
+                        .aspectRatio(contentMode: .fit).frame(width: 20, height: 20)
+                    Text("Cheers").fontWeight(.bold).foregroundColor(.white)}
+            }
+        }
+        .frame(maxWidth:.infinity, maxHeight:.infinity, alignment: .topLeading)
+        .background(Color("Background Color"))
+            }
+   
 //            .sheet(isPresented: self.$isImagePickerDisplay) {
 //                ImagePickerView(image: self.$selectedImage, imagePickerDisplay: self.$isImagePickerDisplay, back: self.$back, barcodeValue: self.$barcodeValue, sourceType: self.sourceType)
 //            }
         
         }
                 
-        }
+//        }
 //        }
     
     func detectBarcode() {

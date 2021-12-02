@@ -56,7 +56,7 @@ struct ContentView: View {
                     }
                 case .scan:
                     NavigationView {
-                        ScanView(selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue, selectedTab: self.$selectedTab).navigationBarHidden(true)
+                        ScanView(selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue, selectedTab: self.$selectedTab)
                     }
                 case .result:
                     NavigationView{

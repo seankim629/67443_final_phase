@@ -9,9 +9,28 @@ import SwiftUI
 
 struct SearchView: View {
     var body: some View {
-        VStack {
-            Text("search")
-        }.navigationTitle("Search").navigationBarTitleDisplayMode(.inline)
+        VStack(alignment: .leading) {
+            HStack{
+                Image(systemName: "magnifyingglass").foregroundColor(Color("Highlight Color"))
+                    .font(.system(size: 28))
+                Text("Search Beers")
+                      .font(.title)
+                      .fontWeight(.bold)
+                      .foregroundColor(Color("Background Color"))
+            }.padding(.bottom, 40)
+            
+            
+        }.navigationBarTitleDisplayMode(.inline).toolbar {
+            ToolbarItem(placement: .principal) {
+                HStack(alignment: .center) {
+                    Image("header").resizable()
+                        .aspectRatio(contentMode: .fit).frame(width: 20, height: 20)
+                    Text("Cheers").fontWeight(.bold).foregroundColor(.white)}
+            }
+        }
+        .frame(maxWidth:.infinity, maxHeight:.infinity, alignment: .topLeading)
+            .padding(.top, 20)
+            .padding(.leading, 28)
     }
 }
 

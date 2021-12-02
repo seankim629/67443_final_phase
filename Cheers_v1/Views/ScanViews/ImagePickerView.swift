@@ -87,8 +87,9 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.picker.imagePickerDisplay = false
+//        self.picker.imagePickerDisplay = false
         self.picker.selectedTab = .home
+        self.picker.image = nil
       }
 
 }

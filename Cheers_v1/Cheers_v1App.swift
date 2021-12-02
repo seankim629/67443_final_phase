@@ -16,6 +16,8 @@ struct Cheers_v1App: App {
     init() {
         FirebaseApp.configure()
         UINavigationBar.appearance().barTintColor = UIColor(Color("Background Color"))
+        UINavigationBar.appearance().tintColor = .white
+
         let coloredAppearance = UINavigationBarAppearance()
             coloredAppearance.configureWithOpaqueBackground()
             coloredAppearance.backgroundColor = UIColor(Color("Background Color"))

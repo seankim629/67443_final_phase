@@ -54,7 +54,14 @@ struct DetailScreen: View {
         .onAppear {
           result.load(barcode: "080660956435")
         }
-        .navigationTitle("Beer Details").navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitleDisplayMode(.inline).toolbar {
+            ToolbarItem(placement: .principal) {
+                HStack(alignment: .center) {
+                    Image("header").resizable()
+                        .aspectRatio(contentMode: .fit).frame(width: 20, height: 20)
+                    Text("Cheers").fontWeight(.bold).foregroundColor(.white)}
+            }
+        }
     }
   
   
@@ -80,7 +87,17 @@ struct DescriptionView: View {
                         .font(.title2)
                         .fontWeight(.bold)
                     Image(systemName: "star.fill").padding(.leading).foregroundColor(Color("Highlight Color"))
-                  Text(String.init(format: "%0.1f", prod.avgRating))
+                    
+                    Text(String.init(format: "%0.1f", prod.avgRating)).padding(.trailing)
+                    
+                    Button(action: {
+                    }) {
+                        // need a function to check if this beer is in wishlist and determine the state
+                        // if it is in wishlist then set state to false and Image(systemName: "bookmark).foregroundColor(Color("Highlight Color")) and delete from wishlist
+                        // if it is not in wishilst then set state to true and Image(systemName:"bookmark.filled").foregroundColor(Color("Highlight Color")) and add to wishlist
+                        Image(systemName: "bookmark").foregroundColor(Color("Highlight Color"))
+                    }.padding(.leading)
+                    
                 }.padding(.top).padding(.leading)
                 
                 HStack() {

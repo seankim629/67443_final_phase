@@ -9,9 +9,27 @@ import SwiftUI
 
 struct FeedView: View {
     var body: some View {
-        VStack {
-            Text("Content")
-        }.navigationTitle("Feed").navigationBarTitleDisplayMode(.inline)
+        VStack (alignment: .leading){
+            HStack{
+                Image(systemName: "text.bubble.fill").foregroundColor(Color("Highlight Color"))
+                    .font(.system(size: 28))
+                Text("Feed")
+                      .font(.title)
+                      .fontWeight(.bold)
+                      .foregroundColor(Color("Background Color"))
+            }.padding(.bottom, 40)
+            
+        }.navigationBarTitleDisplayMode(.inline).toolbar {
+            ToolbarItem(placement: .principal) {
+                HStack(alignment: .center) {
+                    Image("header").resizable()
+                        .aspectRatio(contentMode: .fit).frame(width: 20, height: 20)
+                    Text("Cheers").fontWeight(.bold).foregroundColor(.white)}
+            }
+        }
+        .frame(maxWidth:.infinity, maxHeight:.infinity, alignment: .topLeading)
+            .padding(.top, 20)
+            .padding(.leading, 28)
     }
 }
 
