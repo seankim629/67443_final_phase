@@ -3,32 +3,32 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>878416321650-hq092etk487rnc9vngdagpfidbc42bo3.apps.googleusercontent.com</string>
+	<string>853248630060-8pl6jpcd8pbj7tnoc9ifltrq11mfvir5.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.878416321650-hq092etk487rnc9vngdagpfidbc42bo3</string>
+	<string>com.googleusercontent.apps.853248630060-8pl6jpcd8pbj7tnoc9ifltrq11mfvir5</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDhlhqRuxjVkMKO6iVAo4VTYCMyhX5CqN0</string>
+	<string>AIzaSyAl48sAmn7s92eFjH4fEs0mPTziu032fgo</string>
 	<key>GCM_SENDER_ID</key>
-	<string>878416321650</string>
+	<string>853248630060</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>sk.Cheers-v1-8</string>
+	<string>sk.Cheers-v1-101</string>
 	<key>PROJECT_ID</key>
-	<string>cheersbackup-4cfb1</string>
+	<string>cheers-4b4f6</string>
 	<key>STORAGE_BUCKET</key>
-	<string>cheersbackup-4cfb1.appspot.com</string>
+	<string>cheers-4b4f6.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:878416321650:ios:768584ca379dfc691e76eb</string>
+	<string>1:853248630060:ios:207dba4fee4b7b60ee6089</string>
 </dict>
 </plist>

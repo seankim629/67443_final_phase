@@ -7,14 +7,28 @@
 
 import SwiftUI
 import FirebaseCore
+import GoogleSignIn
+
+extension Cheers_v1App {
+  private func setupAuthentication() {
+    FirebaseApp.configure()
+//    let signInConfig = GIDConfiguration.init(clientID: (FirebaseApp.app()?.options.clientID)!)
+    GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+  }
+}
 
 @main
 struct Cheers_v1App: App {
     @State var selectedTab: Tab = .home
     @State var selectedImage: UIImage?
     @State var barcodeValue: String?
+    @StateObject var viewModel = AuthenticationViewModel()
+    
     init() {
-        FirebaseApp.configure()
+//        FirebaseApp.configure()
+        UserDefaults.standard.set(false, forKey: "homeTeamName")
+        setupAuthentication()
+        
         UINavigationBar.appearance().barTintColor = UIColor(Color("Background Color"))
         UINavigationBar.appearance().tintColor = .white
 
@@ -28,7 +42,7 @@ struct Cheers_v1App: App {
     }
     var body: some Scene {
         WindowGroup {
-            ContentView(selectedTab: self.$selectedTab, selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue)
+            ContentView(selectedTab: self.$selectedTab, selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue).environmentObject(viewModel)
         }
     }
 }

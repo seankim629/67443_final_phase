@@ -6,9 +6,16 @@
 //
 
 import SwiftUI
+import FirebaseCore
+import GoogleSignIn
+
 
 struct HomeView: View {
     @State private var rating: Double = 4.5
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @ObservedObject var usr = UsersViewModel()
+    private let user = GIDSignIn.sharedInstance()!.currentUser
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack{
@@ -32,6 +39,11 @@ struct HomeView: View {
                     Text("Cheers").fontWeight(.bold).foregroundColor(.white)}
             }
         }
+        .onAppear {
+                        if(UserDefaults.standard.bool(forKey: "homeTeamName") == false) {
+                          usr.checkUser(email: user?.profile.email ?? "", name: user?.profile.name ?? "", photo: (user?.profile.imageURL(withDimension: 200).absoluteString)!)
+                        }
+                      }
 
     }
 }

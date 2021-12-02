@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import FirebaseCore
+import GoogleSignIn
 
 struct ProfileView: View {
     init(){
@@ -13,6 +15,9 @@ struct ProfileView: View {
             UITableViewCell.appearance().backgroundColor = .clear
             UITableView.appearance().tableFooterView = UIView()
      }
+    @EnvironmentObject var viewModel: AuthenticationViewModel
+    @ObservedObject var usr = UsersViewModel()
+    private let user = GIDSignIn.sharedInstance()!.currentUser
     
     var body: some View {
         VStack (alignment: .leading) {
@@ -25,6 +30,31 @@ struct ProfileView: View {
                       .foregroundColor(Color("Background Color"))
             }
             .padding(.bottom, 25)
+            
+            HStack {
+              let _ = print(type(of: user?.profile.imageURL(withDimension: 200).absoluteString))
+                      NetworkImage(url: user?.profile.imageURL(withDimension: 200))
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 100, height: 100, alignment: .center)
+                        .cornerRadius(8)
+
+                      VStack(alignment: .leading) {
+                        Text(user?.profile.name ?? "")
+                          .font(.headline)
+
+                        Text(user?.profile.email ?? "")
+                          .font(.subheadline)
+                      }
+
+                      Spacer()
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color(.secondarySystemBackground))
+                    .cornerRadius(12)
+                    .padding()
+
+                    Spacer()
 
             
             
@@ -66,6 +96,13 @@ struct ProfileView: View {
                 
             }
             
+            //move to top
+            Button("Sign out") {
+              viewModel.signOut()
+
+            }
+            .buttonStyle(AuthenticationButtonStyle())
+            
         }.navigationBarTitleDisplayMode(.inline).toolbar {
             ToolbarItem(placement: .principal) {
                 HStack(alignment: .center) {
@@ -79,9 +116,30 @@ struct ProfileView: View {
             .padding(.top, 20)
             .padding(.leading, 28)
         
+        
+        
             
         
     }
+}
+
+// profile image box
+struct NetworkImage: View {
+  let url: URL?
+
+  var body: some View {
+    if let url = url,
+       let data = try? Data(contentsOf: url),
+       let uiImage = UIImage(data: data) {
+      Image(uiImage: uiImage)
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+    } else {
+      Image(systemName: "person.circle.fill")
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+    }
+  }
 }
 
 struct ProfileView_Previews: PreviewProvider {

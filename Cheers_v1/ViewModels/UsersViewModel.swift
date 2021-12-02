@@ -13,27 +13,95 @@ class UsersViewModel: ObservableObject {
   
   private var db = Firestore.firestore()
   
-  func getUserData() {
-    db.collection("users").getDocuments {
-      querySnapshot, error in
-          guard let documents = querySnapshot?.documents else {
-                print("No documents! \(error!)")
-                //completion(nil)
-                return
-            }
-      self.users = documents.map { (queryDocumentSnapshot) -> User in
-        let data = queryDocumentSnapshot.data()
-        
-        let docId = queryDocumentSnapshot.documentID
-        let email = data["email"] as? String ?? ""
-        let name = data["name"] as? String ?? ""
-        let photo = data["photo"] as! DocumentReference
-        let ratings = data["ratings"] as? [DocumentReference] ?? []
-        let wishlist = data["wishlist"] as! DocumentReference
-        let u1 = User(id: docId, email: email, name: name, photo: photo, ratings: ratings, wishlist: wishlist)
-        return u1
+    func getUserData() {
+        db.collection("users").getDocuments {
+          querySnapshot, error in
+              guard let documents = querySnapshot?.documents else {
+                    print("No documents! \(error!)")
+                    //completion(nil)
+                    return
+              }
+              for documentSnapshot in documents {
+                let data = documentSnapshot.data()
+
+                let docId = documentSnapshot.documentID
+                let email = data["email"] as? String ?? ""
+                let name = data["name"] as? String ?? ""
+                let photo = data["photo"] as? String ?? ""
+                let ratings = data["ratings"] as? [DocumentReference] ?? []
+                let wishlist = data["wishlist"] as! DocumentReference
+                let u1 = User(id: docId, email: email, name: name, photo: photo, ratings: ratings, wishlist: wishlist)
+                self.users.append(u1)
+              }
+
+        }
       }
 
-    }
-  }
+      func checkUser(email:String, name:String, photo:String) {
+        var found = false
+        let myGroup = DispatchGroup()
+        myGroup.enter()
+        db.collection("users").getDocuments {
+          querySnapshot, error in
+              guard let documents = querySnapshot?.documents else {
+                    print("No documents! \(error!)")
+                    //completion(nil)
+                    return
+              }
+              for documentSnapshot in documents {
+                let data = documentSnapshot.data()
+                let em = data["email"] as? String ?? ""
+                let docId = documentSnapshot.documentID
+                if (em == email) {
+                  found = true
+                  UserDefaults.standard.set(docId, forKey: "uid")
+                  break
+                }
+              }
+        myGroup.leave()
+        }
+        myGroup.notify(queue: DispatchQueue.global(qos: .background)) {
+          UserDefaults.standard.set(true, forKey: "homeTeamName")
+          if found == false {
+            var newData = [
+              "email": email,
+              "name": name,
+              "photo": photo,
+              "ratings": [DocumentReference](),
+              "wishlist": nil
+            ] as [String : Any?]
+            self.addUser(newData: newData)
+          }
+        }
+      }
+
+      func addUser(newData: [String:Any]) {
+        var cnt = 1
+        let myGroup = DispatchGroup()
+        myGroup.enter()
+        db.collection("users").getDocuments {
+          querySnapshot, error in
+              guard let documents = querySnapshot?.documents else {
+                    print("No documents! \(error!)")
+                    //completion(nil)
+                    return
+              }
+          for _ in documents {
+            cnt += 1
+          }
+          myGroup.leave()
+        }
+        myGroup.notify(queue: DispatchQueue.global(qos: .background)) {
+          let uid = "usr_\(cnt)"
+          UserDefaults.standard.set(uid, forKey: "uid")
+          self.db.collection("users").document(uid).setData(newData) { err in
+              if let err = err {
+                  print("Error writing document: \(err)")
+              } else {
+                  print("Test Document successfully written!")
+              }
+          }
+
+        }
+      }
 }

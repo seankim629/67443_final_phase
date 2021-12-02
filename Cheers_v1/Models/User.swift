@@ -13,7 +13,7 @@ struct User: Identifiable, Codable {
   @DocumentID var id: String? = UUID().uuidString
   var email: String
   var name: String
-  var photo: DocumentReference
+  var photo: String
   var ratings: [DocumentReference]
   var wishlist: DocumentReference
   

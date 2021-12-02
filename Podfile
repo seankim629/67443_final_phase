@@ -12,6 +12,8 @@ target 'Cheers_v1' do
   pod 'Firebase/Firestore'
   pod 'FirebaseFirestoreSwift'
   pod 'GoogleMLKit/BarcodeScanning'
+  pod 'Firebase/Auth'
+  pod 'GoogleSignIn', '~> 5.0'
   
   target 'Cheers_v1Tests' do
     inherit! :search_paths

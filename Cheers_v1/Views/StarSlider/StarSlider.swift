@@ -57,6 +57,7 @@ struct StarSlider: View {
                     DragGesture(minimumDistance: 0, coordinateSpace: .local)
                         .onChanged { value in
                             rating = rating(at: value.location)
+                            let uid = UserDefaults.standard.string(forKey: "uid")
                             let date = Date()
                             let newRating: [String: Any] = [
                               "datetime": date,
@@ -65,7 +66,7 @@ struct StarSlider: View {
                               "productname": product,
                               "tags": []
                             ]
-                            rat.checkRating(usrID: "uesrid_1", newData: newRating)
+                            rat.checkRating(usrID: uid ?? "", newData: newRating)
                         }
                 )
         }

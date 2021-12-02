@@ -67,7 +67,8 @@ class RatingsViewModel: ObservableObject {
   }
 
   func testGetRatingList() {
-    let userRef = db.collection("users").document("uesrid_1")
+    let uid = UserDefaults.standard.string(forKey: "uid")
+    let userRef = db.collection("users").document(uid ?? "")
     userRef.getDocument { document, error in
       if let error = error as NSError? {
         "Reference not found"
@@ -88,11 +89,10 @@ class RatingsViewModel: ObservableObject {
   }
 
   func checkRating(usrID: String, newData: [String:Any]) {
-    let userID = "uesrid_1"
     var isCheck = false
     var count = 1
     let myGroup = DispatchGroup()
-    let userRef = db.collection("users").document(userID)
+    let userRef = db.collection("users").document(usrID)
     myGroup.enter()
     userRef.getDocument { document, error in
       if let error = error as NSError? {
@@ -145,7 +145,7 @@ class RatingsViewModel: ObservableObject {
     myGroup.notify(queue: DispatchQueue.global(qos: .background)) {
         if isCheck == false {
           print(isCheck)
-          let newID = userID + "_r\(count)"
+          let newID = usrID + "_r\(count)"
           self.addRating(docID: newID, newData: newData)
           userRef.updateData([
               "ratings": FieldValue.arrayUnion([self.db.document("ratings/\(newID)")])
