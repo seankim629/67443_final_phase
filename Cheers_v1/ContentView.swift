@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Alamofire
-
+import GoogleSignIn
 enum Tab {
     case home
     case search
@@ -18,7 +18,7 @@ enum Tab {
 }
 
 struct ContentView: View {
-
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     @Binding var selectedTab: Tab
     @Binding var selectedImage: UIImage?
     @Binding var barcodeValue: String?
@@ -36,37 +36,41 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            
-            switch selectedTab {
-                case .home:
-                    NavigationView {
+          switch viewModel.state {
+            case .signedIn:
+              switch selectedTab {
+                  case .home:
+                      NavigationView {
                         HomeView()
-                    }
-                case .search:
-                    NavigationView {
-                        SearchView()
-                    }
-                case .feed:
-                    NavigationView {
-                        FeedView()
-                    }
-                case .profile:
-                    NavigationView {
-                        ProfileView()
-                    }
-                case .scan:
-                    NavigationView {
-                        ScanView(selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue, selectedTab: self.$selectedTab).navigationBarHidden(true)
-                    }
-                case .result:
-                    NavigationView{
-                        DetailScreen(barcodeValue: self.$barcodeValue)
-                    }
-            }
-            if (selectedTab != .scan) {
-            CustomTabView(selectedTab: $selectedTab)
-                .frame(height: 50)
-            }
+                      }
+                  case .search:
+                      NavigationView {
+                          SearchView()
+                      }
+                  case .feed:
+                      NavigationView {
+                          FeedView()
+                      }
+                  case .profile:
+                      NavigationView {
+                          ProfileView()
+                      }
+                  case .scan:
+                      NavigationView {
+                          ScanView(selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue, selectedTab: self.$selectedTab).navigationBarHidden(true)
+                      }
+                  case .result:
+                      NavigationView{
+                          DetailScreen(barcodeValue: self.$barcodeValue)
+                      }
+              }
+              if (selectedTab != .scan) {
+              CustomTabView(selectedTab: $selectedTab)
+                  .frame(height: 50)
+              }
+          case .signedOut:
+            LoginView(selectedTab: $selectedTab)
+          }
         }.environment(\.colorScheme, .light)
         
     }

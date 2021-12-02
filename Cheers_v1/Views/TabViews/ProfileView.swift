@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @EnvironmentObject var viewModel: AuthenticationViewModel
     init(){
             UITableView.appearance().backgroundColor = .clear
             UITableViewCell.appearance().backgroundColor = .clear
@@ -50,6 +51,12 @@ struct ProfileView: View {
                         .shadow(color: Color(red: 0, green: 0, blue: 0, opacity: 0.20), radius: 4)
                         .frame(width: 319, height: 44)
                     }
+                  
+                    Button("Sign out") {
+                      viewModel.signOut()
+                      
+                    }
+                    .buttonStyle(AuthenticationButtonStyle())
                 
             }
         }.navigationTitle("Profile").navigationBarTitleDisplayMode(.inline)
