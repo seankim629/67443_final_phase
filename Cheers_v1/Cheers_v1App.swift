@@ -28,7 +28,6 @@ struct Cheers_v1App: App {
 //        FirebaseApp.configure()
         UserDefaults.standard.set(false, forKey: "homeTeamName")
         setupAuthentication()
-        
         UINavigationBar.appearance().barTintColor = UIColor(Color("Background Color"))
         UINavigationBar.appearance().tintColor = .white
 

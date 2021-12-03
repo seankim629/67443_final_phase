@@ -28,9 +28,8 @@
 		6720EF4D27348CBC0026DC12 /* UrlImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6720EF4C27348CBC0026DC12 /* UrlImageView.swift */; };
 		6720EF5427349F820026DC12 /* RatingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6720EF5127349F800026DC12 /* RatingCard.swift */; };
 		6720EF5527349F820026DC12 /* WishlistCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6720EF5227349F810026DC12 /* WishlistCard.swift */; };
-		E844356D2759713A00FD0960 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E844356C2759713A00FD0960 /* GoogleService-Info.plist */; };
-		E844356E2759713A00FD0960 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E844356C2759713A00FD0960 /* GoogleService-Info.plist */; };
-		E844356F2759713A00FD0960 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E844356C2759713A00FD0960 /* GoogleService-Info.plist */; };
+		6761044E2759E9FB00681983 /* Cheers-v1-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6761044D2759E9FB00681983 /* Cheers-v1-Info.plist */; };
+		67663CC02759E80000B22C0B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 67663CBF2759E80000B22C0B /* GoogleService-Info.plist */; };
 		E8A53E7F2756A5A000858470 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A53E7E2756A5A000858470 /* Card.swift */; };
 		E8A53E812756A63300858470 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A53E802756A63300858470 /* CardView.swift */; };
 		E8A53E832756A6C200858470 /* CardsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A53E822756A6C200858470 /* CardsSection.swift */; };
@@ -89,10 +88,10 @@
 		6720EF48273387DB0026DC12 /* WishesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishesViewModel.swift; sourceTree = "<group>"; };
 		6720EF4A2734516A0026DC12 /* WishesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishesListView.swift; sourceTree = "<group>"; };
 		6720EF4C27348CBC0026DC12 /* UrlImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlImageView.swift; sourceTree = "<group>"; };
-		6720EF4E27348EB20026DC12 /* Cheers-v1-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Cheers-v1-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6720EF5127349F800026DC12 /* RatingCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingCard.swift; sourceTree = "<group>"; };
 		6720EF5227349F810026DC12 /* WishlistCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WishlistCard.swift; sourceTree = "<group>"; };
-		E844356C2759713A00FD0960 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6761044D2759E9FB00681983 /* Cheers-v1-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Cheers-v1-Info.plist"; sourceTree = "<group>"; };
+		67663CBF2759E80000B22C0B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E8A53E7E2756A5A000858470 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		E8A53E802756A63300858470 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		E8A53E822756A6C200858470 /* CardsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsSection.swift; sourceTree = "<group>"; };
@@ -167,8 +166,8 @@
 		4E067632272B23DA005FBEA4 /* Cheers_v1 */ = {
 			isa = PBXGroup;
 			children = (
-				E844356C2759713A00FD0960 /* GoogleService-Info.plist */,
-				6720EF4E27348EB20026DC12 /* Cheers-v1-Info.plist */,
+				67663CBF2759E80000B22C0B /* GoogleService-Info.plist */,
+				6761044D2759E9FB00681983 /* Cheers-v1-Info.plist */,
 				6720EF3D2733295E0026DC12 /* Views */,
 				6720EF3A273326DF0026DC12 /* ViewModels */,
 				6720EF2D2731D5C60026DC12 /* Models */,
@@ -424,9 +423,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67663CC02759E80000B22C0B /* GoogleService-Info.plist in Resources */,
+				6761044E2759E9FB00681983 /* Cheers-v1-Info.plist in Resources */,
 				4E06763B272B23DE005FBEA4 /* Preview Assets.xcassets in Resources */,
 				4E067638272B23DE005FBEA4 /* Assets.xcassets in Resources */,
-				E844356D2759713A00FD0960 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,7 +434,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E844356E2759713A00FD0960 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,7 +441,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E844356F2759713A00FD0960 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,7 +643,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Cheers_v1/Preview Content\"";
-				DEVELOPMENT_TEAM = V3FAM999P5;
+				DEVELOPMENT_TEAM = 27JY59SM6Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Cheers-v1-Info.plist";
@@ -662,7 +660,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "sk.Cheers-v1-101";
+				PRODUCT_BUNDLE_IDENTIFIER = "sk.Cheers-v1-1011";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -678,7 +676,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Cheers_v1/Preview Content\"";
-				DEVELOPMENT_TEAM = V3FAM999P5;
+				DEVELOPMENT_TEAM = 27JY59SM6Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Cheers-v1-Info.plist";
@@ -695,7 +693,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "sk.Cheers-v1-101";
+				PRODUCT_BUNDLE_IDENTIFIER = "sk.Cheers-v1-1011";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

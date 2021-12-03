@@ -36,9 +36,20 @@ struct DetailScreen: View {
     @Binding var barcodeValue: String?
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var result = BeersViewModel()
-
+    @ObservedObject var wish = WishesViewModel()
+    @State private var isLoading = false
     var body: some View {
         ZStack {
+          if isLoading {
+            ZStack {
+              Color(.systemBackground)
+                .ignoresSafeArea()
+            }
+            ProgressView()
+              .progressViewStyle(CircularProgressViewStyle(tint: Color("Highlight Color")))
+              .scaleEffect(3)
+          }
+          if isLoading == false {
             ScrollView  {
                 //            Product Image
                     Image("Beer")
@@ -49,10 +60,12 @@ struct DetailScreen: View {
                 DescriptionView(prod: result.beerDetails)
 
             }
-
+          }
         }
         .onAppear {
+          startNetworkCall()
           result.load(barcode: "080660956435")
+          
         }
         .navigationBarTitleDisplayMode(.inline).toolbar {
             ToolbarItem(placement: .principal) {
@@ -64,6 +77,12 @@ struct DetailScreen: View {
         }
     }
   
+  func startNetworkCall() {
+    isLoading = true
+    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+      isLoading = false
+    }
+  }
   
 }
 
@@ -73,7 +92,8 @@ struct DescriptionView: View {
     @State private var rating: Double = 4.5
     var prod: Product
     @ObservedObject var rat = RatingsViewModel()
-    
+    @ObservedObject var wish = WishesViewModel()
+    @State var isToggled = false
     let data = [39.14, 50.03, 0.0, 41.43]
     let palate = ["Bitter", "Sweet", "Sour", "Fruity"]
     @State var capsulesAppearing = false
@@ -91,11 +111,20 @@ struct DescriptionView: View {
                     Text(String.init(format: "%0.1f", prod.avgRating)).padding(.trailing)
                     
                     Button(action: {
+                      isToggled = !isToggled
+                      
+                      let uid = UserDefaults.standard.string(forKey: "uid")!
+                      print(prod.name)
+                      self.wish.checkWishlist(usrID: uid, beerName: prod.name, isAdd: isToggled)
                     }) {
+                      if isToggled == true {
+                        Image(systemName: "bookmark.fill").foregroundColor(Color("Highlight Color"))
+                      } else {
+                        Image(systemName: "bookmark").foregroundColor(Color("Highlight Color"))
+                      }
                         // need a function to check if this beer is in wishlist and determine the state
                         // if it is in wishlist then set state to false and Image(systemName: "bookmark).foregroundColor(Color("Highlight Color")) and delete from wishlist
                         // if it is not in wishilst then set state to true and Image(systemName:"bookmark.filled").foregroundColor(Color("Highlight Color")) and add to wishlist
-                        Image(systemName: "bookmark").foregroundColor(Color("Highlight Color"))
                     }.padding(.leading)
                     
                 }.padding(.top).padding(.leading)
@@ -212,6 +241,19 @@ struct DescriptionView: View {
         }
         .padding()
         .padding(.top)
+        .onAppear {
+          let uid = UserDefaults.standard.string(forKey: "uid")
+          self.wish.isInWishlist(usrID: uid ?? "", beerName: prod.name, completion: { (success) -> Void in
+            print("+==============")
+            print(success)
+            if success {
+              print("ALREADY IN!")
+              isToggled = true
+            }
+          })
+          let _2 = print("WHTFFFFFFF")
+          let _ = print(isToggled)
+        }
 
     }
 }

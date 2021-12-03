@@ -123,9 +123,7 @@ class BeersViewModel: ObservableObject {
             let bitter = data?["Bitter"] as? Int ?? 0
             let sweet = data?["Sweet"] as? Int ?? 0
             let fruity = data?["Fruits"] as? Int ?? 0
-            print(alc)
             self.beerDetails = Product(name: name, image: "", avgRating: avgRating, alc: alc, brewery: brew, style: style, sweet: sweet, sour: sour, bitter: bitter, fruits: fruity)
-            print(self.beerDetails.avgRating)
           }
           catch {
             print(error)
@@ -136,6 +134,7 @@ class BeersViewModel: ObservableObject {
   }
 
   func load(barcode: String) {
+  
    let url = "https://buycott.com/api/v4/products/lookup?barcode=\(barcode)&access_token=6rUh0wqAqJLzOFyOLP8n6hO54-oYCni-opdWU-cb"
    let task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, response, error) in
      guard let data = data else {
@@ -147,8 +146,7 @@ class BeersViewModel: ObservableObject {
              return
      }
    for p in result.products {
-     print(p.name)
-     self.getBeerDetail(name: "Guinness Original")
+     self.getBeerDetail(name: "Corona Extra")
      break
    }
  }
