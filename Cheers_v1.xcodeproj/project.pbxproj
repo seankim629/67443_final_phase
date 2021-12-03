@@ -669,7 +669,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Cheers_v1/Preview Content\"";
-				DEVELOPMENT_TEAM = V3FAM999P5;
+				DEVELOPMENT_TEAM = 27JY59SM6Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Cheers-v1-Info.plist";
@@ -686,7 +686,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "sk.Cheers-v1-101";
+				PRODUCT_BUNDLE_IDENTIFIER = "sk.Cheers-v1-1011";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -702,7 +702,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Cheers_v1/Preview Content\"";
-				DEVELOPMENT_TEAM = V3FAM999P5;
+				DEVELOPMENT_TEAM = 27JY59SM6Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Cheers-v1-Info.plist";
@@ -719,7 +719,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "sk.Cheers-v1-101";
+				PRODUCT_BUNDLE_IDENTIFIER = "sk.Cheers-v1-1011";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

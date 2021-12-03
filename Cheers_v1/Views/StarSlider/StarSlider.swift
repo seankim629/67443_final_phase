@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct StarSlider: View {
-  init(_ rating: Binding<Double>, product: String = "", ratModel: RatingsViewModel, maxRating: Int = 5) {
+  init(_ rating: Binding<Double>, _ tags: Binding<[String]>, product: String = "", ratModel: RatingsViewModel, maxRating: Int = 5) {
         _rating = rating
         self.product = product
         self.maxRating = maxRating
         self.rat = ratModel
+        _tags = tags
     }
 
     let maxRating: Int
     @Binding var rating: Double
+    @Binding var tags: [String]
     var product: String
     var rat: RatingsViewModel
     @State private var starSize: CGSize = .zero
@@ -59,12 +61,12 @@ struct StarSlider: View {
                             rating = rating(at: value.location)
                             let uid = UserDefaults.standard.string(forKey: "uid")
                             let date = Date()
-                            let newRating: [String: Any] = [
+                            var newRating: [String: Any] = [
                               "datetime": date,
                               "rating": rating,
                               "userid": 1,
                               "productname": product,
-                              "tags": []
+                              "tags": tags
                             ]
                             rat.checkRating(usrID: uid ?? "", newData: newRating)
                         }

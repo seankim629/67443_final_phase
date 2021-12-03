@@ -7,6 +7,7 @@
 import Firebase
 import GoogleSignIn
 import Combine
+import Foundation
 
 class AuthenticationViewModel: NSObject, ObservableObject {
 
@@ -40,6 +41,8 @@ class AuthenticationViewModel: NSObject, ObservableObject {
 
       state = .signedOut
       UserDefaults.standard.set(nil, forKey: "uid")
+      UserDefaults.standard.set(nil, forKey: "ratingid")
+      UserDefaults.standard.set(nil, forKey: "ratingcnt")
       UserDefaults.standard.set(false, forKey: "homeTeamName")
     } catch let signOutError as NSError {
       print(signOutError.localizedDescription)

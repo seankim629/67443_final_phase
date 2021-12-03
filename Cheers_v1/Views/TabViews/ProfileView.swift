@@ -99,48 +99,42 @@ struct ProfileView: View {
             }
             
             
-            VStack (alignment: .leading){
-                    HStack (spacing:0) {
-                        Text("My Hashtags")
-                            .font(.title2)
-                            .bold()
-                            .padding(.top)
-                            .padding(.leading)
-                            .padding(.bottom)
-                        Button {
-                            showingPopOver = true
-                        } label: {
-                            Image(systemName: "square.and.pencil").padding(.leading, 5).foregroundColor(Color("Highlight Color")).font(Font.system(size: 18, weight: .bold))
-                        }
-                        
-                    }
-                    MyTagsField(tags: $tags, keyword: $keyword) { _ in
-                        return tags.first
-                    }
-                    .padding(23)
-                    .background(Color(.sRGB, red: 224.0/255.0, green: 224.0/255.0, blue: 225.0/255.0, opacity: 1))
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .padding(.bottom)
-                    .padding(.leading)
-                    .padding(.trailing)
-                }
-                .background(Color.white)
-                .cornerRadius(10)
-                .shadow(color: Color(red: 0, green: 0, blue: 0, opacity: 0.20), radius: 4)
-    //                .background(
-//                    Color.white
-//                        .cornerRadius(16)
-//                        .opacity(0.5)
-//                        .shadow(radius: 5, x: 5, y: 5)
-//                )
-                .padding(.top, 30)
-                .padding(.trailing, 29)
-                .padding(.bottom)
+//            VStack (alignment: .leading){
+//                    HStack (spacing:0) {
+//                        Text("My Hashtags")
+//                            .font(.title2)
+//                            .bold()
+//                            .padding(.top)
+//                            .padding(.leading)
+//                            .padding(.bottom)
+//                        Button {
+//                            showingPopOver = true
+//                        } label: {
+//                            Image(systemName: "square.and.pencil").padding(.leading, 5).foregroundColor(Color("Highlight Color")).font(Font.system(size: 18, weight: .bold))
+//                        }
+//
+//                    }
+//                    MyTagsField(tags: $tags, keyword: $keyword) { _ in
+//                        return tags.first
+//                    }
+//                    .padding(23)
+//                    .background(Color(.sRGB, red: 224.0/255.0, green: 224.0/255.0, blue: 225.0/255.0, opacity: 1))
+//                    .clipShape(RoundedRectangle(cornerRadius: 20))
+//                    .padding(.bottom)
+//                    .padding(.leading)
+//                    .padding(.trailing)
+//                }
+//                .background(Color.white)
+//                .cornerRadius(10)
+//                .shadow(color: Color(red: 0, green: 0, blue: 0, opacity: 0.20), radius: 4)
+//                .padding(.top, 30)
+//                .padding(.trailing, 29)
+//                .padding(.bottom)
             
             
         }
-        .sheet(isPresented: $showingPopOver) {
-            PreferenceView(tags: $tags, keyword: $keyword, showingPopOver: $showingPopOver)}
+//        .sheet(isPresented: $showingPopOver) {
+//            PreferenceView(tags: $tags, keyword: $keyword, showingPopOver: $showingPopOver)}
         .navigationBarTitleDisplayMode(.inline).toolbar {
             ToolbarItemGroup(placement: .principal) {
                 HStack(alignment: .center) {
