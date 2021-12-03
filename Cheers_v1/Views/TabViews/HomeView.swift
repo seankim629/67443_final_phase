@@ -40,9 +40,12 @@ struct HomeView: View {
             }
         }
         .onAppear {
-                        if(UserDefaults.standard.bool(forKey: "homeTeamName") == false) {
-                          usr.checkUser(email: user?.profile.email ?? "", name: user?.profile.name ?? "", photo: (user?.profile.imageURL(withDimension: 200).absoluteString)!)
-                        }
+            if(UserDefaults.standard.bool(forKey: "homeTeamName") == false) {
+                      if user != nil {
+                        usr.checkUser(email: user?.profile.email ?? "", name: user?.profile.name ?? "", photo: (user?.profile.imageURL(withDimension: 200).absoluteString) as? String ?? "")
+                      }
+                      
+                    }
                       }
 
     }

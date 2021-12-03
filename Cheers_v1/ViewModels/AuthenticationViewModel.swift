@@ -49,9 +49,10 @@ class AuthenticationViewModel: NSObject, ObservableObject {
   // 6
   private func setupGoogleSignIn() {
     GIDSignIn.sharedInstance().delegate = self
-    if(GIDSignIn.sharedInstance().hasPreviousSignIn()) {
-      GIDSignIn.sharedInstance()?.restorePreviousSignIn()
-      state = .signedIn
+    let user = GIDSignIn.sharedInstance()!.currentUser
+    if (user == nil) && (GIDSignIn.sharedInstance().hasPreviousSignIn()) {
+        GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+        state = .signedIn
     }
   }
 }
@@ -61,7 +62,6 @@ extension AuthenticationViewModel: GIDSignInDelegate {
   // 1
   func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
     if error == nil {
-      print("WORKS!!!!!!")
       print(user)
       firebaseAuthentication(withUser: user)
     } else {

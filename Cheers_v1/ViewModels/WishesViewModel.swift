@@ -62,7 +62,9 @@ class WishesViewModel: ObservableObject {
 
 
   func testGetWishList() {
-    let userRef = db.collection("users").document("uesrid_1")
+    let uid = UserDefaults.standard.string(forKey: "uid")
+    print(uid)
+    let userRef = db.collection("users").document(uid as? String ?? "")
     userRef.getDocument { document, error in
       if let error = error as NSError? {
         "Reference not found"
@@ -72,7 +74,9 @@ class WishesViewModel: ObservableObject {
           do {
             let data = document.data()
             let usrWish = data?["wishlist"] as? DocumentReference ?? nil
-            self.getWishList(wlist: usrWish!)
+            if usrWish != nil {
+              self.getWishList(wlist: usrWish!)
+            }
           }
           catch {
             print(error)
@@ -83,8 +87,120 @@ class WishesViewModel: ObservableObject {
 
   }
   
-  func addWishlist(newData: [String:Any]) {
-    db.collection("wishlist").document("wtesting2").setData(newData) { err in
+  func isInWishlist(usrID: String, beerName: String, completion:@escaping((Bool) -> ())) {
+    let myGroup = DispatchGroup()
+    let userRef = db.collection("users").document(usrID)
+    var isThere = false
+    myGroup.enter()
+    userRef.getDocument { document, error in
+      if let error = error as NSError? {
+        "Reference not found"
+      }
+      else {
+        if let document = document {
+          do {
+            let data = document.data()
+            let wishlists = data?["wishlist"] as? DocumentReference ?? nil
+            if wishlists == nil {
+              print("HERERERE?")
+              isThere = false
+            }
+            else {
+                myGroup.enter()
+                wishlists!.getDocument { document, error in
+                  if let error = error as NSError? {
+                    "Reference not found"
+                  }
+                  else {
+                    if let document = document {
+                      do {
+                        let data = document.data()
+                        print(document.documentID)
+                        let urid = data?["userid"] as? Int ?? 0
+                        print(urid)
+                        let wishes = data?["wishlist"] as? [String] ?? []
+                        print(wishes)
+                        print(beerName)
+                        for w in wishes {
+                          if w == beerName {
+                            isThere = true
+                          }
+                        }
+                      }
+                    }
+                  }
+                  myGroup.leave()
+                }
+            }
+          }
+        }
+      }
+      myGroup.leave()
+    }
+    myGroup.notify(queue: DispatchQueue.global(qos: .background)) {
+      print(isThere)
+      completion(isThere)
+    }
+  }
+  
+  func checkWishlist(usrID: String, beerName: String, isAdd: Bool) {
+    var isNew = false
+    var count = 1
+    let lastchr = usrID.last!
+    let newData = [
+      "userid": Int(String(lastchr)) ?? 0,
+      "wishlist": [beerName]
+    ] as [String : Any]
+    let myGroup = DispatchGroup()
+    let userRef = db.collection("users").document(usrID)
+    myGroup.enter()
+    userRef.getDocument { document, error in
+      if let error = error as NSError? {
+        "Reference not found"
+      }
+      else {
+        if let document = document {
+          do {
+            let data = document.data()
+            let wishlists = data?["wishlist"] as? DocumentReference ?? nil
+            if wishlists == nil {
+              isNew = true
+            } else {
+              myGroup.enter()
+              if isAdd == true {
+                print("DO THE ADD")
+                wishlists?.updateData([
+                  "wishlist": FieldValue.arrayUnion([beerName])
+                ])
+              } else {
+                print("DO THE DELETE")
+                wishlists?.updateData([
+                  "wishlist": FieldValue.arrayRemove([beerName])
+                ])
+              }
+              myGroup.leave()
+            }
+          }
+        }
+      }
+    myGroup.leave()
+    }
+    myGroup.notify(queue: DispatchQueue.global(qos: .background)) {
+        if isNew == true {
+          print("NEW??")
+          let newID = usrID + "_wishlist"
+          self.addNewWishlist(newID: newID, newData: newData)
+          userRef.updateData([
+              "wishlist": self.db.document("wishlist/\(newID)")
+          ])
+        }
+    }
+
+  }
+  
+  
+  func addNewWishlist(newID: String, newData: [String:Any]) {
+    db.collection("wishlist").document(newID).setData(newData) { err in
         if let err = err {
             print("Error writing document: \(err)")
         } else {
@@ -92,16 +208,16 @@ class WishesViewModel: ObservableObject {
         }
     }
     
-    let docRef = db.collection("wishlist").document("wtesting2")
-    docRef.getDocument { (document, error) in
-      print("Checking if document is actually added!")
-      if ((document?.exists) != nil) {
-        print("Document added!")
-        print("Document data: \(document?.data())")
-          } else {
-             print("Document does not exist")
-          }
-    }
+//    let docRef = db.collection("wishlist").document("wtesting2")
+//    docRef.getDocument { (document, error) in
+//      print("Checking if document is actually added!")
+//      if ((document?.exists) != nil) {
+//        print("Document added!")
+//        print("Document data: \(document?.data())")
+//          } else {
+//             print("Document does not exist")
+//          }
+//    }
   }
 
   func updateWishlist(docID: String, updateData: [String:Any]) {
@@ -160,5 +276,3 @@ class WishesViewModel: ObservableObject {
     }
   }
 }
-
-

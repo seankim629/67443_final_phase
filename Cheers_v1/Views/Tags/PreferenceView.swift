@@ -29,7 +29,7 @@ struct PreferenceView: View {
             searchResultView
             Spacer()
             
-        }
+        }.background(Color("Background Color"))
     }
     
     

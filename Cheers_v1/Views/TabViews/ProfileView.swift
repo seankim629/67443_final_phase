@@ -138,7 +138,10 @@ struct ProfileView: View {
                 .padding(.bottom)
             
             
-        }.navigationBarTitleDisplayMode(.inline).toolbar {
+        }
+        .sheet(isPresented: $showingPopOver) {
+            PreferenceView(tags: $tags, keyword: $keyword, showingPopOver: $showingPopOver)}
+        .navigationBarTitleDisplayMode(.inline).toolbar {
             ToolbarItemGroup(placement: .principal) {
                 HStack(alignment: .center) {
                     Image("header").resizable()

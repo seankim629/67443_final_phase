@@ -20,6 +20,8 @@ struct SearchView: View {
             }.padding(.bottom, 40)
             
             
+            
+            
         }.navigationBarTitleDisplayMode(.inline).toolbar {
             ToolbarItem(placement: .principal) {
                 HStack(alignment: .center) {

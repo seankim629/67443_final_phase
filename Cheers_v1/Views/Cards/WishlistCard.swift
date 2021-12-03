@@ -20,7 +20,7 @@ struct WishlistCard: View {
             image
             VStack(alignment: .leading, spacing:0) {
                 Text(beer)
-                    .font(.system(size: 20, weight: .semibold, design: .default))
+                    .font(.system(size: 16, weight: .semibold, design: .default))
                     .foregroundColor(.black)
                     .padding(.top, 10)
                 
@@ -28,19 +28,20 @@ struct WishlistCard: View {
                     Text(type)
                         .font(.system(size: 12, weight: .bold, design: .default))
                         .foregroundColor(.gray)
-                    Text(" | ").foregroundColor(.gray)
+                    Text(" | ").font(.system(size: 12, weight: .bold, design: .default)).foregroundColor(.gray)
                     Text(String.init(alcohol)+"%")
                         .font(.system(size: 12, weight: .bold, design: .default))
                         .foregroundColor(.gray)
-                }
+                }.padding(.top, 2)
     
-                HStack(alignment: .lastTextBaseline) {
+                HStack(alignment: .lastTextBaseline, spacing:0) {
                     Image(systemName: "star.fill").foregroundColor(Color("Highlight Color"))
                         .font(.system(size: 12))
+                        .padding(.trailing, 3)
                     Text(String.init(format: "%0.1f", rating))
                         .font(.system(size: 12, weight: .bold, design: .default))
                         .foregroundColor(.black)
-                }.padding(.top, 3)
+                }.padding(.top, 10)
             }.padding(.trailing, 20)
                 .padding(.bottom, 10)
             Spacer()
@@ -51,7 +52,7 @@ struct WishlistCard: View {
                 .cornerRadius(20)
                 .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 0)
             )
-        .padding(.all, 10)
+        .padding(.all, 2)
         
     }
 }
