@@ -75,14 +75,14 @@ struct StarSlider: View {
     private var fullStar: some View {
         Image(systemName: "star.fill")
             .resizable()
-            .frame(width: 30, height: 30)
+            .frame(width: 23.7, height: 23.7)
             .foregroundColor(Color("Highlight Color"))
     }
 
     private var halfStar: some View {
         Image(systemName: "star.leadinghalf.fill")
             .resizable()
-            .frame(width: 30, height: 30)
+            .frame(width: 23.7, height: 23.7)
             .foregroundColor(Color("Highlight Color"))
     }
 
@@ -90,7 +90,7 @@ struct StarSlider: View {
         Image(systemName: "star")
 //            .star(size: starSize)
             .resizable()
-            .frame(width: 30, height: 30)
+            .frame(width: 23.7, height: 23.7)
             .foregroundColor(Color("Highlight Color"))
     }
 

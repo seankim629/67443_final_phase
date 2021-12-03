@@ -29,6 +29,7 @@ struct Cheers_v1App: App {
         UserDefaults.standard.set(false, forKey: "homeTeamName")
         setupAuthentication()
         
+        
         UINavigationBar.appearance().barTintColor = UIColor(Color("Background Color"))
         UINavigationBar.appearance().tintColor = .white
 

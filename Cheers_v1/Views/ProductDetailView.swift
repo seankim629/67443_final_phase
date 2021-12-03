@@ -28,7 +28,7 @@ import SwiftUI
 extension Animation {
     static func customAnimation2(index: Int) -> Animation {
         Animation.easeInOut(duration: 1)
-            .delay(0.5 * Double(index))
+            .delay(0.3 * Double(index))
     }
 }
 
@@ -77,6 +77,10 @@ struct DescriptionView: View {
     let data = [39.14, 50.03, 0.0, 41.43]
     let palate = ["Bitter", "Sweet", "Sour", "Fruity"]
     @State var capsulesAppearing = false
+    
+    @State var showingPopOver = false
+    @State var tags: [String] = []
+    @State var keyword: String = ""
 
     var body: some View {
         VStack {
@@ -95,14 +99,15 @@ struct DescriptionView: View {
                         // need a function to check if this beer is in wishlist and determine the state
                         // if it is in wishlist then set state to false and Image(systemName: "bookmark).foregroundColor(Color("Highlight Color")) and delete from wishlist
                         // if it is not in wishilst then set state to true and Image(systemName:"bookmark.filled").foregroundColor(Color("Highlight Color")) and add to wishlist
-                        Image(systemName: "bookmark").foregroundColor(Color("Highlight Color"))
+                        Image(systemName: "bookmark").foregroundColor(Color("Highlight Color")).font(Font.system(size: 17, weight: .bold))
                     }.padding(.leading)
                     
                 }.padding(.top).padding(.leading)
                 
                 HStack() {
                     StarSlider($rating, product: prod.name, ratModel: rat).padding(.trailing)
-                    Text("Your Rating: " + String.init(format: "%0.1f", rating))
+                    Text("Your Rating: " + String.init(format: "%0.1f", rating)).font(.system(size: 16))
+                        .opacity(0.7)
                 }.padding(.leading)
 
                 //                Info
@@ -162,6 +167,7 @@ struct DescriptionView: View {
                     .opacity(0.5)
                     .shadow(radius: 5, x: 5, y: 5)
                 )
+                .padding()
             
             
             VStack (alignment: .leading){
@@ -205,13 +211,49 @@ struct DescriptionView: View {
                     .opacity(0.5)
                     .shadow(radius: 5, x: 5, y: 5)
             )
-            .padding(.vertical)
+            .padding()
+            
+            
+            VStack (alignment: .leading){
+                    HStack (spacing:0) {
+                        Text("My Hashtags")
+                            .font(.title2)
+                            .bold()
+                            .padding(.top)
+                            .padding(.leading)
+                            .padding(.bottom)
+                        Button {
+                            showingPopOver = true
+                        } label: {
+                            Image(systemName: "square.and.pencil").padding(.leading, 5).foregroundColor(Color("Highlight Color")).font(Font.system(size: 18, weight: .bold))
+                        }
+                        
+                    }
+                    MyTagsField(tags: $tags, keyword: $keyword) { _ in
+                        return tags.first
+                    }
+                    .padding(23)
+                    .background(Color(.sRGB, red: 224.0/255.0, green: 224.0/255.0, blue: 225.0/255.0, opacity: 1))
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .padding(.bottom)
+                    .padding(.leading)
+                    .padding(.trailing)
+                }
+                .background(
+                    Color.white
+                        .cornerRadius(25.0)
+                        .opacity(0.5)
+                        .shadow(radius: 5, x: 5, y: 5)
+                )
+                .padding()
+                .padding(.bottom)
             
             
 
         }
-        .padding()
-        .padding(.top)
+        .sheet(isPresented: $showingPopOver) {
+            PreferenceView(tags: $tags, keyword: $keyword, showingPopOver: $showingPopOver)}
+        .padding(.bottom)
 
     }
 }

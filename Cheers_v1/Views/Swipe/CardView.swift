@@ -10,7 +10,7 @@ import SwiftUI
 struct CardView: View {
     @State var card: Card
     // MARK: - Drawing Constant
-    let cardGradient = Gradient(colors: [Color.black.opacity(0.0), Color.black.opacity(0.5)])
+    let cardGradient = Gradient(colors: [Color.black.opacity(0.0), Color.black.opacity(0.7)])
     
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -23,12 +23,16 @@ struct CardView: View {
             LinearGradient(gradient: cardGradient, startPoint: .top, endPoint: .bottom)
             VStack {
                 Spacer()
-                VStack(alignment: .leading){
-                    HStack {
-                        Text(card.name).font(.largeTitle).fontWeight(.bold)
-                        Text(String(card.age)).font(.title)
-                    }
-                    Text(card.bio).font(.body)
+                VStack(alignment: .leading, spacing:0){
+                    HStack (spacing: 0) {
+                        Text(card.name).font(.title).fontWeight(.semibold)
+//                        Text(String(card.age)).font(.title)
+                        Image(systemName: "star.fill").foregroundColor(Color("Highlight Color")).padding(.leading, 10).padding(.trailing, 2)
+                        Text(String.init(format: "%0.1f", card.avgRating)).font(.title3)
+                    }.padding(.bottom, 3)
+//                    Text(card.bio).font(.body)
+                    Text("ABV: " + String.init(format: "%0.1f", card.alc) + "%")
+                        .font(.body)
                 }
             }
             .padding()

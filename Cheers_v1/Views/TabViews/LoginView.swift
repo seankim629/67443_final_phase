@@ -12,30 +12,28 @@ struct LoginView: View {
   @EnvironmentObject var viewModel: AuthenticationViewModel
   @Binding var selectedTab: Tab
   var body: some View {
-    VStack {
-      Spacer()
+      ZStack{
+          Color("Background Color")
+          VStack {
+            Spacer()
+              
+            Image("splash").resizable()
+                  .aspectRatio(contentMode: .fit)
+                  .frame(maxWidth: 200)
 
-      // 2
-      Text("Welcome to Ellifit!")
-        .fontWeight(.black)
-        .foregroundColor(Color(.systemIndigo))
-        .font(.largeTitle)
-        .multilineTextAlignment(.center)
 
-      Text("Empower your elliptical workouts by tracking every move.")
-        .fontWeight(.light)
-        .multilineTextAlignment(.center)
-        .padding()
+            Spacer()
 
-      Spacer()
-
-      // 3
-      Button("Sign in with Google") {
-        viewModel.signIn()
-        selectedTab = .home
-      }
-      .buttonStyle(AuthenticationButtonStyle())
-    }
+            Button("Sign in with Google") {
+              viewModel.signIn()
+              selectedTab = .home
+            }
+            .buttonStyle(AuthenticationButtonStyle())
+            .padding(.bottom, 20)
+          }
+      }.ignoresSafeArea()
+    
+      
   }
 }
 
@@ -43,10 +41,11 @@ struct LoginView: View {
 struct AuthenticationButtonStyle: ButtonStyle {
   func makeBody(configuration: Self.Configuration) -> some View {
     configuration.label
+      .font(Font.body.weight(.semibold))
       .foregroundColor(.white)
       .padding()
       .frame(maxWidth: .infinity)
-      .background(Color(.systemIndigo))
+      .background(Color("Highlight Color"))
       .cornerRadius(12)
       .padding()
   }
