@@ -36,14 +36,13 @@ struct DetailScreen: View {
     @Binding var barcodeValue: String?
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var result = BeersViewModel()
-    
     @ObservedObject var wish = WishesViewModel()
     @State private var isLoading = false
     
     func startNetworkCall() {
         isLoading = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-          isLoading = false
+        isLoading = false
         }
       }
 
@@ -63,9 +62,9 @@ struct DetailScreen: View {
                           
             ScrollView  {
                 //            Product Image
-                    Image("Beer")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                let _ = print("NUM UH WA?")
+                let __ = print(result.beerImg)
+              ProductImage(url: URL(string:result.beerImg))
                 Text(barcodeValue!)
 //                Toggler()
                 DescriptionView(prod: result.beerDetails)
@@ -75,7 +74,7 @@ struct DetailScreen: View {
         }
         .onAppear {
           startNetworkCall()
-          result.load(barcode: "080660956435")
+          result.load(barcode: "01801624")
         }
         .navigationBarTitleDisplayMode(.inline).toolbar {
             ToolbarItem(placement: .principal) {
@@ -119,7 +118,7 @@ struct DescriptionView: View {
                     Image(systemName: "star.fill").padding(.leading).foregroundColor(Color("Highlight Color"))
                     
                     Text(String.init(format: "%0.1f", prod.avgRating)).padding(.trailing)
-                    
+                    Spacer()
                     Button(action: {
                           isToggled = !isToggled
                           
@@ -135,7 +134,7 @@ struct DescriptionView: View {
                             // need a function to check if this beer is in wishlist and determine the state
                             // if it is in wishlist then set state to false and Image(systemName: "bookmark).foregroundColor(Color("Highlight Color")) and delete from wishlist
                             // if it is not in wishilst then set state to true and Image(systemName:"bookmark.filled").foregroundColor(Color("Highlight Color")) and add to wishlist
-                        }.padding(.leading)
+                        }.padding(.trailing)
                     
                 }.padding(.top).padding(.leading)
                 

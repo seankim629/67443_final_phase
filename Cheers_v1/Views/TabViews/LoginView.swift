@@ -33,7 +33,7 @@ struct LoginView: View {
             .padding(.bottom, 20)
           }
       }.ignoresSafeArea()
-          .onAppear(perform: {img.getImage()})
+//          .onAppear(perform: {img.getImage()})
     
       
   }

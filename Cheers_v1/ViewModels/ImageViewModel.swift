@@ -9,13 +9,20 @@ import Foundation
 import SwiftSoup
 
 class ImageViewModel: ObservableObject {
-    let url = URL(string:"https://drizly.com/search?q=blue%20moon")!
-    
-    var imgURL: String = ""
-    var itemName: String = ""
+    @Published var imgURL: String = ""
+    @Published var itemName: String = ""
         
-    func getImage() {
-        
+  func getImage(beer: String, completion: @escaping((Bool) -> ())) {
+        let myGroup = DispatchGroup()
+        var imgurl: String = ""
+        var name: String = ""
+        var beerArr = beer.components(separatedBy: " ")
+        print(beerArr)
+        print("WHAT THE FUCCKCCKCKCKCKCKCKCKCKC")
+        var conv = beerArr.joined(separator: "%20")
+        print(conv)
+        let url = URL(string:"https://drizly.com/search?q=\(conv)")!
+        myGroup.enter()
         do {
             let html = try String(contentsOf: url)
             let doc: Document = try SwiftSoup.parse(html)
@@ -34,10 +41,10 @@ class ImageViewModel: ObservableObject {
                     {
                         if let first = outer[0] as? NSDictionary {
                             if let title = first["catalogItem"] as? NSDictionary {
-                                itemName = title["itemName"] as? String ?? ""
+                                name = title["itemName"] as? String ?? ""
                                 //print(title["itemName"] as? String)
                             }
-                            imgURL = first["imgSrc"] as? String ?? ""
+                            imgurl = first["imgSrc"] as? String ?? ""
                             //print(first["imgSrc"] as? String)
                         }
 //                        print(itemName[0])
@@ -54,16 +61,25 @@ class ImageViewModel: ObservableObject {
             print(itemName)
             print("+++++++++++++")
             print(imgURL)
-            
             print(try doc.title())
 //            print(try allscripts.count)
 //            print(try type(of: data))
-            
+        
+        myGroup.leave()
         } catch Exception.Error(let type, let message) {
             print("oh no")
+            myGroup.leave()
         } catch {
             print("oh no2")
+            myGroup.leave()
         }
-        
+      myGroup.notify(queue: DispatchQueue.global(qos: .background)) {
+        print(imgurl)
+        print("!?!?!?!?!?!?!?!")
+        print(name)
+        self.imgURL = imgurl
+        self.itemName = name
+        completion(true)
+      }
     }
 }

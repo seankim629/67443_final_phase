@@ -7,10 +7,13 @@
 
 import Foundation
 import FirebaseFirestore
+import SwiftUI
 
 class BeersViewModel: ObservableObject {
   @Published var beers = [Beer]()
   @Published var beerDetails = Product()
+  @ObservedObject var imgExt = ImageViewModel()
+  @Published var beerImg = ""
   private var db = Firestore.firestore()
   
   func getBeersData() {
@@ -51,7 +54,7 @@ class BeersViewModel: ObservableObject {
     }
   }
 
-  var UserTags = ["Malty","Salty"]
+  //var UserTags = ["Malty","Salty"]
 
   func getRandomBeers(tags: [String]? = nil) {
     var inputTags = tags
@@ -136,23 +139,79 @@ class BeersViewModel: ObservableObject {
   }
 
   func load(barcode: String) {
-   let url = "https://buycott.com/api/v4/products/lookup?barcode=\(barcode)&access_token=6rUh0wqAqJLzOFyOLP8n6hO54-oYCni-opdWU-cb"
+    var arr = Array(barcode)
+    var realbar = barcode
+    var sub1 = ""
+    if barcode.count == 8 {
+      var seventh = arr[6]
+      if ["0","1","2"].contains(String(seventh)) {
+        sub1 = String(arr[0 ..< 3])
+        sub1 += String(seventh) + "0000"
+        sub1 += String(arr[3 ..< 6])
+        sub1 += String(arr[7])
+      }
+      if ["3"].contains(String(seventh)) {
+        sub1 = String(arr[0 ..< 4])
+        sub1 += "00000"
+        sub1 += String(arr[4 ..< 6])
+        sub1 += String(arr[7])
+      }
+      if ["4"].contains(String(seventh)) {
+        sub1 = String(arr[0 ..< 5])
+        sub1 += "00000"
+        sub1 += String(arr[5 ..< 6])
+        sub1 += String(arr[7])
+      }
+      if ["5","6","7","8","9"].contains(String(seventh)) {
+        sub1 = String(arr[0 ..< 6])
+        sub1 += "0000" + String(seventh)
+        sub1 += String(arr[7])
+      }
+    }
+
+    print(sub1)
+    if sub1 != "" {
+      realbar = sub1
+    }
+   let url = "https://buycott.com/api/v4/products/lookup?barcode=\(realbar)&access_token=njpTtmc5if7vMhCXL4jGBqQ48fL9mxh_OSY-E3Wp"
+   let myGroup = DispatchGroup()
+   myGroup.enter()
    let task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, response, error) in
      guard let data = data else {
        print("Error: No data to decode")
        return
      }
      guard let result = try? JSONDecoder().decode(Result.self, from: data) else {
-             print("Error: Couldn't decode data into a result")
-             return
+       print("Error: Couldn't decode data into a result")
+       return
      }
    for p in result.products {
      print(p.name)
-     self.getBeerDetail(name: "Guinness Original")
+     myGroup.enter()
+     self.imgExt.getImage(beer: p.name, completion: { (success) -> Void in
+       print("+==============")
+       print(success)
+       if success {
+         DispatchQueue.main.async {
+           print("SHIBAL")
+           print(self.imgExt.imgURL)
+           self.beerImg = self.imgExt.imgURL
+         }
+         //self.beerImg = self.imgExt.imgURL
+         
+         self.getBeerDetail(name: self.imgExt.itemName)
+       }
+     })
+     myGroup.leave()
      break
    }
+   myGroup.leave()
+ }
+ myGroup.notify(queue: DispatchQueue.global(qos: .background)) {
  }
  task.resume()
+
+ 
  }
 }
 
