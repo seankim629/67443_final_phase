@@ -35,6 +35,7 @@
 		E844357E275974C700FD0960 /* MyTagsField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E844357A275974C700FD0960 /* MyTagsField.swift */; };
 		E844357F275974C700FD0960 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E844357B275974C700FD0960 /* SearchTextField.swift */; };
 		E8443580275974C700FD0960 /* TagTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E844357C275974C700FD0960 /* TagTextField.swift */; };
+		E85B6680275A9BCE000381A6 /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85B667F275A9BCE000381A6 /* ImageViewModel.swift */; };
 		E8A53E7F2756A5A000858470 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A53E7E2756A5A000858470 /* Card.swift */; };
 		E8A53E812756A63300858470 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A53E802756A63300858470 /* CardView.swift */; };
 		E8A53E832756A6C200858470 /* CardsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A53E822756A6C200858470 /* CardsSection.swift */; };
@@ -101,6 +102,7 @@
 		E844357A275974C700FD0960 /* MyTagsField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTagsField.swift; sourceTree = "<group>"; };
 		E844357B275974C700FD0960 /* SearchTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		E844357C275974C700FD0960 /* TagTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagTextField.swift; sourceTree = "<group>"; };
+		E85B667F275A9BCE000381A6 /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
 		E8A53E7E2756A5A000858470 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		E8A53E802756A63300858470 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		E8A53E822756A6C200858470 /* CardsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsSection.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 				6720EF46273386EC0026DC12 /* BeersViewModel.swift */,
 				6720EF48273387DB0026DC12 /* WishesViewModel.swift */,
 				E8C886D7275966ED003C80BD /* AuthenticationViewModel.swift */,
+				E85B667F275A9BCE000381A6 /* ImageViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -484,6 +487,7 @@
 				6720EF47273386EC0026DC12 /* BeersViewModel.swift in Sources */,
 				6720EF5527349F820026DC12 /* WishlistCard.swift in Sources */,
 				E8D873082734D5E6005EF75D /* SearchView.swift in Sources */,
+				E85B6680275A9BCE000381A6 /* ImageViewModel.swift in Sources */,
 				E844357E275974C700FD0960 /* MyTagsField.swift in Sources */,
 				6720EF312731D65D0026DC12 /* User.swift in Sources */,
 				4E067636272B23DA005FBEA4 /* ContentView.swift in Sources */,

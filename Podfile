@@ -14,6 +14,8 @@ target 'Cheers_v1' do
   pod 'GoogleMLKit/BarcodeScanning'
   pod 'Firebase/Auth'
   pod 'GoogleSignIn', '~> 5.0'
+  pod 'SwiftSoup'
+
   
   target 'Cheers_v1Tests' do
     inherit! :search_paths

@@ -9,6 +9,7 @@ import SwiftUI
 struct LoginView: View {
 
   // 1
+  @ObservedObject var img = ImageViewModel()
   @EnvironmentObject var viewModel: AuthenticationViewModel
   @Binding var selectedTab: Tab
   var body: some View {
@@ -32,6 +33,7 @@ struct LoginView: View {
             .padding(.bottom, 20)
           }
       }.ignoresSafeArea()
+          .onAppear(perform: {img.getImage()})
     
       
   }
