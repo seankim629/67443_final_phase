@@ -27,6 +27,8 @@ struct Cheers_v1App: App {
     init() {
 //        FirebaseApp.configure()
         UserDefaults.standard.set(false, forKey: "homeTeamName")
+        UserDefaults.standard.set(nil, forKey: "ratingid")
+        UserDefaults.standard.set(nil, forKey: "ratingcnt")
         setupAuthentication()
         
         

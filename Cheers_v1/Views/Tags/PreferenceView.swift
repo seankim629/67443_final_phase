@@ -13,7 +13,8 @@ struct PreferenceView: View {
     @Binding var tags: [String]
     @Binding var keyword: String
     @Binding var showingPopOver: Bool
-    
+    var product: String
+    @ObservedObject var rat = RatingsViewModel()
     @State var newTags: [String] = []
     
     
@@ -47,6 +48,27 @@ struct PreferenceView: View {
                 Spacer()
                 Button(action: {
                     self.tags = self.tags + self.newTags
+                    let uid = UserDefaults.standard.string(forKey: "uid")
+                    let rid = UserDefaults.standard.string(forKey: "ratingid")
+                    let date = Date()
+                    var newRating: [String: Any] = [
+                      "datetime": date,
+                      "rating": 0.0,
+                      "userid": 1,
+                      "productname": product,
+                      "tags": self.tags
+                    ]
+                    print(rid)
+                    if rid != nil {
+                      print("UPDATE NEW TAGS")
+                      newRating = [
+                        "productname": product,
+                        "tags" : self.tags]
+                      rat.checkRating(usrID: uid ?? "", newData: newRating)
+                    } else {
+                      print("ADD NEW TAGS")
+                      rat.checkRating(usrID: uid ?? "", newData: newRating)
+                    }
                     self.showingPopOver = false
                 }, label:  {
                     Text("Save")

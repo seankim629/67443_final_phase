@@ -13,6 +13,72 @@ class RatingsViewModel: ObservableObject {
   private var found = false
   private var db = Firestore.firestore()
   
+  func hasTags(usrID: String, beerName: String, completion:@escaping(([String]) -> ())) {
+    var resTags = [String]()
+    let myGroup = DispatchGroup()
+    let usrRef = db.collection("users").document(usrID)
+    var cnt = 1
+    myGroup.enter()
+    usrRef.getDocument { document, error in
+      if let error = error as NSError? {
+        "Reference not found"
+      }
+      else {
+        if let document = document {
+          do {
+            let data = document.data()
+            let ratings = data?["ratings"] as? [DocumentReference] ?? []
+            var found = false
+            for rat in ratings {
+              cnt += 1
+              if found == false {
+                myGroup.enter()
+                rat.getDocument { document, error in
+                  if let error = error as NSError? {
+                    "Reference not found"
+                  }
+                  else {
+                    if let document = document {
+                      do {
+                          let data = document.data()
+                          let docId = document.documentID
+                          let rating = data?["rating"] as? Double ?? 0.0
+                          let userid = data?["userid"] as? Int ?? 0
+                          let product = data?["productname"] as? String ?? ""
+                          let tags = data?["tags"] as? [String] ?? []
+                          if product == beerName {
+                            print("EXISTSSTSTSTTS!")
+                            UserDefaults.standard.set(docId, forKey: "ratingid")
+                            found = true
+                            if tags == [] {
+                              resTags = []
+                            } else {
+                              resTags = tags
+                            }
+                          }
+                      }
+                      catch {
+                        print(error)
+                      }
+                    }
+                  }
+                myGroup.leave()
+                }
+              }
+            }
+          }
+          catch {
+            print(error)
+          }
+        }
+      }
+      myGroup.leave()
+    }
+    myGroup.notify(queue: DispatchQueue.global(qos: .background)) {
+        completion(resTags)
+        UserDefaults.standard.set(cnt, forKey: "ratingcnt")
+    }
+  }
   func getRatingList(rlist: [DocumentReference]) {
     for rat in rlist {
       rat.getDocument { document, error in
@@ -35,22 +101,24 @@ class RatingsViewModel: ObservableObject {
                 let tags = data?["tags"] as? [String] ?? []
                 
                 let r2 = Rating(id: docId, rating: rating, userid: userid, product: product, tags: tags, datetime: convdate)
-                let beerRef = self.db.collection("beers").document(product)
-                beerRef.getDocument { document, error in
-                  if let error = error as NSError? {
-                    "Reference not found"
-                  }
-                  else {
-                    if let document = document {
-                      do {
-                        let data = document.data()
-                          let name = data?["Name"] as? String ?? ""
-                        let alc = data?["ABV"] as? Double ?? 0.0
-                        let style = data?["Style"] as? String ?? ""
-                        self.ratings.append(RatingRow(rowRating: rating, product: product, alc: Double(alc), rowPhoto: "", style: style, dateString: formattedTimeZoneStr))
-                      }
-                      catch {
-                        print(error)
+                if rating != 0.0 {
+                  let beerRef = self.db.collection("beers").document(product)
+                  beerRef.getDocument { document, error in
+                    if let error = error as NSError? {
+                      "Reference not found"
+                    }
+                    else {
+                      if let document = document {
+                        do {
+                          let data = document.data()
+                            let name = data?["Name"] as? String ?? ""
+                          let alc = data?["ABV"] as? Double ?? 0.0
+                          let style = data?["Style"] as? String ?? ""
+                          self.ratings.append(RatingRow(rowRating: rating, product: product, alc: Double(alc), rowPhoto: "", style: style, dateString: formattedTimeZoneStr))
+                        }
+                        catch {
+                          print(error)
+                        }
                       }
                     }
                   }
@@ -69,6 +137,7 @@ class RatingsViewModel: ObservableObject {
   func testGetRatingList() {
     let uid = UserDefaults.standard.string(forKey: "uid")
     let userRef = db.collection("users").document(uid ?? "")
+    
     userRef.getDocument { document, error in
       if let error = error as NSError? {
         "Reference not found"
@@ -78,6 +147,7 @@ class RatingsViewModel: ObservableObject {
           do {
             let data = document.data()
             let ratings = data?["ratings"] as? [DocumentReference] ?? []
+            
             self.getRatingList(rlist: ratings)
           }
           catch {
@@ -92,6 +162,13 @@ class RatingsViewModel: ObservableObject {
     var isCheck = false
     var count = 1
     let myGroup = DispatchGroup()
+    var inputData = [
+      "datetime": newData["datetime"],
+      "rating": newData["rating"],
+      "userid": newData["userid"],
+      "productname": newData["productname"],
+      "tags": newData["tags"]
+    ]
     let userRef = db.collection("users").document(usrID)
     myGroup.enter()
     userRef.getDocument { document, error in
@@ -121,13 +198,17 @@ class RatingsViewModel: ObservableObject {
                           let userid = data?["userid"] as? Int ?? 0
                           let product = data?["productname"] as? String ?? ""
                           let target = newData["productname"] as? String ?? ""
+                          let rating = data?["rating"] as? Double ?? 0.0
                           print(target)
                           print("+++++++++++")
                           print(product)
                           if product == target {
                             isCheck = true
+                            if newData["rating"] as! Double == 0.0 {
+                              inputData["rating"] = rating
+                            }
                             //myGroup.enter()
-                            self.updateRating(docID: docId, updateData: newData)
+                            self.updateRating(docID: docId, updateData: inputData)
                             //myGroup.leave()
                           }
                       }
@@ -147,9 +228,6 @@ class RatingsViewModel: ObservableObject {
           print(isCheck)
           let newID = usrID + "_r\(count)"
           self.addRating(docID: newID, newData: newData)
-          userRef.updateData([
-              "ratings": FieldValue.arrayUnion([self.db.document("ratings/\(newID)")])
-          ])
         }
     }
 
@@ -163,6 +241,11 @@ class RatingsViewModel: ObservableObject {
             print("Test Document successfully written!")
         }
     }
+    let uid = UserDefaults.standard.string(forKey: "uid")!
+    let userRef = db.collection("users").document(uid)
+    userRef.updateData([
+        "ratings": FieldValue.arrayUnion([self.db.document("ratings/\(docID)")])
+    ])
 
 //    let docRef = db.collection("ratings").document(docID)
 //    docRef.getDocument { (document, error) in

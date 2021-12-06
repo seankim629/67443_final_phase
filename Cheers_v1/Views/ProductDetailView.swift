@@ -140,7 +140,7 @@ struct DescriptionView: View {
                 }.padding(.top).padding(.leading)
                 
                 HStack() {
-                    StarSlider($rating, product: prod.name, ratModel: rat).padding(.trailing)
+                  StarSlider($rating, $tags, product: prod.name, ratModel: rat).padding(.trailing)
                     Text("Your Rating: " + String.init(format: "%0.1f", rating)).font(.system(size: 16))
                         .opacity(0.7)
                 }.padding(.leading)
@@ -296,11 +296,12 @@ struct DescriptionView: View {
                       isToggled = true
                     }
                   })
-                  let _2 = print("WHTFFFFFFF")
-                  let _ = print(isToggled)
+          self.rat.hasTags(usrID: uid ?? "", beerName: prod.name, completion: { (resTags) -> Void in
+                tags = resTags
+          })
                 }
         .sheet(isPresented: $showingPopOver) {
-            PreferenceView(tags: $tags, keyword: $keyword, showingPopOver: $showingPopOver)}
+          PreferenceView(tags: $tags, keyword: $keyword, showingPopOver: $showingPopOver, product: prod.name)}
         .padding(.bottom)
 
     }
