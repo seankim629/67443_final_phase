@@ -14,6 +14,8 @@ class ImageViewModel: ObservableObject {
         
   func getImage(beer: String, completion: @escaping((Bool) -> ())) {
         let myGroup = DispatchGroup()
+        print("WHATS NEXT?")
+        print(beer)
         var imgurl: String = ""
         var name: String = ""
         var beerArr = beer.components(separatedBy: " ")

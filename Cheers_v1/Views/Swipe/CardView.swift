@@ -10,6 +10,7 @@ import SwiftUI
 struct CardView: View {
     @State var card: Card
     // MARK: - Drawing Constant
+    @ObservedObject var usr = UsersViewModel()
     let cardGradient = Gradient(colors: [Color.black.opacity(0.0), Color.black.opacity(0.7)])
     
     var body: some View {
@@ -75,11 +76,13 @@ struct CardView: View {
                         case let x where x > 100:
                             card.x = 500; card.degree = 12
                             // add to wishlist
+                            
                             let _ = print("hi!")
                         case (-100)...(-1):
                             card.x = 0; card.degree = 0; card.y = 0
                         case let x where x < -100:
                             card.x  = -500; card.degree = -12
+                            self.usr.addNope(newNope: card.name)
                         default:
                             card.x = 0; card.y = 0
                         }

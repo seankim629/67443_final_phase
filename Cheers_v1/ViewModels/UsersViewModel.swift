@@ -30,7 +30,8 @@ class UsersViewModel: ObservableObject {
                 let photo = data["photo"] as? String ?? ""
                 let ratings = data["ratings"] as? [DocumentReference] ?? []
                 let wishlist = data["wishlist"] as! DocumentReference
-                let u1 = User(id: docId, email: email, name: name, photo: photo, ratings: ratings, wishlist: wishlist)
+                let nopeList = data["nopeList"] as? [String] ?? []
+                let u1 = User(id: docId, email: email, name: name, photo: photo, ratings: ratings, wishlist: wishlist, nopeList: nopeList)
                 self.users.append(u1)
               }
 
@@ -52,9 +53,11 @@ class UsersViewModel: ObservableObject {
                 let data = documentSnapshot.data()
                 let em = data["email"] as? String ?? ""
                 let docId = documentSnapshot.documentID
+                let nopeList = data["nopeList"] as? [String] ?? []
                 if (em == email) {
                   found = true
                   UserDefaults.standard.set(docId, forKey: "uid")
+                  UserDefaults.standard.set(nopeList, forKey: "nope")
                   break
                 }
               }
@@ -68,7 +71,8 @@ class UsersViewModel: ObservableObject {
               "name": name,
               "photo": photo,
               "ratings": [DocumentReference](),
-              "wishlist": nil
+              "wishlist": nil,
+              "nopeList": []
             ] as [String : Any?]
             self.addUser(newData: newData)
           }
@@ -102,6 +106,19 @@ class UsersViewModel: ObservableObject {
               }
           }
 
+        }
+      }
+  func addNope(newNope: String) {
+        let uid = UserDefaults.standard.string(forKey: "uid")!
+        let userRef = db.collection("users").document(uid)
+        userRef.updateData([
+            "nopeList": FieldValue.arrayUnion([newNope])
+        ]) { err in
+          if let err = err {
+              print("Error updating document: \(err)")
+          } else {
+              print("Test Document successfully updated")
+          }
         }
       }
 }

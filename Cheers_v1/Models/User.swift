@@ -16,6 +16,7 @@ struct User: Identifiable, Codable {
   var photo: String
   var ratings: [DocumentReference]
   var wishlist: DocumentReference
+  var nopeList: [String]
   
   enum CodingKeys: String, CodingKey {
     case id
@@ -24,6 +25,7 @@ struct User: Identifiable, Codable {
     case photo
     case ratings
     case wishlist
+    case nopeList
   }
   
   //toAny() object (Refer to Arbeit Repo) 

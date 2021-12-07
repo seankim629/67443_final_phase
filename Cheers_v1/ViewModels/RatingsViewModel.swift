@@ -13,8 +13,9 @@ class RatingsViewModel: ObservableObject {
   private var found = false
   private var db = Firestore.firestore()
   
-  func hasTags(usrID: String, beerName: String, completion:@escaping(([String]) -> ())) {
+  func hasTags(usrID: String, beerName: String, completion:@escaping((([String],Double)) -> ())) {
     var resTags = [String]()
+    var beerRating = Double()
     let myGroup = DispatchGroup()
     let usrRef = db.collection("users").document(usrID)
     var cnt = 1
@@ -52,8 +53,10 @@ class RatingsViewModel: ObservableObject {
                             found = true
                             if tags == [] {
                               resTags = []
+                              beerRating = rating
                             } else {
                               resTags = tags
+                              beerRating = rating
                             }
                           }
                       }
@@ -75,7 +78,7 @@ class RatingsViewModel: ObservableObject {
       myGroup.leave()
     }
     myGroup.notify(queue: DispatchQueue.global(qos: .background)) {
-        completion(resTags)
+        completion((resTags,beerRating))
         UserDefaults.standard.set(cnt, forKey: "ratingcnt")
     }
   }

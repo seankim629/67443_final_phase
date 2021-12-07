@@ -64,8 +64,8 @@ struct DetailScreen: View {
                 //            Product Image
                 let _ = print("NUM UH WA?")
                 let __ = print(result.beerImg)
-              ProductImage(url: URL(string:result.beerImg))
-                Text(barcodeValue!)
+                ProductImage(url: URL(string:result.beerImg))
+                //Text(barcodeValue!)
 //                Toggler()
                 DescriptionView(prod: result.beerDetails)
 
@@ -74,7 +74,7 @@ struct DetailScreen: View {
         }
         .onAppear {
           startNetworkCall()
-          result.load(barcode: "01801624")
+          result.load(barcode: barcodeValue!)
         }
         .navigationBarTitleDisplayMode(.inline).toolbar {
             ToolbarItem(placement: .principal) {
@@ -93,7 +93,7 @@ struct DetailScreen: View {
 
 
 struct DescriptionView: View {
-    @State private var rating: Double = 4.5
+    @State private var rating: Double = 0.0
     var prod: Product
     @ObservedObject var rat = RatingsViewModel()
     @ObservedObject var wish = WishesViewModel()
@@ -140,8 +140,13 @@ struct DescriptionView: View {
                 
                 HStack() {
                   StarSlider($rating, $tags, product: prod.name, ratModel: rat).padding(.trailing)
+                  if rating == 0.0 {
+                    Text("Leave a Rating").font(.system(size: 16))
+                      .opacity(0.7)
+                  } else {
                     Text("Your Rating: " + String.init(format: "%0.1f", rating)).font(.system(size: 16))
                         .opacity(0.7)
+                  }
                 }.padding(.leading)
 
                 //                Info
@@ -295,9 +300,12 @@ struct DescriptionView: View {
                       isToggled = true
                     }
                   })
-          self.rat.hasTags(usrID: uid ?? "", beerName: prod.name, completion: { (resTags) -> Void in
-                tags = resTags
-          })
+                  self.rat.hasTags(usrID: uid ?? "", beerName: prod.name, completion: { (arg0) -> Void in
+            
+                        let (resTags, beerRating) = arg0
+                        self.tags = resTags
+                        self.rating = beerRating
+                  })
                 }
         .sheet(isPresented: $showingPopOver) {
           PreferenceView(tags: $tags, keyword: $keyword, showingPopOver: $showingPopOver, product: prod.name)}
