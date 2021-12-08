@@ -16,6 +16,8 @@ struct ScanView: View {
     @Binding var barcodeValue: String?
     @State var back: Bool = false
     @Binding var selectedTab: Tab
+     
+    @State var noBarcode: Bool = false
     
     var body: some View {
         if isImagePickerDisplay {
@@ -70,8 +72,7 @@ struct ScanView: View {
                     Text("Detect").padding(30).foregroundColor(.white)
                     }.simultaneousGesture(TapGesture().onEnded{
                       if self.barcodeValue! == "No barcode detected." {
-                        print("ARE U HERE?????????")
-                        self.selectedTab = .scan
+                          self.noBarcode = true
                       } else {
                         self.selectedTab = .result
                         print(self.barcodeValue!)
@@ -100,7 +101,13 @@ struct ScanView: View {
         }
         .frame(maxWidth:.infinity, maxHeight:.infinity, alignment: .topLeading)
         .background(Color("Background Color"))
+        .alert("No Barcode Detected. Try Again", isPresented: $noBarcode) {
+            Button("OK", role: .cancel) {
+                self.isImagePickerDisplay = true
             }
+        }
+            }
+        
    
 //            .sheet(isPresented: self.$isImagePickerDisplay) {
 //                ImagePickerView(image: self.$selectedImage, imagePickerDisplay: self.$isImagePickerDisplay, back: self.$back, barcodeValue: self.$barcodeValue, sourceType: self.sourceType)
