@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CardsSection: View {
+    @ObservedObject var brs = BeersViewModel()
+    @Binding var beerlist: [Card]
     var body: some View {
         ZStack{
             VStack{
@@ -26,7 +28,8 @@ struct CardsSection: View {
                     .opacity(0.5)
                     .shadow(radius: 5, x: 5, y: 5)
                 )
-            ForEach(Card.data.reversed()) { card in
+            let _ = print(brs.randomBeers)
+            ForEach(brs.randomBeers.reversed()) { card in
                 CardView(card: card)
             }
         }
@@ -40,11 +43,5 @@ struct CardsSection: View {
         
         
         
-    }
-}
-
-struct CardsSection_Previews: PreviewProvider {
-    static var previews: some View {
-        CardsSection()
     }
 }

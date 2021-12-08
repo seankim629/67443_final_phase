@@ -31,7 +31,6 @@ struct ScanView: View {
 //
 //                Color.purple
 //                                .ignoresSafeArea()
-
             VStack () {
                 
                 if selectedImage != nil {
@@ -39,21 +38,7 @@ struct ScanView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .clipShape(Rectangle())
-                    
                 }
-            
-                
-//                Button("Camera") {
-////                    CameraViewController()
-//                    self.sourceType = .camera
-//                    self.isImagePickerDisplay.toggle()
-//                }.padding()
-//                
-//                Button("photo") {
-//                    self.sourceType = .photoLibrary
-//                    self.isImagePickerDisplay.toggle()
-//                }.padding()
-//
                 Spacer()
                 HStack {
                     Spacer()
@@ -64,10 +49,6 @@ struct ScanView: View {
                         self.selectedTab = .home
                     })
                     Spacer()
-//                Button("Cancel") {
-//
-//                }.padding(30)
-                    
                     NavigationLink(destination: ContentView(selectedTab: self.$selectedTab, selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue)) {
                     Text("Detect").padding(30).foregroundColor(.white)
                     }.simultaneousGesture(TapGesture().onEnded{
@@ -79,41 +60,28 @@ struct ScanView: View {
                       }
                     })
                     Spacer()
-
-//                    Button("Detect") {
-//                        self.selectedTab = .result
-//                    }.padding(30)
-                    
-                    
-                
-                
                 }
                 Spacer()
                 
             }
-        .navigationBarTitleDisplayMode(.inline).toolbar {
-            ToolbarItem(placement: .principal) {
-                HStack(alignment: .center) {
-                    Image("header").resizable()
-                        .aspectRatio(contentMode: .fit).frame(width: 20, height: 20)
-                    Text("Cheers").fontWeight(.bold).foregroundColor(.white)}
+            .navigationBarTitleDisplayMode(.inline).toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack(alignment: .center) {
+                        Image("header").resizable()
+                            .aspectRatio(contentMode: .fit).frame(width: 20, height: 20)
+                        Text("Cheers").fontWeight(.bold).foregroundColor(.white)}
+                }
             }
-        }
-        .frame(maxWidth:.infinity, maxHeight:.infinity, alignment: .topLeading)
-        .background(Color("Background Color"))
-        .alert("No Barcode Detected. Try Again", isPresented: $noBarcode) {
-            Button("OK", role: .cancel) {
-                self.isImagePickerDisplay = true
-            }
-        }
+            .frame(maxWidth:.infinity, maxHeight:.infinity, alignment: .topLeading)
+            .background(Color("Background Color"))
+            .alert("No Barcode Detected. Try Again", isPresented: $noBarcode) {
+                Button("OK", role: .cancel) {
+                    self.isImagePickerDisplay = true
+                }
             }
         
-   
-//            .sheet(isPresented: self.$isImagePickerDisplay) {
-//                ImagePickerView(image: self.$selectedImage, imagePickerDisplay: self.$isImagePickerDisplay, back: self.$back, barcodeValue: self.$barcodeValue, sourceType: self.sourceType)
-//            }
-        
-        }
+            }
+          }
                 
 //        }
 //        }

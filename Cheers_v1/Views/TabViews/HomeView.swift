@@ -18,6 +18,7 @@ struct HomeView: View {
     private let user = GIDSignIn.sharedInstance()!.currentUser
     @State var isShown = false
     @State private var isLoading = false
+    @State var randoms = [Card]()
   
     func startNetworkCall() {
         isLoading = true
@@ -49,7 +50,7 @@ struct HomeView: View {
                   .padding(.leading, 28)
               
 
-              CardsSection()
+            CardsSection(beerlist: self.$randoms)
           }
         }
       }.navigationBarTitleDisplayMode(.inline).toolbar {
@@ -68,9 +69,12 @@ struct HomeView: View {
                       }
                       
             }
-            //self.br.getRandomBeers(tags: ["Altbier"])
-        }
+            self.br.getRandomBeers(tags: ["Altbier"], completion: { (randoms) -> Void in
+                print(randoms)
+                self.randoms = randoms
+            })
 
+        }
     }
 }
 

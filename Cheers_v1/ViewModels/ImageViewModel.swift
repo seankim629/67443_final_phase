@@ -47,15 +47,19 @@ class ImageViewModel: ObservableObject {
                     // try to read out a string array
                     if let outer = json["catalogItems"] as? NSArray
                     {
-                        if let first = outer[0] as? NSDictionary {
-                            if let title = first["catalogItem"] as? NSDictionary {
-                                name = title["itemName"] as? String ?? ""
-                                //print(title["itemName"] as? String)
+                        print("I am printing the number of catalog items here")
+                        print(outer.count)
+                        if outer.count != 0 {
+                            if let first = outer[0] as? NSDictionary {
+                                if let title = first["catalogItem"] as? NSDictionary {
+                                    name = title["itemName"] as? String ?? ""
+                                    //print(title["itemName"] as? String)
+                                }
+                                imgurl = first["imgSrc"] as? String ?? ""
+                                //print(first["imgSrc"] as? String)
                             }
-                            imgurl = first["imgSrc"] as? String ?? ""
-                            //print(first["imgSrc"] as? String)
+    //                        print(itemName[0])
                         }
-//                        print(itemName[0])
                     }
                 }
             } catch let error as NSError {
@@ -87,7 +91,11 @@ class ImageViewModel: ObservableObject {
         print(name)
         self.imgURL = imgurl
         self.itemName = name
-        completion(true)
+          if self.imgURL == "" || self.itemName == "" {
+              completion(false)
+          } else {
+              completion(true)
+          }
       }
     }
 }

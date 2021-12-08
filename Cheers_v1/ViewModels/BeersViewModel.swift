@@ -61,7 +61,7 @@ class BeersViewModel: ObservableObject {
 
   //var UserTags = ["Malty","Salty"]
 
-  func getRandomBeers(tags: [String]? = nil) {
+  func getRandomBeers(tags: [String]? = nil, completion: @escaping(([Card]) -> ())) {
     var inputTags = tags
     if tags != nil {
       inputTags?.shuffle()
@@ -69,52 +69,60 @@ class BeersViewModel: ObservableObject {
       print("RANDOM????-----------")
       print(usrNope)
       let firstTag = inputTags![0]
-      db.collection("beers").whereField("Style", isEqualTo: firstTag).whereField("Style", notIn:usrNope).getDocuments {
-        querySnapshot, error in
-            guard let documents = querySnapshot?.documents else {
-                  print("No documents! \(error!)")
-                  //completion(nil)
-                  return
+      if usrNope.isEmpty == false {
+          db.collection("beers").whereField("Style", isEqualTo: firstTag).whereField("Style", notIn:usrNope).getDocuments {
+            querySnapshot, error in
+                guard let documents = querySnapshot?.documents else {
+                      print("No documents! \(error!)")
+                      //completion(nil)
+                      return
+                  }
+                var cnt = 0
+                for documentSnapshot in documents {
+                  cnt += 1
+                  if cnt == 10 { break }
+                  let data = documentSnapshot.data()
+                  let name = data["Name"] as? String ?? ""
+                  let abv = data["ABV"] as? Double ?? 0.0
+                  let avgR = data["Ave Rating"] as? Double ?? 0.0
+                  print("BEER ORIGINAL NAME?")
+                  print(name)
+                  self.imgExt.getImage(beer: name, completion: { (success) -> Void in
+                    if success == true {
+                      let b2 = Card(name: self.imgExt.itemName, imageName: self.imgExt.imgURL, avgRating: avgR, alc: abv)
+                      self.randomBeers.append(b2)
+                    }
+                  })
               }
-            var cnt = 0
-            for documentSnapshot in documents {
-              cnt += 1
-              if cnt == 10 { break }
-              let data = documentSnapshot.data()
-              let name = data["Name"] as? String ?? ""
-              let abv = data["ABV"] as? Double ?? 0.0
-              let sour = data["Sour"] as? Int ?? 0
-              let astring = data["Astringency"] as? Int ?? 0
-              let key = data["key"] as? Int ?? 0
-              let style = data["Style"] as? String ?? ""
-              let malty = data["Malty"] as? Int ?? 0
-              let alcohol = data["Alcohol"] as? Int ?? 0
-              let bitter = data["Bitter"] as? Int ?? 0
-              let avgR = data["Ave Rating"] as? Double ?? 0.0
-              let description = data["Description"] as? String ?? ""
-              let fruits = data["Fruits"] as? Int ?? 0
-              let spices = data["Spices"] as? Int ?? 0
-              let hoppy = data["Hoppy"] as? Int ?? 0
-              let sweet = data["Sweet"] as? Int ?? 0
-              let salty = data["Salty"] as? Int ?? 0
-              print("BEER ORIGINAL NAME?")
-              print(name)
-              self.imgExt.getImage(beer: name, completion: { (success) -> Void in
-                if success == true {
-                  let b2 = Card(name: self.imgExt.itemName, imageName: self.imgExt.imgURL, avgRating: avgR, alc: abv)
-                  self.randomBeers.append(b2)
-                }
-              })
-              
-//                print("ABV of Recommended Beer 1: \(b2.abv)")
-//                print("Alcohol rate of Recommended Beer 1: \(b2.alcohol)")
-//                print("Name of Recommended Beer 1: \(b2.name)")
-//                print("Avg Rating of Recommended Beer 1: \(b2.avgRating)")
-//                print("Test printing of Recommended Beer 1 Done. Breaking out!")
-//                break
-              
+          }
+      } else {
+          db.collection("beers").whereField("Style", isEqualTo: firstTag).getDocuments {
+            querySnapshot, error in
+                guard let documents = querySnapshot?.documents else {
+                      print("No documents! \(error!)")
+                      //completion(nil)
+                      return
+                  }
+                var cnt = 0
+                for documentSnapshot in documents {
+                  cnt += 1
+                  if cnt == 10 { break }
+                  let data = documentSnapshot.data()
+                  let name = data["Name"] as? String ?? ""
+                  let abv = data["ABV"] as? Double ?? 0.0
+                  let avgR = data["Ave Rating"] as? Double ?? 0.0
+                  print("BEER ORIGINAL NAME?")
+                  print(name)
+                  self.imgExt.getImage(beer: name, completion: { (success) -> Void in
+                    if success == true {
+                      let b2 = Card(name: self.imgExt.itemName, imageName: self.imgExt.imgURL, avgRating: avgR, alc: abv)
+                      self.randomBeers.append(b2)
+                    }
+                  })
+              }
           }
       }
+        
       
     } else {
       //give Random beers
@@ -123,6 +131,7 @@ class BeersViewModel: ObservableObject {
     self.randomBeers.shuffle()
     print("AFTER GETTING RANDOM BEERS")
     print(self.randomBeers)
+    completion(self.randomBeers)
   }
   
   func getBeerDetail(name: String, completion: @escaping((Bool) -> ())) {
