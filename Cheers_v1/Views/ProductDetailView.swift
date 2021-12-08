@@ -37,13 +37,61 @@ struct DetailScreen: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var result = BeersViewModel()
     @ObservedObject var wish = WishesViewModel()
-    @State private var isLoading = false
-    
+    @ObservedObject var rat = RatingsViewModel()
+    @State var tags: [String] = []
+    @State var rating: Double = 0.0
+    @State private var isLoading = true
+    @State var isToggled: Int = 0
+  
     func startNetworkCall() {
         isLoading = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-        isLoading = false
-        }
+        //let group = DispatchGroup()
+        let uid = UserDefaults.standard.string(forKey: "uid")
+      
+        //group.enter()
+        result.load(barcode: "01801624", completion: { (success) -> Void in
+          print("+-+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_")
+          print(success)
+          if success {
+            print("First async DONE")
+            //print(uid)
+            
+            //group.leave()
+            print("WHAT IS THIS")
+            print(self.result.beerDetails.name)
+              self.rat.hasTags(usrID: uid ?? "", beerName: self.result.beerDetails.name, completion: { (arg0) -> Void in
+                print("+==============")
+                print(arg0)
+                let (resTags, beerRating) = arg0
+                print(resTags)
+                print(beerRating)
+                self.tags = resTags
+                self.rating = beerRating
+                
+                print("_+_+_+_+_+_+_+!_#@#+@_#+_@+!_#+!")
+                print(self.result.beerDetails.name)
+                self.wish.isInWishlist(usrID: uid ?? "", beerName: self.result.beerDetails.name, completion: { (success) -> Void in
+                      print("Third async DONE")
+                      if success {
+                        print("Second async DONE")
+                        self.isToggled = 1
+                      }
+                      isLoading = false
+                })
+              })
+            }
+          })
+        //group.enter()
+        
+        //group.enter()
+        
+//        group.notify(queue: .main) {
+//          print("ALL THINGS DONE!!!!!")
+//          isLoading = false
+//        }
+        
+        //DispatchQueue.main.asy(deadline: .now() + 4) {
+        
       }
 
     var body: some View {
@@ -63,19 +111,18 @@ struct DetailScreen: View {
             ScrollView  {
                 //            Product Image
                 let _ = print("NUM UH WA?")
-                let __ = print(result.beerImg)
+                let __ = print(rating)
+                let ___ = print(isToggled)
                 ProductImage(url: URL(string:result.beerImg))
                 //Text(barcodeValue!)
 //                Toggler()
-                DescriptionView(prod: result.beerDetails)
+                DescriptionView(rating: $rating, prod: result.beerDetails, isToggled: $isToggled, tags: $tags)
 
             }
           }
         }
         .onAppear {
           startNetworkCall()
-          result.load(barcode: barcodeValue!)
-//          result.load(barcode: "01801624")
         }
         .navigationBarTitleDisplayMode(.inline).toolbar {
             ToolbarItem(placement: .principal) {
@@ -94,23 +141,23 @@ struct DetailScreen: View {
 
 
 struct DescriptionView: View {
-    @State private var rating: Double = 0.0
+    @Binding var rating: Double
     var prod: Product
     @ObservedObject var rat = RatingsViewModel()
     @ObservedObject var wish = WishesViewModel()
-    @State var isToggled = false
-    
+    @Binding var isToggled: Int
     let data = [39.14, 50.03, 0.0, 41.43]
     let palate = ["Bitter", "Sweet", "Sour", "Fruity"]
     @State var capsulesAppearing = false
     
     @State var showingPopOver = false
-    @State var tags: [String] = []
+    @Binding var tags: [String]
     @State var keyword: String = ""
 
     var body: some View {
         VStack {
-            
+            let _ = print("WTF IS GOING ON")
+            let __ = print(self.isToggled)
             VStack(alignment: .leading) {
                 HStack() {
                   Text(prod.name)
@@ -121,13 +168,18 @@ struct DescriptionView: View {
                     Text(String.init(format: "%0.1f", prod.avgRating)).padding(.trailing)
                     Spacer()
                     Button(action: {
-                          isToggled = !isToggled
+                          if self.isToggled == 1 {
+                            self.isToggled = 0
+                          } else {
+                            self.isToggled = 1
+                          }
+                          //self.isToggled = !self.isToggled
                           
                           let uid = UserDefaults.standard.string(forKey: "uid")!
                           print(prod.name)
                           self.wish.checkWishlist(usrID: uid, beerName: prod.name, isAdd: isToggled)
                         }) {
-                          if isToggled == true {
+                          if isToggled == 1 {
                             Image(systemName: "bookmark.fill").foregroundColor(Color("Highlight Color"))
                           } else {
                             Image(systemName: "bookmark").foregroundColor(Color("Highlight Color"))
@@ -291,29 +343,26 @@ struct DescriptionView: View {
             
 
         }
-        .onAppear {
-                  let uid = UserDefaults.standard.string(forKey: "uid")
-                  self.wish.isInWishlist(usrID: uid ?? "", beerName: prod.name, completion: { (success) -> Void in
-                    print("+==============")
-                    print(success)
-                    if success {
-                      print("ALREADY IN!")
-                      isToggled = true
-                    }
-                  })
-                  self.rat.hasTags(usrID: uid ?? "", beerName: prod.name, completion: { (arg0) -> Void in
-            
-                        let (resTags, beerRating) = arg0
-                        self.tags = resTags
-                        self.rating = beerRating
-                  })
-                }
+//        .onAppear {
+//            let uid = UserDefaults.standard.string(forKey: "uid")
+//            self.wish.isInWishlist(usrID: uid ?? "", beerName: prod.name, completion: { (success) -> Void in
+//              print("+==============")
+//              print(success)
+//              if success {
+//                print("ALREADY IN!")
+//                isToggled = true
+//              }
+//            })
+//            self.rat.hasTags(usrID: uid ?? "", beerName: prod.name, completion: { (arg0) -> Void in
+//                  let (resTags, beerRating) = arg0
+//                  self.tags = resTags
+//                  self.rating = beerRating
+//            })
+//
+//        }
         .sheet(isPresented: $showingPopOver) {
           PreferenceView(tags: $tags, keyword: $keyword, showingPopOver: $showingPopOver, product: prod.name)}
         .padding(.bottom)
 
     }
 }
-
-
-
