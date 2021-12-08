@@ -29,7 +29,13 @@ class ImageViewModel: ObservableObject {
             let html = try String(contentsOf: url)
             let doc: Document = try SwiftSoup.parse(html)
             let allscripts = try doc.getElementsByTag("script")
+            
             var wantedscript = try doc.getElementsByTag("script")[17].html()
+            
+            if allscripts.count == 31 {
+                print("IT SHOULD COME IN HERE")
+                wantedscript = try doc.getElementsByTag("script")[18].html()
+            }
             
             let newScript = wantedscript.dropFirst(4).dropLast(3)
             
