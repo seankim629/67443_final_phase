@@ -52,6 +52,7 @@
 		E8D8731927351AAE005EF75D /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D8731827351AAE005EF75D /* DetailsView.swift */; };
 		E8D8731B27351AB5005EF75D /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D8731A27351AB4005EF75D /* ImagePickerView.swift */; };
 		E8D8731D27351ABA005EF75D /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D8731C27351ABA005EF75D /* ScanView.swift */; };
+		E8F989F6276053E40020D444 /* FeedTileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F989F5276053E40020D444 /* FeedTileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,7 @@
 		E8D8731827351AAE005EF75D /* DetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
 		E8D8731A27351AB4005EF75D /* ImagePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		E8D8731C27351ABA005EF75D /* ScanView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
+		E8F989F5276053E40020D444 /* FeedTileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,6 +266,7 @@
 				6720EF4F27349F720026DC12 /* Cards */,
 				E8D873122734DC0F005EF75D /* ProductDetailView.swift */,
 				E8D873142734E738005EF75D /* Playground.swift */,
+				E8F989F5276053E40020D444 /* FeedTileView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -510,6 +513,7 @@
 				E8A53E832756A6C200858470 /* CardsSection.swift in Sources */,
 				6720EF5427349F820026DC12 /* RatingCard.swift in Sources */,
 				E8C886DA275969E2003C80BD /* LoginView.swift in Sources */,
+				E8F989F6276053E40020D444 /* FeedTileView.swift in Sources */,
 				6720EF4D27348CBC0026DC12 /* UrlImageView.swift in Sources */,
 				E8443580275974C700FD0960 /* TagTextField.swift in Sources */,
 				E844357D275974C700FD0960 /* PreferenceView.swift in Sources */,
