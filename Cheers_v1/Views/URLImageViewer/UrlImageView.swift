@@ -38,7 +38,7 @@ struct ProductImage: View {
         .resizable()
         .aspectRatio(contentMode: .fit)
     } else {
-      Image(systemName: "person.circle.fill")
+      Image("beer_placeholder")
         .resizable()
         .aspectRatio(contentMode: .fit)
     }
@@ -55,10 +55,14 @@ struct CustomImageView: View {
       Image(uiImage: uiImage)
         .resizable()
         .aspectRatio(contentMode: .fit)
+        .frame(width: 40)
+        .padding(.all, 15)
     } else {
-      Image(systemName: "person.circle.fill")
+      Image("beer_placeholder")
         .resizable()
         .aspectRatio(contentMode: .fit)
+        .frame(width: 40)
+        .padding(.all, 15)
     }
   }
 }

@@ -41,7 +41,7 @@ struct DetailScreen: View {
     
     func startNetworkCall() {
         isLoading = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
         isLoading = false
         }
       }
@@ -74,7 +74,7 @@ struct DetailScreen: View {
         }
         .onAppear {
           startNetworkCall()
-          result.load(barcode: barcodeValue!)
+          result.load(barcode: "01801624")
         }
         .navigationBarTitleDisplayMode(.inline).toolbar {
             ToolbarItem(placement: .principal) {

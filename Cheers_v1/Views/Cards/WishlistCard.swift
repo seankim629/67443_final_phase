@@ -60,8 +60,8 @@ struct WishlistCard: View {
 
 
 
-struct WishlistCard_Previews: PreviewProvider {
-    static var previews: some View {
-        WishlistCard(image: CustomImageView(urlString: "https://firebasestorage.googleapis.com/v0/b/cheers-4b4f6.appspot.com/o/profile_images%2Fcarlsberg.png?alt=media&token=261d7cd0-3292-4577-ab54-0d53cd7a0dc6"), beer: "Carlsberg", type: "Lager", alcohol: 5, rating: 4.2)
-    }
-}
+//struct WishlistCard_Previews: PreviewProvider {
+//    static var previews: some View {
+//        WishlistCard(image: CustomImageView(urlString: "https://firebasestorage.googleapis.com/v0/b/cheers-4b4f6.appspot.com/o/profile_images%2Fcarlsberg.png?alt=media&token=261d7cd0-3292-4577-ab54-0d53cd7a0dc6"), beer: "Carlsberg", type: "Lager", alcohol: 5, rating: 4.2)
+//    }
+//}

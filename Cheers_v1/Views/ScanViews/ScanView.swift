@@ -69,13 +69,13 @@ struct ScanView: View {
                     NavigationLink(destination: ContentView(selectedTab: self.$selectedTab, selectedImage: self.$selectedImage, barcodeValue: self.$barcodeValue)) {
                     Text("Detect").padding(30).foregroundColor(.white)
                     }.simultaneousGesture(TapGesture().onEnded{
-                      if self.barcodeValue! == "No barcode detected." {
-                        print("ARE U HERE?????????")
-                        self.selectedTab = .scan
-                      } else {
+//                      if self.barcodeValue! == "No barcode detected." {
+//                        print("ARE U HERE?????????")
+//                        self.selectedTab = .scan
+//                      } else {
                         self.selectedTab = .result
                         print(self.barcodeValue!)
-                      }
+//                      }
                     })
                     Spacer()
 
