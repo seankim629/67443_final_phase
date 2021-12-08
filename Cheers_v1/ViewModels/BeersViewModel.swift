@@ -19,6 +19,7 @@ class BeersViewModel: ObservableObject {
   var y: CGFloat = 0.0
   var degree: Double = 0.0
   private var db = Firestore.firestore()
+  var resname = ""
   
   func getBeersData() {
     db.collection("beers").getDocuments {
@@ -124,8 +125,9 @@ class BeersViewModel: ObservableObject {
     print(self.randomBeers)
   }
   
-  func getBeerDetail(name: String) {
-    
+  func getBeerDetail(name: String, completion: @escaping((Bool) -> ())) {
+    let myGroup = DispatchGroup()
+    myGroup.enter()
     let beerRef = self.db.collection("beers").document(name)
     beerRef.getDocument { document, error in
       if let error = error as NSError? {
@@ -143,7 +145,8 @@ class BeersViewModel: ObservableObject {
             let bitter = data?["Bitter"] as? Int ?? 0
             let sweet = data?["Sweet"] as? Int ?? 0
             let fruity = data?["Fruits"] as? Int ?? 0
-            print(alc)
+            print("%%%%%%%%%%%%%%%%%%%%%%%%")
+            print(name)
             self.beerDetails = Product(name: name, image: "", avgRating: avgRating, alc: alc, brewery: brew, style: style, sweet: sweet, sour: sour, bitter: bitter, fruits: fruity)
             print(self.beerDetails.avgRating)
           }
@@ -152,10 +155,14 @@ class BeersViewModel: ObservableObject {
           }
         }
       }
+    myGroup.leave()
+    }
+    myGroup.notify(queue: DispatchQueue.global(qos: .background)) {
+      completion(true)
     }
   }
 
-  func load(barcode: String) {
+  func load(barcode: String, completion: @escaping((Bool) -> ())) {
     var arr = Array(barcode)
     var realbar = barcode
     var sub1 = ""
@@ -191,9 +198,9 @@ class BeersViewModel: ObservableObject {
       realbar = sub1
     }
    let url = "https://buycott.com/api/v4/products/lookup?barcode=\(realbar)&access_token=njpTtmc5if7vMhCXL4jGBqQ48fL9mxh_OSY-E3Wp"
-   let myGroup = DispatchGroup()
-   myGroup.enter()
+   let sem = DispatchSemaphore(value: 0)
    let task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, response, error) in
+     defer { sem.signal() }
      guard let data = data else {
        print("Error: No data to decode")
        return
@@ -202,22 +209,9 @@ class BeersViewModel: ObservableObject {
        print("Error: Couldn't decode data into a result")
        return
      }
-     myGroup.enter()
-     self.imgExt.getImage(beer: result.products[0].name, completion: { (success) -> Void in
-     print("+==============")
-     print(success)
-      if success {
-        //DispatchQueue.main.async {
-          print("SHIBAL")
-          print(self.imgExt.imgURL)
-          self.beerImg = self.imgExt.imgURL
-        //}
-        //self.beerImg = self.imgExt.imgURL
-
-        self.getBeerDetail(name: self.imgExt.itemName)
-      }
-    })
-    myGroup.leave()
+     self.resname = result.products[0].name
+     print("ARE U THERE PLZZZZZZ")
+     print(self.resname)
 //   for p in result.products {
 //     print(p.name)
 //     myGroup.enter()
@@ -238,13 +232,29 @@ class BeersViewModel: ObservableObject {
 //     myGroup.leave()
 //     break
 //   }
-   myGroup.leave()
- }
- myGroup.notify(queue: DispatchQueue.global(qos: .background)) {
- }
- task.resume()
+    }
+    task.resume()
+    sem.wait(timeout: .distantFuture)
+    self.imgExt.getImage(beer: self.resname, completion: { (success) -> Void in
+    print("+==============")
+    print(success)
+     if success {
+       DispatchQueue.main.async {
+         print("SHIBAL")
+         print(self.imgExt.imgURL)
+         self.beerImg = self.imgExt.imgURL
+         self.getBeerDetail(name: self.imgExt.itemName, completion: { (success) -> Void in
+           print("+==============")
+           print(success)
+           completion(true)
+         })
+       }
+       //self.beerImg = self.imgExt.imgURL
+         
+     }
+   })
 
- 
+
  }
 }
 

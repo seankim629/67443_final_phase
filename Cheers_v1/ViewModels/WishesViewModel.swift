@@ -122,6 +122,8 @@ class WishesViewModel: ObservableObject {
                         print(wishes)
                         print(beerName)
                         for w in wishes {
+                          print(w)
+                          print(beerName)
                           if w == beerName {
                             isThere = true
                           }
@@ -143,7 +145,7 @@ class WishesViewModel: ObservableObject {
     }
   }
   
-  func checkWishlist(usrID: String, beerName: String, isAdd: Bool) {
+  func checkWishlist(usrID: String, beerName: String, isAdd: Int) {
     var isNew = false
     var count = 1
     let lastchr = usrID.last!
@@ -167,7 +169,7 @@ class WishesViewModel: ObservableObject {
               isNew = true
             } else {
               myGroup.enter()
-              if isAdd == true {
+              if isAdd == 1 {
                 print("DO THE ADD")
                 wishlists?.updateData([
                   "wishlist": FieldValue.arrayUnion([beerName])
