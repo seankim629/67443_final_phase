@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct StarSlider: View {
-  init(_ rating: Binding<Double>, _ tags: Binding<[String]>, product: String = "", ratModel: RatingsViewModel, maxRating: Int = 5) {
+    init(_ rating: Binding<Double>, _ tags: Binding<[String]>, product: String = "", ratModel: RatingsViewModel, photo: String = "", maxRating: Int = 5) {
         _rating = rating
         self.product = product
         self.maxRating = maxRating
         self.rat = ratModel
+        self.photo = photo
         _tags = tags
     }
 
@@ -20,6 +21,7 @@ struct StarSlider: View {
     @Binding var rating: Double
     @Binding var tags: [String]
     var product: String
+    var photo: String
     var rat: RatingsViewModel
     @State private var starSize: CGSize = .zero
     @State private var controlSize: CGSize = .zero
@@ -66,7 +68,8 @@ struct StarSlider: View {
                               "rating": rating,
                               "userid": 1,
                               "productname": product,
-                              "tags": tags
+                              "tags": tags,
+                              "photo": photo
                             ]
                             rat.checkRating(usrID: uid ?? "", newData: newRating)
                         }

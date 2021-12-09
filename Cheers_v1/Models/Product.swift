@@ -27,6 +27,7 @@ struct ResultProds: Decodable {
 
 struct Product {
   var name: String = ""
+  var fakeName: String = ""
   var image: String = ""
   var avgRating: Double = 0.0
   var alc: Double = 0.0

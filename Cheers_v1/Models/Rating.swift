@@ -15,6 +15,7 @@ struct Rating: Identifiable, Codable {
   var product: String
   var tags: [String]
   var datetime: Date
+  var photo: String
   
   enum CodingKeys: String, CodingKey {
     case id
@@ -23,6 +24,7 @@ struct Rating: Identifiable, Codable {
     case product = "productname"
     case tags
     case datetime
+    case photo
   }
 }
 

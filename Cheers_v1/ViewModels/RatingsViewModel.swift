@@ -102,8 +102,9 @@ class RatingsViewModel: ObservableObject {
                 formatter.dateFormat = "MM/dd/YY"
                 let formattedTimeZoneStr = formatter.string(from: convdate)
                 let tags = data?["tags"] as? [String] ?? []
+                let photo = data?["photo"] as? String ?? ""
                 
-                let r2 = Rating(id: docId, rating: rating, userid: userid, product: product, tags: tags, datetime: convdate)
+                let r2 = Rating(id: docId, rating: rating, userid: userid, product: product, tags: tags, datetime: convdate, photo: photo)
                 if rating != 0.0 {
                   let beerRef = self.db.collection("beers").document(product)
                   beerRef.getDocument { document, error in
@@ -117,7 +118,7 @@ class RatingsViewModel: ObservableObject {
                             let name = data?["Name"] as? String ?? ""
                           let alc = data?["ABV"] as? Double ?? 0.0
                           let style = data?["Style"] as? String ?? ""
-                          self.ratings.append(RatingRow(rowRating: rating, product: product, alc: Double(alc), rowPhoto: "", style: style, dateString: formattedTimeZoneStr))
+                          self.ratings.append(RatingRow(rowRating: rating, product: product, alc: Double(alc), rowPhoto: photo, style: style, dateString: formattedTimeZoneStr))
                         }
                         catch {
                           print(error)
@@ -170,7 +171,8 @@ class RatingsViewModel: ObservableObject {
       "rating": newData["rating"],
       "userid": newData["userid"],
       "productname": newData["productname"],
-      "tags": newData["tags"]
+      "tags": newData["tags"],
+      "photo": newData["photo"]
     ]
     let userRef = db.collection("users").document(usrID)
     myGroup.enter()

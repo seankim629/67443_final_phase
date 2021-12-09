@@ -29,13 +29,17 @@ class ImageViewModel: ObservableObject {
             let html = try String(contentsOf: url)
             let doc: Document = try SwiftSoup.parse(html)
             let allscripts = try doc.getElementsByTag("script")
+            let res = try doc.getElementsByAttributeValue("type", "application/json")
+//            print(res[1])
+//            var wantedscript = try doc.getElementsByTag("script")[17].html()
             
-            var wantedscript = try doc.getElementsByTag("script")[17].html()
+//            if allscripts.count >= 31 {
+//                print("IT SHOULD COME IN HERE")
+//                wantedscript = try doc.getElementsByTag("script")[19].html()
+//                //print(wantedscript)
+//            }
             
-            if allscripts.count == 31 {
-                print("IT SHOULD COME IN HERE")
-                wantedscript = try doc.getElementsByTag("script")[18].html()
-            }
+            var wantedscript = try res[1].html()
             
             let newScript = wantedscript.dropFirst(4).dropLast(3)
             
@@ -47,8 +51,6 @@ class ImageViewModel: ObservableObject {
                     // try to read out a string array
                     if let outer = json["catalogItems"] as? NSArray
                     {
-                        print("I am printing the number of catalog items here")
-                        print(outer.count)
                         if outer.count != 0 {
                             if let first = outer[0] as? NSDictionary {
                                 if let title = first["catalogItem"] as? NSDictionary {
@@ -66,9 +68,9 @@ class ImageViewModel: ObservableObject {
                 print("Failed to load: \(error.localizedDescription)")
             }
             
-            print("How Mang Scripts?")
-            print(allscripts.count)
-            print("+++++++++++++")
+//            print("How Mang Scripts?")
+//            print(allscripts.count)
+//            print("+++++++++++++")
 
             print(itemName)
             print("+++++++++++++")

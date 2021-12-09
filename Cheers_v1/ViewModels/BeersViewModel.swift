@@ -11,7 +11,7 @@ import SwiftUI
 
 class BeersViewModel: ObservableObject {
   @Published var beers = [Beer]()
-  @Published var randomBeers = [Card]()
+  //@Published var randomBeers = [Card]()
   @Published var beerDetails = Product()
   @ObservedObject var imgExt = ImageViewModel()
   @Published var beerImg = ""
@@ -62,15 +62,21 @@ class BeersViewModel: ObservableObject {
   //var UserTags = ["Malty","Salty"]
 
   func getRandomBeers(tags: [String]? = nil, completion: @escaping(([Card]) -> ())) {
+    var brlist = [Card]()
     var inputTags = tags
+    let myGroup = DispatchGroup()
+    myGroup.enter()
     if tags != nil {
       inputTags?.shuffle()
       let usrNope = UserDefaults.standard.object(forKey: "nope") as! [String]
       print("RANDOM????-----------")
       print(usrNope)
       let firstTag = inputTags![0]
+      print(firstTag)
       if usrNope.isEmpty == false {
-          db.collection("beers").whereField("Style", isEqualTo: firstTag).whereField("Style", notIn:usrNope).getDocuments {
+          myGroup.enter()
+          print("AM I NINININININININ")
+          db.collection("beers").whereField("Style", isEqualTo: firstTag).getDocuments {
             querySnapshot, error in
                 guard let documents = querySnapshot?.documents else {
                       print("No documents! \(error!)")
@@ -79,23 +85,32 @@ class BeersViewModel: ObservableObject {
                   }
                 var cnt = 0
                 for documentSnapshot in documents {
-                  cnt += 1
-                  if cnt == 10 { break }
-                  let data = documentSnapshot.data()
-                  let name = data["Name"] as? String ?? ""
-                  let abv = data["ABV"] as? Double ?? 0.0
-                  let avgR = data["Ave Rating"] as? Double ?? 0.0
-                  print("BEER ORIGINAL NAME?")
-                  print(name)
-                  self.imgExt.getImage(beer: name, completion: { (success) -> Void in
-                    if success == true {
-                      let b2 = Card(name: self.imgExt.itemName, imageName: self.imgExt.imgURL, avgRating: avgR, alc: abv)
-                      self.randomBeers.append(b2)
+                    if cnt == 10 { break }
+                    let data = documentSnapshot.data()
+                    let name = data["Name"] as? String ?? ""
+                    if usrNope.contains(name) == false {
+                        print("NO LONGER IN HERE!!!!!")
+                        print(cnt)
+                        cnt += 1
+                        let abv = data["ABV"] as? Double ?? 0.0
+                        let avgR = data["Ave Rating"] as? Double ?? 0.0
+                        print("BEER ORIGINAL NAME?")
+                        print(name)
+                        self.imgExt.getImage(beer: name, completion: { (success) -> Void in
+                          if success == true {
+                              let b2 = Card(name: self.imgExt.itemName, fakeName: name, imageName: self.imgExt.imgURL, avgRating: avgR, alc: abv)
+                                //print(self.randomBeers)
+                                brlist.append(b2)
+                          }
+                        })
                     }
-                  })
+                    
+                  
               }
+              myGroup.leave()
           }
       } else {
+          myGroup.enter()
           db.collection("beers").whereField("Style", isEqualTo: firstTag).getDocuments {
             querySnapshot, error in
                 guard let documents = querySnapshot?.documents else {
@@ -106,35 +121,43 @@ class BeersViewModel: ObservableObject {
                 var cnt = 0
                 for documentSnapshot in documents {
                   cnt += 1
-                  if cnt == 10 { break }
+                    if cnt == 10 {
+                        break
+                    }
                   let data = documentSnapshot.data()
-                  let name = data["Name"] as? String ?? ""
+                  var name = data["Name"] as? String ?? ""
                   let abv = data["ABV"] as? Double ?? 0.0
                   let avgR = data["Ave Rating"] as? Double ?? 0.0
                   print("BEER ORIGINAL NAME?")
                   print(name)
                   self.imgExt.getImage(beer: name, completion: { (success) -> Void in
+                      print(success)
+                      print("DID THIS WORKKKKKKKKKKK")
                     if success == true {
-                      let b2 = Card(name: self.imgExt.itemName, imageName: self.imgExt.imgURL, avgRating: avgR, alc: abv)
-                      self.randomBeers.append(b2)
+                      let b2 = Card(name: self.imgExt.itemName, fakeName: name, imageName: self.imgExt.imgURL, avgRating: avgR, alc: abv)
+                      brlist.append(b2)
                     }
                   })
               }
+              myGroup.leave()
           }
       }
         
-      
+    myGroup.leave()
     } else {
       //give Random beers
       getBeersData()
+      myGroup.leave()
     }
-    self.randomBeers.shuffle()
-    print("AFTER GETTING RANDOM BEERS")
-    print(self.randomBeers)
-    completion(self.randomBeers)
+      myGroup.notify(queue: DispatchQueue.global(qos: .background)) {
+          brlist.shuffle()
+          print("AFTER GETTING RANDOM BEERS")
+          print(brlist)
+          completion(brlist)
+      }
   }
   
-  func getBeerDetail(name: String, completion: @escaping((Bool) -> ())) {
+    func getBeerDetail(name: String, fakeName: String, completion: @escaping((Bool) -> ())) {
     let myGroup = DispatchGroup()
     myGroup.enter()
     let beerRef = self.db.collection("beers").document(name)
@@ -156,7 +179,7 @@ class BeersViewModel: ObservableObject {
             let fruity = data?["Fruits"] as? Int ?? 0
             print("%%%%%%%%%%%%%%%%%%%%%%%%")
             print(name)
-            self.beerDetails = Product(name: name, image: "", avgRating: avgRating, alc: alc, brewery: brew, style: style, sweet: sweet, sour: sour, bitter: bitter, fruits: fruity)
+              self.beerDetails = Product(name: name, fakeName: fakeName, image: "", avgRating: avgRating, alc: alc, brewery: brew, style: style, sweet: sweet, sour: sour, bitter: bitter, fruits: fruity)
             print(self.beerDetails.avgRating)
           }
           catch {
@@ -252,7 +275,7 @@ class BeersViewModel: ObservableObject {
          print("SHIBAL")
          print(self.imgExt.imgURL)
          self.beerImg = self.imgExt.imgURL
-         self.getBeerDetail(name: self.imgExt.itemName, completion: { (success) -> Void in
+           self.getBeerDetail(name: self.imgExt.itemName, fakeName: self.resname, completion: { (success) -> Void in
            print("+==============")
            print(success)
            completion(true)

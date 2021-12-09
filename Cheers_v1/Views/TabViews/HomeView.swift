@@ -22,7 +22,7 @@ struct HomeView: View {
   
     func startNetworkCall() {
         isLoading = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
         isLoading = false
         }
     }
@@ -69,7 +69,7 @@ struct HomeView: View {
                       }
                       
             }
-            self.br.getRandomBeers(tags: ["Altbier"], completion: { (randoms) -> Void in
+            self.br.getRandomBeers(tags: ["Lager - American"], completion: { (randoms) -> Void in
                 print(randoms)
                 self.randoms = randoms
             })

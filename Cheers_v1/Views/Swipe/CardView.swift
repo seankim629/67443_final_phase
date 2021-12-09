@@ -11,13 +11,14 @@ struct CardView: View {
     @State var card: Card
     // MARK: - Drawing Constant
     @ObservedObject var usr = UsersViewModel()
-    let cardGradient = Gradient(colors: [Color.black.opacity(0.0), Color.black.opacity(0.7)])
+    let cardGradient = Gradient(colors: [Color.black.opacity(0.0), Color.black.opacity(0.5)])
+//    let backgroundGradient = Gradient(colors: [Color.white.opacity(1.0), Color.black.opacity(1.0)])
     
     var body: some View {
         ZStack(alignment: .topLeading) {
-            Image(card.imageName)
-                .resizable()
-                .clipped()
+//            LinearGradient(gradient: backgroundGradient, startPoint: .top, endPoint: .bottom)
+            Rectangle().fill(Color.white)
+            ProductImage(url: URL(string:card.imageName))
                 
             
             // Linear Gradient
@@ -77,12 +78,13 @@ struct CardView: View {
                             card.x = 500; card.degree = 12
                             // add to wishlist
                             
+                            
                             let _ = print("hi!")
                         case (-100)...(-1):
                             card.x = 0; card.degree = 0; card.y = 0
                         case let x where x < -100:
                             card.x  = -500; card.degree = -12
-                            self.usr.addNope(newNope: card.name)
+                            self.usr.addNope(newNope: card.fakeName)
                         default:
                             card.x = 0; card.y = 0
                         }
@@ -93,11 +95,3 @@ struct CardView: View {
     }
 }
 
-
-
-struct CardView_Previews: PreviewProvider {
-    static var previews: some View {
-        CardView(card: Card.data[0])
-            .previewLayout(.sizeThatFits)
-    }
-}

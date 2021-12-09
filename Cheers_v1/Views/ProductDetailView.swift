@@ -49,7 +49,7 @@ struct DetailScreen: View {
         let uid = UserDefaults.standard.string(forKey: "uid")
       
         //group.enter()
-        result.load(barcode: "01801624", completion: { (success) -> Void in
+        result.load(barcode: barcodeValue!, completion: { (success) -> Void in
           print("+-+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_")
           print(success)
           if success {
@@ -116,7 +116,7 @@ struct DetailScreen: View {
                 ProductImage(url: URL(string:result.beerImg))
                 //Text(barcodeValue!)
 //                Toggler()
-                DescriptionView(rating: $rating, prod: result.beerDetails, isToggled: $isToggled, tags: $tags)
+                DescriptionView(rating: $rating, prod: result.beerDetails, photo: result.beerImg, isToggled: $isToggled, tags: $tags)
 
             }
           }
@@ -143,6 +143,7 @@ struct DetailScreen: View {
 struct DescriptionView: View {
     @Binding var rating: Double
     var prod: Product
+    var photo: String
     @ObservedObject var rat = RatingsViewModel()
     @ObservedObject var wish = WishesViewModel()
     @Binding var isToggled: Int
@@ -177,7 +178,7 @@ struct DescriptionView: View {
                           
                           let uid = UserDefaults.standard.string(forKey: "uid")!
                           print(prod.name)
-                          self.wish.checkWishlist(usrID: uid, beerName: prod.name, isAdd: isToggled)
+                        self.wish.checkWishlist(usrID: uid, beerName: prod.name, fakeName: prod.fakeName, isAdd: isToggled, photo: photo)
                         }) {
                           if isToggled == 1 {
                             Image(systemName: "bookmark.fill").foregroundColor(Color("Highlight Color"))
@@ -192,7 +193,7 @@ struct DescriptionView: View {
                 }.padding(.top).padding(.leading)
                 
                 HStack() {
-                  StarSlider($rating, $tags, product: prod.name, ratModel: rat).padding(.trailing)
+                    StarSlider($rating, $tags, product: prod.name, ratModel: rat, photo: photo).padding(.trailing)
                   if rating == 0.0 {
                     Text("Leave a Rating").font(.system(size: 16))
                       .opacity(0.7)

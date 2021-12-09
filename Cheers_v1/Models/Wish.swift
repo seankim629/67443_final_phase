@@ -12,11 +12,13 @@ struct Wishlist: Identifiable, Codable {
   @DocumentID var id: String? = UUID().uuidString
   var userid: Int
   var wishlist: [String]
+  var wishdict: [String:String]
   
   enum CodingKeys: String, CodingKey {
     case id
     case userid
     case wishlist
+    case wishdict
   }
 }
 

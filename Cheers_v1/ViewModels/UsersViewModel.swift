@@ -110,6 +110,9 @@ class UsersViewModel: ObservableObject {
       }
   func addNope(newNope: String) {
         let uid = UserDefaults.standard.string(forKey: "uid")!
+        var usrNope = UserDefaults.standard.object(forKey: "nope") as! [String]
+        usrNope.append(newNope)
+        UserDefaults.standard.set(usrNope, forKey: "nope")
         let userRef = db.collection("users").document(uid)
         userRef.updateData([
             "nopeList": FieldValue.arrayUnion([newNope])

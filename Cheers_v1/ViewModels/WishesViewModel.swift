@@ -25,8 +25,8 @@ class WishesViewModel: ObservableObject {
                 let docId = document.documentID
                 let userid = data?["userid"] as? Int ?? 0
                 let wishlist = data?["wishlist"] as? [String] ?? []
-                
-                let w1 = Wishlist(id: docId, userid: userid, wishlist: wishlist)
+                let wishdict = data?["wishdict"] as? [String:String] ?? [:]
+                let w1 = Wishlist(id: docId, userid: userid, wishlist: wishlist, wishdict: wishdict)
                 
 //                print("-----------------------------------")
 //                print("Printing Wishlist Products by User ID: \(w1.userid)")
@@ -45,7 +45,7 @@ class WishesViewModel: ObservableObject {
                             let alc = data?["ABV"] as? Double ?? 0.0
                             let avgR = data?["Ave Rating"] as? Double ?? 0.0
                             let style = data?["Style"] as? String ?? ""
-                            self.wishes.append(WishRow(rowRating: avgR, product: w, alc: alc, rowPhoto: "", style: style))
+                              self.wishes.append(WishRow(rowRating: avgR, product: w, alc: alc, rowPhoto: w1.wishdict[w]!, style: style))
                           }
                           catch {
                             print(error)
@@ -145,13 +145,14 @@ class WishesViewModel: ObservableObject {
     }
   }
   
-  func checkWishlist(usrID: String, beerName: String, isAdd: Int) {
+    func checkWishlist(usrID: String, beerName: String, fakeName: String, isAdd: Int, photo: String) {
     var isNew = false
     var count = 1
     let lastchr = usrID.last!
     let newData = [
       "userid": Int(String(lastchr)) ?? 0,
-      "wishlist": [beerName]
+      "wishlist": [beerName],
+      "wishdict": [beerName : photo]
     ] as [String : Any]
     let myGroup = DispatchGroup()
     let userRef = db.collection("users").document(usrID)
@@ -174,11 +175,13 @@ class WishesViewModel: ObservableObject {
                 wishlists?.updateData([
                   "wishlist": FieldValue.arrayUnion([beerName])
                 ])
+                wishlists?.setData(["wishdict" : [beerName:photo]], merge: true)
               } else {
                 print("DO THE DELETE")
                 wishlists?.updateData([
                   "wishlist": FieldValue.arrayRemove([beerName])
                 ])
+                  wishlists?.setData(["wishdict": [beerName : FieldValue.delete()]], merge: true)
               }
               myGroup.leave()
             }

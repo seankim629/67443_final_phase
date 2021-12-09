@@ -28,8 +28,8 @@ struct CardsSection: View {
                     .opacity(0.5)
                     .shadow(radius: 5, x: 5, y: 5)
                 )
-            let _ = print(brs.randomBeers)
-            ForEach(brs.randomBeers.reversed()) { card in
+            let _ = print(beerlist)
+            ForEach(beerlist.reversed()) { card in
                 CardView(card: card)
             }
         }
