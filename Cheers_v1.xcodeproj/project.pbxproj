@@ -14,6 +14,9 @@
 		4E067645272B23DF005FBEA4 /* Cheers_v1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E067644272B23DF005FBEA4 /* Cheers_v1Tests.swift */; };
 		4E06764F272B23DF005FBEA4 /* Cheers_v1UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E06764E272B23DF005FBEA4 /* Cheers_v1UITests.swift */; };
 		4E067651272B23DF005FBEA4 /* Cheers_v1UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E067650272B23DF005FBEA4 /* Cheers_v1UITestsLaunchTests.swift */; };
+		670B479A2762848F006272D3 /* ProductTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670B47992762848F006272D3 /* ProductTests.swift */; };
+		670B47A127630F43006272D3 /* ProfilePreferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670B47A027630F32006272D3 /* ProfilePreferenceView.swift */; };
+		670B47A327630FA2006272D3 /* ProfileMyTagsField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670B47A227630FA1006272D3 /* ProfileMyTagsField.swift */; };
 		6720EF2F2731D5F50026DC12 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6720EF2E2731D5F50026DC12 /* Product.swift */; };
 		6720EF312731D65D0026DC12 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6720EF302731D65D0026DC12 /* User.swift */; };
 		6720EF332731D80B0026DC12 /* Beer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6720EF322731D80B0026DC12 /* Beer.swift */; };
@@ -28,6 +31,9 @@
 		6720EF4D27348CBC0026DC12 /* UrlImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6720EF4C27348CBC0026DC12 /* UrlImageView.swift */; };
 		6720EF5427349F820026DC12 /* RatingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6720EF5127349F800026DC12 /* RatingCard.swift */; };
 		6720EF5527349F820026DC12 /* WishlistCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6720EF5227349F810026DC12 /* WishlistCard.swift */; };
+		6794176F276312F8007479D2 /* ProfileSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6794176E276312F8007479D2 /* ProfileSearchTextField.swift */; };
+		67941771276313B2007479D2 /* ProfileTagTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67941770276313B2007479D2 /* ProfileTagTextField.swift */; };
+		679417732763417A007479D2 /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679417722763417A007479D2 /* CardDetailView.swift */; };
 		E844356D2759713A00FD0960 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E844356C2759713A00FD0960 /* GoogleService-Info.plist */; };
 		E844356E2759713A00FD0960 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E844356C2759713A00FD0960 /* GoogleService-Info.plist */; };
 		E844356F2759713A00FD0960 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E844356C2759713A00FD0960 /* GoogleService-Info.plist */; };
@@ -83,6 +89,9 @@
 		4E06764A272B23DF005FBEA4 /* Cheers_v1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Cheers_v1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E06764E272B23DF005FBEA4 /* Cheers_v1UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cheers_v1UITests.swift; sourceTree = "<group>"; };
 		4E067650272B23DF005FBEA4 /* Cheers_v1UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cheers_v1UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		670B47992762848F006272D3 /* ProductTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTests.swift; sourceTree = "<group>"; };
+		670B47A027630F32006272D3 /* ProfilePreferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePreferenceView.swift; sourceTree = "<group>"; };
+		670B47A227630FA1006272D3 /* ProfileMyTagsField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMyTagsField.swift; sourceTree = "<group>"; };
 		6720EF2E2731D5F50026DC12 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		6720EF302731D65D0026DC12 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6720EF322731D80B0026DC12 /* Beer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beer.swift; sourceTree = "<group>"; };
@@ -98,6 +107,9 @@
 		6720EF4E27348EB20026DC12 /* Cheers-v1-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Cheers-v1-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6720EF5127349F800026DC12 /* RatingCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingCard.swift; sourceTree = "<group>"; };
 		6720EF5227349F810026DC12 /* WishlistCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WishlistCard.swift; sourceTree = "<group>"; };
+		6794176E276312F8007479D2 /* ProfileSearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSearchTextField.swift; sourceTree = "<group>"; };
+		67941770276313B2007479D2 /* ProfileTagTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTagTextField.swift; sourceTree = "<group>"; };
+		679417722763417A007479D2 /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
 		E844356C2759713A00FD0960 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E8443579275974C700FD0960 /* PreferenceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceView.swift; sourceTree = "<group>"; };
 		E844357A275974C700FD0960 /* MyTagsField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTagsField.swift; sourceTree = "<group>"; };
@@ -204,6 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				4E067644272B23DF005FBEA4 /* Cheers_v1Tests.swift */,
+				670B47992762848F006272D3 /* ProductTests.swift */,
 			);
 			path = Cheers_v1Tests;
 			sourceTree = "<group>";
@@ -225,6 +238,17 @@
 				E8D8731C27351ABA005EF75D /* ScanView.swift */,
 			);
 			path = ScanViews;
+			sourceTree = "<group>";
+		};
+		670B479F27630EFF006272D3 /* ProfilePreferenceView */ = {
+			isa = PBXGroup;
+			children = (
+				670B47A027630F32006272D3 /* ProfilePreferenceView.swift */,
+				670B47A227630FA1006272D3 /* ProfileMyTagsField.swift */,
+				6794176E276312F8007479D2 /* ProfileSearchTextField.swift */,
+				67941770276313B2007479D2 /* ProfileTagTextField.swift */,
+			);
+			path = ProfilePreferenceView;
 			sourceTree = "<group>";
 		};
 		6720EF2D2731D5C60026DC12 /* Models */ = {
@@ -255,6 +279,7 @@
 		6720EF3D2733295E0026DC12 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				670B479F27630EFF006272D3 /* ProfilePreferenceView */,
 				E84435702759741D00FD0960 /* Tags */,
 				E8A53E7D2756A57C00858470 /* Swipe */,
 				4E97C692273B069300B6868D /* ScanViews */,
@@ -267,6 +292,7 @@
 				E8D873122734DC0F005EF75D /* ProductDetailView.swift */,
 				E8D873142734E738005EF75D /* Playground.swift */,
 				E8F989F5276053E40020D444 /* FeedTileView.swift */,
+				679417722763417A007479D2 /* CardDetailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -492,9 +518,13 @@
 				E8D873082734D5E6005EF75D /* SearchView.swift in Sources */,
 				E85B6680275A9BCE000381A6 /* ImageViewModel.swift in Sources */,
 				E844357E275974C700FD0960 /* MyTagsField.swift in Sources */,
+				670B47A327630FA2006272D3 /* ProfileMyTagsField.swift in Sources */,
 				6720EF312731D65D0026DC12 /* User.swift in Sources */,
+				679417732763417A007479D2 /* CardDetailView.swift in Sources */,
 				4E067636272B23DA005FBEA4 /* ContentView.swift in Sources */,
+				670B47A127630F43006272D3 /* ProfilePreferenceView.swift in Sources */,
 				6720EF41273329D30026DC12 /* RatingsViewModel.swift in Sources */,
+				6794176F276312F8007479D2 /* ProfileSearchTextField.swift in Sources */,
 				E8D873062734D5D5005EF75D /* HomeView.swift in Sources */,
 				6720EF332731D80B0026DC12 /* Beer.swift in Sources */,
 				E8D8730E2734D612005EF75D /* StarSlider.swift in Sources */,
@@ -508,6 +538,7 @@
 				E844357F275974C700FD0960 /* SearchTextField.swift in Sources */,
 				E8D8731B27351AB5005EF75D /* ImagePickerView.swift in Sources */,
 				E8C886D8275966ED003C80BD /* AuthenticationViewModel.swift in Sources */,
+				67941771276313B2007479D2 /* ProfileTagTextField.swift in Sources */,
 				E8D873152734E738005EF75D /* Playground.swift in Sources */,
 				6720EF2F2731D5F50026DC12 /* Product.swift in Sources */,
 				E8A53E832756A6C200858470 /* CardsSection.swift in Sources */,
@@ -525,6 +556,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4E067645272B23DF005FBEA4 /* Cheers_v1Tests.swift in Sources */,
+				670B479A2762848F006272D3 /* ProductTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,7 +709,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Cheers_v1/Preview Content\"";
-				DEVELOPMENT_TEAM = V3FAM999P5;
+				DEVELOPMENT_TEAM = 27JY59SM6Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Cheers-v1-Info.plist";
@@ -694,7 +726,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "sk.Cheers-v1-1012";
+				PRODUCT_BUNDLE_IDENTIFIER = "sk.Cheers-v1-1013";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -710,7 +742,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Cheers_v1/Preview Content\"";
-				DEVELOPMENT_TEAM = V3FAM999P5;
+				DEVELOPMENT_TEAM = 27JY59SM6Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Cheers-v1-Info.plist";
@@ -727,7 +759,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "sk.Cheers-v1-1012";
+				PRODUCT_BUNDLE_IDENTIFIER = "sk.Cheers-v1-1013";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

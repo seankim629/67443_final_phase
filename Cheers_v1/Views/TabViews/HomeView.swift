@@ -23,8 +23,28 @@ struct HomeView: View {
     func startNetworkCall() {
         isLoading = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-        isLoading = false
+          if(UserDefaults.standard.bool(forKey: "homeTeamName") == false) {
+                    print(self.user)
+                    let user = GIDSignIn.sharedInstance()!.currentUser
+                    print(user)
+                    if user != nil {
+                      usr.checkUser(email: user?.profile.email ?? "", name: user?.profile.name ?? "", photo: (user?.profile.imageURL(withDimension: 200).absoluteString) as? String ?? "", completion: { (success) -> Void in
+                            let prefs = UserDefaults.standard.object(forKey: "pref")!
+                            self.br.getRandomBeers(tags: prefs as! [String], completion: { (randoms) -> Void in
+                                self.randoms = randoms
+                                self.isLoading = false
+                            })
+                          })
+                    }
+          } else {
+          let prefs = UserDefaults.standard.object(forKey: "pref")!
+          self.br.getRandomBeers(tags: prefs as! [String], completion: { (randoms) -> Void in
+              self.randoms = randoms
+              self.isLoading = false
+          })
         }
+      }
+
     }
     var body: some View {
       ZStack {
@@ -63,17 +83,6 @@ struct HomeView: View {
         }
         .onAppear {
             startNetworkCall()
-            if(UserDefaults.standard.bool(forKey: "homeTeamName") == false) {
-                      if user != nil {
-                        usr.checkUser(email: user?.profile.email ?? "", name: user?.profile.name ?? "", photo: (user?.profile.imageURL(withDimension: 200).absoluteString) as? String ?? "")
-                      }
-                      
-            }
-            self.br.getRandomBeers(tags: ["Lager - American"], completion: { (randoms) -> Void in
-                print(randoms)
-                self.randoms = randoms
-            })
-
         }
     }
 }

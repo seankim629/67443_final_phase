@@ -16,8 +16,32 @@ struct TabButtonStyle: ButtonStyle {
     }
 }
 
+struct NavigationUtil {
+  static func popToRootView() {
+    findNavigationController(viewController: UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController)?
+      .popToRootViewController(animated: true)
+  }
+
+  static func findNavigationController(viewController: UIViewController?) -> UINavigationController? {
+    guard let viewController = viewController else {
+      return nil
+    }
+
+    if let navigationController = viewController as? UINavigationController {
+      return navigationController
+    }
+
+    for childViewController in viewController.children {
+      return findNavigationController(viewController: childViewController)
+    }
+
+    return nil
+  }
+}
+
 struct CustomTabView: View {
     @Binding var selectedTab: Tab
+  @Environment(\.presentationMode) var presentation: Binding<PresentationMode>
     
     var body: some View {
         HStack {
@@ -90,9 +114,11 @@ struct CustomTabView: View {
                     
                 }
                 Spacer()
-                Button {
-                    selectedTab = .profile
-                } label: {
+                Button (
+                    action: { NavigationUtil.popToRootView()
+                      selectedTab = .profile
+                    }
+                ) {
                     VStack{
                         Image(systemName: "person.fill")
                             .resizable()
@@ -108,6 +134,8 @@ struct CustomTabView: View {
             }
             
         }.background(Color("Background Color"))
+      
+
     }
 }
 

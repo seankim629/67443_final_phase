@@ -24,9 +24,19 @@ struct RatingsListView: View {
               .padding(.top, 20)
               .padding(.leading, 28)
           
-          List(viewModel.ratings) { rating in
+          List(viewModel.ratings.reversed()) { rating in
             VStack(alignment: .leading) {
+              ZStack{
+                NavigationLink(destination: CardDetailScreen(beerName: rating.product, beerPhoto: rating.rowPhoto)) {
+                  EmptyView()
+                }.opacity(0.0).buttonStyle(PlainButtonStyle())
                 RatingCard(image: CustomImageView(urlString: rating.rowPhoto), beer: rating.product, type: rating.style, alcohol: Int(rating.alc), rating:rating.rowRating, date:rating.dateString)
+              }
+              
+              
+//              NavigationLink(destination: CardDetailScreen(beerName: rating.product, beerPhoto: rating.rowPhoto)) {
+//                RatingCard(image: CustomImageView(urlString: rating.rowPhoto), beer: rating.product, type: rating.style, alcohol: Int(rating.alc), rating:rating.rowRating, date:rating.dateString)
+//              }
             }
           } .onAppear() {
               self.viewModel.ratings = [RatingRow]()

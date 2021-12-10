@@ -21,6 +21,27 @@ class BeersViewModel: ObservableObject {
   private var db = Firestore.firestore()
   var resname = ""
   
+  
+  func loadSearchBeer(beerName: String, completion: @escaping((Bool) -> ())) {
+    self.imgExt.getImage(beer: beerName, completion: { (success) -> Void in
+    print("+==============")
+    print(success)
+     if success {
+       DispatchQueue.main.async {
+         print("SHIBAL")
+         print(self.imgExt.imgURL)
+         self.beerImg = self.imgExt.imgURL
+           self.getBeerDetail(name: self.imgExt.itemName, fakeName: beerName, completion: { (success) -> Void in
+           print("+==============")
+           print(success)
+           completion(true)
+         })
+       }
+       //self.beerImg = self.imgExt.imgURL
+         
+     }
+   })
+  }
   func getBeersData() {
     db.collection("beers").getDocuments {
       querySnapshot, error in
@@ -61,92 +82,89 @@ class BeersViewModel: ObservableObject {
 
   //var UserTags = ["Malty","Salty"]
 
-  func getRandomBeers(tags: [String]? = nil, completion: @escaping(([Card]) -> ())) {
+  func getRandomBeers(tags: [String], completion: @escaping(([Card]) -> ())) {
     var brlist = [Card]()
     var inputTags = tags
     let myGroup = DispatchGroup()
     myGroup.enter()
-    if tags != nil {
-      inputTags?.shuffle()
+    if tags.isEmpty == false {
+      inputTags.shuffle()
       let usrNope = UserDefaults.standard.object(forKey: "nope") as! [String]
       print("RANDOM????-----------")
       print(usrNope)
-      let firstTag = inputTags![0]
+      let firstTag = inputTags[0]
       print(firstTag)
-      if usrNope.isEmpty == false {
-          myGroup.enter()
-          print("AM I NINININININININ")
-          db.collection("beers").whereField("Style", isEqualTo: firstTag).getDocuments {
-            querySnapshot, error in
-                guard let documents = querySnapshot?.documents else {
-                      print("No documents! \(error!)")
-                      //completion(nil)
-                      return
-                  }
-                var cnt = 0
-                for documentSnapshot in documents {
-                    if cnt == 10 { break }
-                    let data = documentSnapshot.data()
-                    let name = data["Name"] as? String ?? ""
-                    if usrNope.contains(name) == false {
-                        print("NO LONGER IN HERE!!!!!")
-                        print(cnt)
-                        cnt += 1
-                        let abv = data["ABV"] as? Double ?? 0.0
-                        let avgR = data["Ave Rating"] as? Double ?? 0.0
-                        print("BEER ORIGINAL NAME?")
-                        print(name)
-                        self.imgExt.getImage(beer: name, completion: { (success) -> Void in
-                          if success == true {
-                              let b2 = Card(name: self.imgExt.itemName, fakeName: name, imageName: self.imgExt.imgURL, avgRating: avgR, alc: abv)
-                                //print(self.randomBeers)
-                                brlist.append(b2)
-                          }
-                        })
-                    }
-                    
-                  
+      myGroup.enter()
+      print("AM I NINININININININ")
+      db.collection("beers").whereField("Style", isEqualTo: firstTag).getDocuments {
+        querySnapshot, error in
+            guard let documents = querySnapshot?.documents else {
+                  print("No documents! \(error!)")
+                  //completion(nil)
+                  return
               }
-              myGroup.leave()
+            var cnt = 0
+            for documentSnapshot in documents {
+                if cnt == 10 { break }
+                let data = documentSnapshot.data()
+                let name = data["Name"] as? String ?? ""
+                if usrNope.contains(name) == false {
+                    print("NO LONGER IN HERE!!!!!")
+                    print(cnt)
+                    cnt += 1
+                    let abv = data["ABV"] as? Double ?? 0.0
+                    let avgR = data["Ave Rating"] as? Double ?? 0.0
+                    print("BEER ORIGINAL NAME?")
+                    print(name)
+                    self.imgExt.getImage(beer: name, completion: { (success) -> Void in
+                      if success == true {
+                          let b2 = Card(name: self.imgExt.itemName, fakeName: name, imageName: self.imgExt.imgURL, avgRating: avgR, alc: abv)
+                            //print(self.randomBeers)
+                            brlist.append(b2)
+                      }
+                    })
+                }
+                
+              
           }
-      } else {
-          myGroup.enter()
-          db.collection("beers").whereField("Style", isEqualTo: firstTag).getDocuments {
-            querySnapshot, error in
-                guard let documents = querySnapshot?.documents else {
-                      print("No documents! \(error!)")
-                      //completion(nil)
-                      return
-                  }
-                var cnt = 0
-                for documentSnapshot in documents {
-                  cnt += 1
-                    if cnt == 10 {
-                        break
-                    }
-                  let data = documentSnapshot.data()
-                  var name = data["Name"] as? String ?? ""
-                  let abv = data["ABV"] as? Double ?? 0.0
-                  let avgR = data["Ave Rating"] as? Double ?? 0.0
-                  print("BEER ORIGINAL NAME?")
-                  print(name)
-                  self.imgExt.getImage(beer: name, completion: { (success) -> Void in
-                      print(success)
-                      print("DID THIS WORKKKKKKKKKKK")
-                    if success == true {
-                      let b2 = Card(name: self.imgExt.itemName, fakeName: name, imageName: self.imgExt.imgURL, avgRating: avgR, alc: abv)
-                      brlist.append(b2)
-                    }
-                  })
-              }
-              myGroup.leave()
-          }
+          myGroup.leave()
       }
-        
+
     myGroup.leave()
     } else {
       //give Random beers
-      getBeersData()
+      myGroup.enter()
+      print("EMPTY TAGS HERE????")
+      db.collection("beers").getDocuments {
+        querySnapshot, error in
+            guard let documents = querySnapshot?.documents else {
+                  print("No documents! \(error!)")
+                  //completion(nil)
+                  return
+              }
+            var cnt = 0
+            for documentSnapshot in documents {
+              cnt += 1
+                if cnt == 10 {
+                    break
+                }
+              let data = documentSnapshot.data()
+              var name = data["Name"] as? String ?? ""
+              let abv = data["ABV"] as? Double ?? 0.0
+              let avgR = data["Ave Rating"] as? Double ?? 0.0
+              print("BEER ORIGINAL NAME?")
+              print(name)
+              self.imgExt.getImage(beer: name, completion: { (success) -> Void in
+                  print(success)
+                  print("DID THIS WORKKKKKKKKKKK")
+                if success == true {
+                  let b2 = Card(name: self.imgExt.itemName, fakeName: name, imageName: self.imgExt.imgURL, avgRating: avgR, alc: abv)
+                  brlist.append(b2)
+                }
+              })
+          }
+          myGroup.leave()
+      }
       myGroup.leave()
     }
       myGroup.notify(queue: DispatchQueue.global(qos: .background)) {
@@ -244,26 +262,6 @@ class BeersViewModel: ObservableObject {
      self.resname = result.products[0].name
      print("ARE U THERE PLZZZZZZ")
      print(self.resname)
-//   for p in result.products {
-//     print(p.name)
-//     myGroup.enter()
-//     self.imgExt.getImage(beer: p.name, completion: { (success) -> Void in
-//       print("+==============")
-//       print(success)
-//       if success {
-//         DispatchQueue.main.async {
-//           print("SHIBAL")
-//           print(self.imgExt.imgURL)
-//           self.beerImg = self.imgExt.imgURL
-//         }
-//         //self.beerImg = self.imgExt.imgURL
-//
-//         self.getBeerDetail(name: self.imgExt.itemName)
-//       }
-//     })
-//     myGroup.leave()
-//     break
-//   }
     }
     task.resume()
     sem.wait(timeout: .distantFuture)
@@ -288,4 +286,5 @@ class BeersViewModel: ObservableObject {
 
 
  }
+
 }

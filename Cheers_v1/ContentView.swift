@@ -55,7 +55,7 @@ struct ContentView: View {
                           }
                       case .profile:
                           NavigationView {
-                              ProfileView()
+                            ProfileView()
                           }
                       case .scan:
                           NavigationView {
@@ -68,12 +68,13 @@ struct ContentView: View {
                   }
                   if (selectedTab != .scan) {
                   CustomTabView(selectedTab: $selectedTab)
+                      .ignoresSafeArea(.keyboard, edges: .bottom)
                       .frame(height: 50)
                   }
               case .signedOut:
                 LoginView(selectedTab: $selectedTab)
               }
-            }.environment(\.colorScheme, .light)
+            }.ignoresSafeArea(.keyboard, edges: .bottom).environment(\.colorScheme, .light)
 
         }
 }

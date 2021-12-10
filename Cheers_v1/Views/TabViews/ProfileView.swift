@@ -36,7 +36,7 @@ struct ProfileView: View {
             .padding(.bottom, 25)
             
             HStack {
-              let _ = print(type(of: user?.profile.imageURL(withDimension: 200).absoluteString))
+              let _ = print(user?.profile.imageURL(withDimension: 200).absoluteString)
                       NetworkImage(url: user?.profile.imageURL(withDimension: 200))
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 100, height: 100, alignment: .center)
@@ -98,6 +98,37 @@ struct ProfileView: View {
                 
             }
             
+            VStack (alignment: .leading){
+                    HStack (spacing:0) {
+                        Text("My Preference")
+                            .font(.title2)
+                            .bold()
+                            .padding(.top)
+                            .padding(.leading)
+                            .padding(.bottom)
+                        Button {
+                            showingPopOver = true
+                        } label: {
+                            Image(systemName: "square.and.pencil").padding(.leading, 5).foregroundColor(Color("Highlight Color")).font(Font.system(size: 18, weight: .bold))
+                        }
+                        
+                    }
+                    ProfileMyTagsField(tags: $tags, keyword: $keyword) { _ in
+                        return tags.first
+                    }
+                    .padding(23)
+                    .background(Color(.sRGB, red: 224.0/255.0, green: 224.0/255.0, blue: 225.0/255.0, opacity: 1))
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .padding(.bottom)
+                    .padding(.leading)
+                    .padding(.trailing)
+                }
+                .background(Color.white)
+                .cornerRadius(10)
+                .shadow(color: Color(red: 0, green: 0, blue: 0, opacity: 0.20), radius: 4)
+                .padding(.top, 30)
+                .padding(.trailing, 30)
+            
             
 //            VStack (alignment: .leading){
 //                    HStack (spacing:0) {
@@ -132,9 +163,11 @@ struct ProfileView: View {
 //                .padding(.bottom)
             
             
+        }.onAppear() {
+          self.tags = UserDefaults.standard.object(forKey: "pref")! as! [String]
         }
-//        .sheet(isPresented: $showingPopOver) {
-//            PreferenceView(tags: $tags, keyword: $keyword, showingPopOver: $showingPopOver)}
+        .sheet(isPresented: $showingPopOver) {
+            ProfilePreferenceView(tags: $tags, keyword: $keyword, showingPopOver: $showingPopOver)}
         .navigationBarTitleDisplayMode(.inline).toolbar {
             ToolbarItemGroup(placement: .principal) {
                 HStack(alignment: .center) {

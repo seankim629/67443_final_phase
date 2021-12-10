@@ -9,11 +9,14 @@ import Foundation
 import FirebaseFirestore
 
 class WishesViewModel: ObservableObject {
-  @Published var wishes = [WishRow]()
+  @Published var wishesDict = [Int:WishRow]()
   
   private var db = Firestore.firestore()
   
-  func getWishList(wlist: DocumentReference) {
+  func getWishList(wlist: DocumentReference,completion:@escaping((Bool) -> ())) {
+      self.wishesDict = [:]
+      let myGroup = DispatchGroup()
+      myGroup.enter()
       wlist.getDocument { document, error in
         if let error = error as NSError? {
           "Reference not found"
@@ -30,8 +33,10 @@ class WishesViewModel: ObservableObject {
                 
 //                print("-----------------------------------")
 //                print("Printing Wishlist Products by User ID: \(w1.userid)")
-                for w in w1.wishlist {
-                  //print("Rated Product: \(w)")
+                for (idx,w) in w1.wishlist.enumerated() {
+                    print("current IDX is \(idx)")
+                    print("WISHLIST PROD: " + w)
+                    myGroup.enter()
                     let beerRef = self.db.collection("beers").document(w)
                     beerRef.getDocument { document, error in
                       if let error = error as NSError? {
@@ -45,23 +50,30 @@ class WishesViewModel: ObservableObject {
                             let alc = data?["ABV"] as? Double ?? 0.0
                             let avgR = data?["Ave Rating"] as? Double ?? 0.0
                             let style = data?["Style"] as? String ?? ""
-                              self.wishes.append(WishRow(rowRating: avgR, product: w, alc: alc, rowPhoto: w1.wishdict[w]!, style: style))
+                            self.wishesDict[idx] = WishRow(rowRating: avgR, product: w, alc: alc, rowPhoto: w1.wishdict[w]!, style: style)
                           }
                           catch {
                             print(error)
                           }
                         }
                       }
+                      myGroup.leave()
                     }
                 }
               }
           }
         }
+        myGroup.leave()
       }
+    myGroup.notify(queue: DispatchQueue.global(qos: .background)) {
+      completion(true)
+    }
+    
   }
 
 
-  func testGetWishList() {
+  func testGetWishList(completion:@escaping(([WishRow]) -> ())) {
+    var res = [WishRow]()
     let uid = UserDefaults.standard.string(forKey: "uid")
     print(uid)
     let userRef = db.collection("users").document(uid as? String ?? "")
@@ -75,7 +87,15 @@ class WishesViewModel: ObservableObject {
             let data = document.data()
             let usrWish = data?["wishlist"] as? DocumentReference ?? nil
             if usrWish != nil {
-              self.getWishList(wlist: usrWish!)
+              self.getWishList(wlist: usrWish!, completion: { (success) -> Void in
+                for i in 0 ..< self.wishesDict.count {
+           //        DispatchQueue.main.async {
+                  res.append(self.wishesDict[i]!)
+
+           //        }
+                 }
+                 completion(res)
+              })
             }
           }
           catch {
@@ -151,8 +171,8 @@ class WishesViewModel: ObservableObject {
     let lastchr = usrID.last!
     let newData = [
       "userid": Int(String(lastchr)) ?? 0,
-      "wishlist": [beerName],
-      "wishdict": [beerName : photo]
+      "wishlist": [fakeName],
+      "wishdict": [fakeName : photo]
     ] as [String : Any]
     let myGroup = DispatchGroup()
     let userRef = db.collection("users").document(usrID)
@@ -173,15 +193,15 @@ class WishesViewModel: ObservableObject {
               if isAdd == 1 {
                 print("DO THE ADD")
                 wishlists?.updateData([
-                  "wishlist": FieldValue.arrayUnion([beerName])
+                  "wishlist": FieldValue.arrayUnion([fakeName])
                 ])
-                wishlists?.setData(["wishdict" : [beerName:photo]], merge: true)
+                wishlists?.setData(["wishdict" : [fakeName:photo]], merge: true)
               } else {
                 print("DO THE DELETE")
                 wishlists?.updateData([
-                  "wishlist": FieldValue.arrayRemove([beerName])
+                  "wishlist": FieldValue.arrayRemove([fakeName])
                 ])
-                  wishlists?.setData(["wishdict": [beerName : FieldValue.delete()]], merge: true)
+                  wishlists?.setData(["wishdict": [fakeName : FieldValue.delete()]], merge: true)
               }
               myGroup.leave()
             }

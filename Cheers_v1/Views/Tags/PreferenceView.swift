@@ -14,9 +14,10 @@ struct PreferenceView: View {
     @Binding var keyword: String
     @Binding var showingPopOver: Bool
     var product: String
+    var photo: String
     @ObservedObject var rat = RatingsViewModel()
     @State var newTags: [String] = []
-    
+    @State var removedTags: [String] = []
     
     var body: some View {
         VStack(spacing: 2) {
@@ -37,7 +38,7 @@ struct PreferenceView: View {
     @ViewBuilder
     var searchResultView: some View {
         VStack(alignment: .leading, spacing: 10) {
-            TagTextField(tags: $tags, keyword: $keyword, newTags: $newTags) { _ in
+          TagTextField(tags: $tags, keyword: $keyword, newTags: $newTags, removedTags: $removedTags) { _ in
                 return tags.first
             }
             .padding(23)
@@ -47,6 +48,9 @@ struct PreferenceView: View {
             HStack {
                 Spacer()
                 Button(action: {
+                    for elem in removedTags {
+                        tags.removeAll(where: {$0 == elem})
+                    }
                     self.tags = self.tags + self.newTags
                     let uid = UserDefaults.standard.string(forKey: "uid")
                     let rid = UserDefaults.standard.string(forKey: "ratingid")
@@ -56,14 +60,15 @@ struct PreferenceView: View {
                       "rating": 0.0,
                       "userid": 1,
                       "productname": product,
-                      "tags": self.tags
+                      "tags": self.tags,
+                      "photo": photo
                     ]
                     print(rid)
                     if rid != nil {
                       print("UPDATE NEW TAGS")
-                      newRating = [
-                        "productname": product,
-                        "tags" : self.tags]
+//                      newRating = [
+//                        "productname": product,
+//                        "tags" : self.tags]
                       rat.checkRating(usrID: uid ?? "", newData: newRating)
                     } else {
                       print("ADD NEW TAGS")

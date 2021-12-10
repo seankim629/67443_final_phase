@@ -54,6 +54,7 @@ class AuthenticationViewModel: NSObject, ObservableObject {
     GIDSignIn.sharedInstance().delegate = self
     let user = GIDSignIn.sharedInstance()!.currentUser
     if (user == nil) && (GIDSignIn.sharedInstance().hasPreviousSignIn()) {
+        print("AUTO SIGN IN AGAIN?")
         GIDSignIn.sharedInstance()?.restorePreviousSignIn()
         state = .signedIn
     }

@@ -25,15 +25,16 @@ import SwiftUI
 //    }
 //}
 
-extension Animation {
-    static func customAnimation2(index: Int) -> Animation {
-        Animation.easeInOut(duration: 1)
-            .delay(0.3 * Double(index))
-    }
-}
+//extension Animation {
+//    static func customAnimation2(index: Int) -> Animation {
+//        Animation.easeInOut(duration: 1)
+//            .delay(0.3 * Double(index))
+//    }
+//}
 
-struct DetailScreen: View {
-    @Binding var barcodeValue: String?
+struct CardDetailScreen: View {
+    var beerName: String?
+    var beerPhoto: String?
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var result = BeersViewModel()
     @ObservedObject var wish = WishesViewModel()
@@ -49,7 +50,42 @@ struct DetailScreen: View {
         let uid = UserDefaults.standard.string(forKey: "uid")
       
         //group.enter()
-        result.load(barcode: barcodeValue!, completion: { (success) -> Void in
+      if beerPhoto == "" {
+        result.loadSearchBeer(beerName: beerName!, completion: { (success) -> Void in
+          print("+-+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_")
+          print("INTO SEARCH BEER VIEW DETAIL")
+          print(success)
+          if success {
+            print("First async DONE")
+            //print(uid)
+            
+            //group.leave()
+            print("WHAT IS THIS")
+            print(self.result.beerDetails.name)
+              self.rat.hasTags(usrID: uid ?? "", beerName: self.result.beerDetails.name, completion: { (arg0) -> Void in
+                print("+==============")
+                print(arg0)
+                let (resTags, beerRating) = arg0
+                print(resTags)
+                print(beerRating)
+                self.tags = resTags
+                self.rating = beerRating
+                
+                print("_+_+_+_+_+_+_+!_#@#+@_#+_@+!_#+!")
+                print(self.result.beerDetails.name)
+                self.wish.isInWishlist(usrID: uid ?? "", beerName: self.result.beerDetails.name, completion: { (success) -> Void in
+                      print("Second async DONE")
+                      if success {
+                        print("Last async DONE")
+                        self.isToggled = 1
+                      }
+                      isLoading = false
+                })
+              })
+            }
+          })
+      } else {
+        result.getBeerDetail(name: beerName!, fakeName: beerName!, completion: { (success) -> Void in
           print("+-+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_")
           print(success)
           if success {
@@ -81,18 +117,9 @@ struct DetailScreen: View {
               })
             }
           })
-        //group.enter()
-        
-        //group.enter()
-        
-//        group.notify(queue: .main) {
-//          print("ALL THINGS DONE!!!!!")
-//          isLoading = false
-//        }
-        
-        //DispatchQueue.main.asy(deadline: .now() + 4) {
-        
       }
+
+    }
 
     var body: some View {
         ZStack {
@@ -113,10 +140,14 @@ struct DetailScreen: View {
                 let _ = print("NUM UH WA?")
                 let __ = print(rating)
                 let ___ = print(isToggled)
-                ProductImage(url: URL(string:result.beerImg))
+                if beerPhoto == "" {
+                  ProductImage(url:URL(string:result.beerImg))
+                } else {
+                  ProductImage(url: URL(string:beerPhoto!))
+                }
                 //Text(barcodeValue!)
 //                Toggler()
-                DescriptionView(rating: $rating, prod: result.beerDetails, photo: result.beerImg, isToggled: $isToggled, tags: $tags)
+              CardDescriptionView(rating: $rating, prod: result.beerDetails, photo: beerPhoto!, isToggled: $isToggled, tags: $tags)
 
             }
           }
@@ -140,14 +171,13 @@ struct DetailScreen: View {
 
 
 
-struct DescriptionView: View {
+struct CardDescriptionView: View {
     @Binding var rating: Double
     var prod: Product
     var photo: String
     @ObservedObject var rat = RatingsViewModel()
     @ObservedObject var wish = WishesViewModel()
     @Binding var isToggled: Int
-    let data = [39.14, 50.03, 0.0, 41.43]
     let palate = ["Bitter", "Sweet", "Sour", "Fruity"]
     @State var capsulesAppearing = false
     
@@ -271,6 +301,7 @@ struct DescriptionView: View {
                     .padding(.leading)
                     .padding(.bottom)
                 VStack(alignment: .leading) {
+                    let data = [Double(prod.bitter), Double(prod.sweet),Double(prod.sour),Double(prod.fruits)]
                     ForEach(0..<data.count) { index in
                         VStack{
                             Text(palate[index]).font(.caption).fontWeight(.bold)

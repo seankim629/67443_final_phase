@@ -11,6 +11,7 @@ struct CardView: View {
     @State var card: Card
     // MARK: - Drawing Constant
     @ObservedObject var usr = UsersViewModel()
+    @ObservedObject var wsh = WishesViewModel()
     let cardGradient = Gradient(colors: [Color.black.opacity(0.0), Color.black.opacity(0.5)])
 //    let backgroundGradient = Gradient(colors: [Color.white.opacity(1.0), Color.black.opacity(1.0)])
     
@@ -77,8 +78,9 @@ struct CardView: View {
                         case let x where x > 100:
                             card.x = 500; card.degree = 12
                             // add to wishlist
-                            
-                            
+                            let uid = UserDefaults.standard.string(forKey: "uid")
+                            self.wsh.checkWishlist(usrID: uid ?? "", beerName: card.name, fakeName: card.fakeName, isAdd: 1, photo: card.imageName)
+                            self.usr.addNope(newNope: card.fakeName)
                             let _ = print("hi!")
                         case (-100)...(-1):
                             card.x = 0; card.degree = 0; card.y = 0

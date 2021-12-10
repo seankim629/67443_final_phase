@@ -8,31 +8,10 @@
 import SwiftUI
 import UIKit
 
-public struct TagTheme {
-    var font: Font = Font.system(size: 14)
-    var foregroundColor: Color = Color(.sRGB, red: 45.0/255.0, green: 45.0/255.0, blue: 45.0/255.0, opacity: 1)
-    var backgroundColor: Color = Color.white
-    var borderColor: Color = Color(.sRGB, red: 224.0/255.0, green: 224.0/255.0, blue: 225.0/255.0, opacity: 1)
-    var shadowColor: Color = Color(.sRGB, red: 151.0/255.0, green: 151.0/255.0, blue: 154.0/255.0, opacity: 1).opacity(0.4)
-    var shadowRadius: CGFloat = 5
-    var cornerRadius: CGFloat = 13
-    
-    var deletable: Bool = true
-    var deleteButtonSize: CGFloat = 12
-    var deleteButtonColor: Color = Color(.sRGB, red: 151.0/255.0, green: 151.0/255.0, blue: 154.0/255.0, opacity: 1)
-    var deleteButtonSystemImageName: String = "xmark"
-    
-    var spacing: CGFloat = 5.0
-    var alignment: HorizontalAlignment = .leading
-    
-    var inputFieldFont: Font = Font.system(size: 14)
-    var inputFieldTextColor: Color = Color(.sRGB, red: 45.0/255.0, green: 45.0/255.0, blue: 45.0/255.0, opacity: 1)
-    
-    var contentInsets: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)
-}
 
 
-public struct TagTextField: View {
+
+public struct ProfileTagTextField: View {
     @Binding var tags: [String]
     @Binding var keyword: String
     @Binding var newTags: [String]
@@ -42,7 +21,7 @@ public struct TagTextField: View {
     var theme: TagTheme = TagTheme()
     var placeholder: String = ""
     var checkKeyword: ((String) -> String?)? = { $0 } //this is a closure is to get a candidate for the currently inputed text
-        
+    @State private var displayedTags: [String] = []
     @State private var availableWidth: CGFloat = 0
     @State private var elementsSize: [String: CGSize] = [:]
     
@@ -64,9 +43,9 @@ public struct TagTextField: View {
             ForEach(0..<rows.count, id: \.self) { index in
                 HStack(spacing: theme.spacing) {
                     ForEach(rows[index], id: \.self) { element in
-                        TagView(tag: element, theme: theme, deleteAction: {
-                          newTags.removeAll(where: {$0 == element})
-                          removedTags.append(element)
+                        ProfileTagView(tag: element, theme: theme, deleteAction: {
+                            newTags.removeAll(where: {$0 == element})
+                            removedTags.append(element)
                         })
                         .fixedSize()
                         .readSize { size in
@@ -87,11 +66,9 @@ public struct TagTextField: View {
         var currentRow = 0
         var remainingWidth = availableWidth
         var combined = tags + newTags
-      
         for element in removedTags {
             combined.removeAll(where: {$0 == element})
         }
-        
         for element in combined {
             let elementSize = elementsSize[element, default: CGSize(width: availableWidth, height: 10)]
             
@@ -108,7 +85,7 @@ public struct TagTextField: View {
     }
 }
 
-public struct TagView: View {
+public struct ProfileTagView: View {
     let tag: String
     let theme: TagTheme
     var deleteAction: (()->Void) = {}
@@ -149,20 +126,3 @@ public struct TagView: View {
 //        }.padding()
 //    }
 //}
-
-internal struct SizePreferenceKey: PreferenceKey {
-    static var defaultValue: CGSize = .zero
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {}
-}
-
-public extension View {
-    func readSize(onChange: @escaping (CGSize) -> Void) -> some View {
-        background(
-            GeometryReader { geometryProxy in
-                Color.clear
-                    .preference(key: SizePreferenceKey.self, value: geometryProxy.size)
-            }
-        )
-        .onPreferenceChange(SizePreferenceKey.self, perform: onChange)
-    }
-}

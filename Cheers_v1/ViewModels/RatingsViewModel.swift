@@ -209,6 +209,7 @@ class RatingsViewModel: ObservableObject {
                           print(product)
                           if product == target {
                             isCheck = true
+                            
                             if newData["rating"] as! Double == 0.0 {
                               inputData["rating"] = rating
                             }

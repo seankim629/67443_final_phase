@@ -13,7 +13,7 @@ import SwiftUI
 
 struct WishesListView: View {
   @ObservedObject private var viewModel = WishesViewModel()
-
+  @State var localWishes = [WishRow]()
 //    func initialize(){
 //            UITableView.appearance().backgroundColor = .clear
 //            UITableViewCell.appearance().backgroundColor = .clear
@@ -33,13 +33,25 @@ struct WishesListView: View {
               .padding(.top, 20)
               .padding(.leading, 28)
                     
-          List(viewModel.wishes) { wish in
+        List(self.localWishes.reversed()) { wish in
             VStack(alignment: .leading) {
+              ZStack{
+                NavigationLink(destination: CardDetailScreen(beerName: wish.product, beerPhoto: wish.rowPhoto))
+               {
+                EmptyView()
+              }.opacity(0.0).buttonStyle(PlainButtonStyle())
                 WishlistCard(image: CustomImageView(urlString: wish.rowPhoto), beer: wish.product, type: wish.style, alcohol: Int(wish.alc), rating:wish.rowRating)
+              }
+              
+//              NavigationLink(destination: CardDetailScreen(beerName: wish.product, beerPhoto: wish.rowPhoto)) {
+//                  WishlistCard(image: CustomImageView(urlString: wish.rowPhoto), beer: wish.product, type: wish.style, alcohol: Int(wish.alc), rating:wish.rowRating)
+//              }
             }
           } .onAppear() {
-              self.viewModel.wishes = [WishRow]()
-              self.viewModel.testGetWishList()
+              //self.viewModel.wishes = [WishRow]()
+              self.viewModel.testGetWishList(completion: { (listed) -> Void in
+                self.localWishes = listed
+              })
             }
       }
      
