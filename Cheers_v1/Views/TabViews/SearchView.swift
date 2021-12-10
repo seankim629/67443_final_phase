@@ -99,7 +99,7 @@ struct CustomSearchBar : View {
                     
                 List(self.data.filter{$0.beername.lowercased().contains(self.txt.lowercased())})
                     {i in
-                      NavigationLink(destination: CardDetailScreen(beerName: i.beername, beerPhoto: "")) {
+                      NavigationLink(destination: SearchDetailScreen(beerName: i.beername)) {
                         Text(i.beername)
                       }
                             

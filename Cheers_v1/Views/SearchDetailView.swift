@@ -7,34 +7,9 @@
 
 import SwiftUI
 
-//struct Toggler: View {
-//    @State private var vibrateOnRing = false
-//    @ObservedObject var wishes = WishesViewModel()
-//
-//    var body: some View {
-//        Toggle(isOn: $vibrateOnRing) {
-//            Text("Vibrate on Ring")
-//        }
-//        .onChange(of: vibrateOnRing) { value in
-//            //perform your action here...
-//            print(value)
-//          if value == true {
-//
-//          }
-//        }
-//    }
-//}
 
-//extension Animation {
-//    static func customAnimation2(index: Int) -> Animation {
-//        Animation.easeInOut(duration: 1)
-//            .delay(0.3 * Double(index))
-//    }
-//}
-
-struct CardDetailScreen: View {
+struct SearchDetailScreen: View {
     var beerName: String?
-    var beerPhoto: String?
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @ObservedObject var result = BeersViewModel()
     @ObservedObject var wish = WishesViewModel()
@@ -50,9 +25,9 @@ struct CardDetailScreen: View {
         let uid = UserDefaults.standard.string(forKey: "uid")
       
         //group.enter()
-    
-        result.getBeerDetail(name: beerName!, fakeName: beerName!, completion: { (success) -> Void in
+        self.result.loadSearchBeer(beerName: beerName!, completion: { (success) -> Void in
           print("+-+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_")
+          print("INTO SEARCH BEER VIEW DETAIL")
           print(success)
           if success {
             print("First async DONE")
@@ -73,9 +48,9 @@ struct CardDetailScreen: View {
                 print("_+_+_+_+_+_+_+!_#@#+@_#+_@+!_#+!")
                 print(self.result.beerDetails.name)
                 self.wish.isInWishlist(usrID: uid ?? "", beerName: self.result.beerDetails.name, completion: { (success) -> Void in
-                      print("Third async DONE")
+                      print("Second async DONE")
                       if success {
-                        print("Second async DONE")
+                        print("Last async DONE")
                         self.isToggled = 1
                       }
                       isLoading = false
@@ -83,7 +58,6 @@ struct CardDetailScreen: View {
               })
             }
           })
-
     }
 
     var body: some View {
@@ -105,10 +79,10 @@ struct CardDetailScreen: View {
                 let _ = print("NUM UH WA?")
                 let __ = print(rating)
                 let ___ = print(isToggled)
-                ProductImage(url: URL(string:beerPhoto!))
+                ProductImage(url:URL(string:result.beerImg))
                 //Text(barcodeValue!)
 //                Toggler()
-              CardDescriptionView(rating: $rating, prod: result.beerDetails, photo: beerPhoto!, isToggled: $isToggled, tags: $tags)
+              SearchDescriptionView(rating: $rating, prod: result.beerDetails, photo: result.beerImg, isToggled: $isToggled, tags: $tags)
 
             }
           }
@@ -132,7 +106,7 @@ struct CardDetailScreen: View {
 
 
 
-struct CardDescriptionView: View {
+struct SearchDescriptionView: View {
     @Binding var rating: Double
     var prod: Product
     var photo: String

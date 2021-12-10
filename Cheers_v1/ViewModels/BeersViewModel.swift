@@ -23,13 +23,14 @@ class BeersViewModel: ObservableObject {
   
   
   func loadSearchBeer(beerName: String, completion: @escaping((Bool) -> ())) {
-    self.imgExt.getImage(beer: beerName, completion: { (success) -> Void in
+    self.imgExt.getOtherImage(beer: beerName, completion: { (success) -> Void in
     print("+==============")
     print(success)
      if success {
        DispatchQueue.main.async {
          print("SHIBAL")
          print(self.imgExt.imgURL)
+           print(self.imgExt.itemName)
          self.beerImg = self.imgExt.imgURL
            self.getBeerDetail(name: self.imgExt.itemName, fakeName: beerName, completion: { (success) -> Void in
            print("+==============")
@@ -178,7 +179,7 @@ class BeersViewModel: ObservableObject {
     func getBeerDetail(name: String, fakeName: String, completion: @escaping((Bool) -> ())) {
     let myGroup = DispatchGroup()
     myGroup.enter()
-    let beerRef = self.db.collection("beers").document(name)
+    let beerRef = self.db.collection("beers").document(fakeName)
     beerRef.getDocument { document, error in
       if let error = error as NSError? {
         "Reference not found"
@@ -265,7 +266,7 @@ class BeersViewModel: ObservableObject {
     }
     task.resume()
     sem.wait(timeout: .distantFuture)
-    self.imgExt.getImage(beer: self.resname, completion: { (success) -> Void in
+    self.imgExt.getOtherImage(beer: self.resname, completion: { (success) -> Void in
     print("+==============")
     print(success)
      if success {

@@ -34,9 +34,11 @@ struct ProductImage: View {
     if let url = url,
        let data = try? Data(contentsOf: url),
        let uiImage = UIImage(data: data) {
+        
+
       Image(uiImage: uiImage)
-        .resizable()
-        .aspectRatio(contentMode: .fit)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
     } else {
       Image("beer_placeholder")
         .resizable()
